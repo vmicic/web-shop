@@ -1,0 +1,26 @@
+//created on: May 10, 2020
+package com.ftn.webshopdrools;
+
+//list any import classes here.
+
+
+//declare any global variables here
+
+
+
+
+rule "Your First Rule"
+
+    when
+        //conditions
+    then
+        //actions
+
+end
+
+rule "Your Second Rule"
+    //include attributes such as "salience" here...
+    when
+    then
+
+end
