@@ -27,7 +27,6 @@ public class WebShopApplication {
 		for (String beanName : beanNames) {
 			sb.append(beanName + "\n");
 		}
-		
 
 	}
 

@@ -1,0 +1,19 @@
+spring:
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    initialization-mode: always
+    platform: postgres
+    url: jdbc:postgresql://localhost:5432/web-shop
+    username: postgres
+    password: 1234
+
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: false
+    properties:
+      hibernate:
+        jdbc:
+          lob:
+            non_contextual_creation=true
+          dialect: org.hibernate.dialect.PostgreSQLDialect
