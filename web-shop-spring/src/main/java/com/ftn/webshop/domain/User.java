@@ -34,6 +34,10 @@ public class User extends BaseEntity  implements UserDetails {
     @JsonIgnore
     private Timestamp lastPasswordResetDate;
 
+    @OneToOne
+    @JoinColumn(name = "customer_category_id", referencedColumnName = "id")
+    private CustomerCategory customerCategory;
+
     @JsonIgnore
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_authority",
@@ -79,6 +83,14 @@ public class User extends BaseEntity  implements UserDetails {
 
     public void setLastPasswordResetDate(Timestamp lastPasswordResetDate) {
         this.lastPasswordResetDate = lastPasswordResetDate;
+    }
+
+    public CustomerCategory getCustomerCategory() {
+        return customerCategory;
+    }
+
+    public void setCustomerCategory(CustomerCategory customerCategory) {
+        this.customerCategory = customerCategory;
     }
 
     @Override

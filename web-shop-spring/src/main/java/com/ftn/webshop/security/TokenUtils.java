@@ -56,7 +56,6 @@ public class TokenUtils {
 
         //temporary fix
         List<Authority> authorities = (List<Authority>) SecurityContextHolder.getContext().getAuthentication().getAuthorities();
-        logger.info(authorities.toString());
 
         final String authority = authorities.get(0).getName();
 

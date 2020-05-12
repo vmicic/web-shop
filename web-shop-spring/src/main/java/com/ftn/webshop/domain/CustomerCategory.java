@@ -1,5 +1,8 @@
 package com.ftn.webshop.domain;
 
+import javax.persistence.Entity;
+
+@Entity
 public class CustomerCategory extends BaseEntity {
 
     private String categoryCode;
