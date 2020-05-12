@@ -6,6 +6,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -29,6 +30,9 @@ public class User extends BaseEntity  implements UserDetails {
     private String lastName;
 
     private LocalDate dateOfRegistration;
+
+    @JsonIgnore
+    private Timestamp lastPasswordResetDate;
 
     @JsonIgnore
     @ManyToMany(fetch = FetchType.EAGER)
@@ -69,9 +73,17 @@ public class User extends BaseEntity  implements UserDetails {
         this.dateOfRegistration = dateOfRegistration;
     }
 
+    public Timestamp getLastPasswordResetDate() {
+        return lastPasswordResetDate;
+    }
+
+    public void setLastPasswordResetDate(Timestamp lastPasswordResetDate) {
+        this.lastPasswordResetDate = lastPasswordResetDate;
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        return this.authorities;
     }
 
     @Override
@@ -86,21 +98,21 @@ public class User extends BaseEntity  implements UserDetails {
 
     @Override
     public boolean isAccountNonExpired() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isEnabled() {
-        return false;
+        return true;
     }
 }

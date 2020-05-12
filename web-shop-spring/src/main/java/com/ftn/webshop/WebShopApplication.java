@@ -32,7 +32,6 @@ public class WebShopApplication {
 
 	@Bean
 	public KieContainer kieContainer() {
-		logger.info("checking");
 		KieServices ks = KieServices.Factory.get();
 		KieContainer kContainer = ks
 				.newKieContainer(ks.newReleaseId("com.ftn", "web-shop-drools", "0.0.1-SNAPSHOT"));
