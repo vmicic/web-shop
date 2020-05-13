@@ -2,6 +2,7 @@
 package com.ftn.webshopdrools;
 
 //list any import classes here.
+import com.ftn.webshop.domain.Cart;
 
 
 //declare any global variables here
@@ -21,6 +22,8 @@ end
 rule "Your Second Rule"
     //include attributes such as "salience" here...
     when
+    	Cart()
     then
+        System.out.println("samo da vidim jel radi");
 
 end

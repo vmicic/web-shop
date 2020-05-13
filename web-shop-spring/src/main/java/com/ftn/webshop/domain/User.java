@@ -39,6 +39,10 @@ public class User extends BaseEntity  implements UserDetails {
     private CustomerCategory customerCategory;
 
     @JsonIgnore
+    @OneToMany(mappedBy = "user")
+    private List<Order> orders;
+
+    @JsonIgnore
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_authority",
             joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),

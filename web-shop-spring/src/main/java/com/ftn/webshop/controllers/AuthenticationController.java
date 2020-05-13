@@ -57,7 +57,12 @@ public class AuthenticationController {
             return new ResponseEntity(HttpStatus.BAD_REQUEST);
         }
     }
-    
+
+    @PostMapping(value = "/register")
+    public ResponseEntity register(@RequestBody User user) {
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
 
     public static KieSession getKieSession() {
         return kieSession;
