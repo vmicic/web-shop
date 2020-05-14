@@ -12,3 +12,11 @@ INSERT INTO user_authority("user_id", "authority_id") VALUES
     ('1', '1'),
     ('2', '1');
 
+
+INSERT INTO item_category("code", "name") VALUES
+    ('2K3', 'Audio and video'),
+    ('13S', 'Desktop computers'),
+    ('11Q', 'Laptops');
+
+INSERT INTO item("code", "name", "item_category_id", "price", "numberOnStock", "refill", "status") VALUES
+    ('990', 'ASUS ROG Strix', '3', '30000.99', '7', 'false', 'true');

@@ -1,5 +1,8 @@
 package com.ftn.webshop.domain;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
+
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -9,7 +12,9 @@ import java.util.List;
 @Table(name = "orders")
 public class Order extends BaseEntity {
 
-    private Long orderId;
+    private String orderId;
+
+    @JsonSerialize(using = LocalDateTimeSerializer.class)
     private LocalDateTime localDateTime;
 
     @ManyToOne
@@ -83,11 +88,11 @@ public class Order extends BaseEntity {
         this.bonusPointsAwarded = bonusPointsAwarded;
     }
 
-    public Long getOrderId() {
+    public String getOrderId() {
         return orderId;
     }
 
-    public void setOrderId(Long orderId) {
+    public void setOrderId(String orderId) {
         this.orderId = orderId;
     }
 
@@ -113,5 +118,21 @@ public class Order extends BaseEntity {
 
     public void setDiscounts(List<Discount> discounts) {
         this.discounts = discounts;
+    }
+
+    @Override
+    public String toString() {
+        return "Order{" +
+                "orderId=" + orderId +
+                ", localDateTime=" + localDateTime +
+                ", user=" + user +
+                ", orderLines=" + orderLines +
+                ", orderState=" + orderState +
+                ", discounts=" + discounts +
+                ", priceBeforeDiscount=" + priceBeforeDiscount +
+                ", priceAfterDiscount=" + priceAfterDiscount +
+                ", bonusPointsSpent=" + bonusPointsSpent +
+                ", bonusPointsAwarded=" + bonusPointsAwarded +
+                '}';
     }
 }
