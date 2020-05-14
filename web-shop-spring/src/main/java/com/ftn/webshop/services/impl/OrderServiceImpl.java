@@ -1,5 +1,6 @@
 package com.ftn.webshop.services.impl;
 
+import com.ftn.webshop.domain.Item;
 import com.ftn.webshop.domain.Order;
 import com.ftn.webshop.domain.OrderLine;
 import com.ftn.webshop.domain.dto.OrderDTO;
@@ -8,6 +9,9 @@ import com.ftn.webshop.repositories.OrderRepository;
 import com.ftn.webshop.services.ItemService;
 import com.ftn.webshop.services.OrderService;
 import com.ftn.webshop.services.UserService;
+import org.kie.api.runtime.KieSession;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +21,9 @@ import java.util.List;
 
 @Service
 public class OrderServiceImpl implements OrderService {
+
+
+    private static Logger logger = LoggerFactory.getLogger(OrderServiceImpl.class);
 
     private final OrderRepository orderRepository;
 
@@ -35,24 +42,42 @@ public class OrderServiceImpl implements OrderService {
         Order order = new Order();
 
         //TODO fix this later
-        //order.setOrderId(1L);
         order.setLocalDateTime(LocalDateTime.now());
         order.setUser(userService.findOneByUsername(SecurityContextHolder.getContext().getAuthentication().getName()));
 
         List<OrderLine> orderLines = new ArrayList<>();
         Integer counter = 1;
 
+        double priceBeforeDiscount = 0.;
+        double orderLinePrice;
+
         for(OrderLineDTO orderLineDTO : orderDTO.getOrderLines()) {
             OrderLine orderLine = new OrderLine();
-            orderLine.setItem(itemService.findByCode(orderLineDTO.getCode()));
+            Item item = itemService.findByCode(orderLineDTO.getItemCode());
+
+            orderLinePrice = item.getPrice() * orderLineDTO.getQuantity();
+            priceBeforeDiscount += orderLinePrice;
+
+            orderLine.setPriceTotal(orderLinePrice);
+            orderLine.setItem(item);
             orderLine.setQuantity(orderLineDTO.getQuantity());
             orderLine.setSerialNumber(counter);
+            orderLines.add(orderLine);
 
             counter++;
         }
 
+        order.setOrderLines(orderLines);
+        order.setPriceBeforeDiscount(priceBeforeDiscount);
+
+        logger.info(order.toString());
         return order;
+    }
 
-
+    @Override
+    public Order processOrder(Order order, KieSession kieSession) {
+        kieSession.insert(order);
+        kieSession.fireAllRules();
+        return null;
     }
 }

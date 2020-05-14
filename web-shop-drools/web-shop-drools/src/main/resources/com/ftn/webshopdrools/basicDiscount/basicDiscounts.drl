@@ -1,0 +1,32 @@
+//created on: May 14, 2020
+package basicDiscount
+
+//list any import classes here.
+import com.ftn.webshop.domain.Order;
+import com.ftn.webshop.domain.OrderLine;
+import com.ftn.webshop.domain.Item;
+import com.ftn.webshop.domain.ItemCategory;
+
+
+//declare any global variables here
+
+
+
+
+rule "Basic discount more then 20 items, no mass consumption"
+
+    when
+    	$o: Order()
+    	$ol: OrderLine(item.itemCategory.name  != "Mass consumption", quantity > 20) from $o.getOrderLines()
+    then
+        System.out.println("First Basic Discount");
+
+end
+
+rule "Your Second Rule"
+    when
+        //conditions
+    then
+        //actions
+
+end

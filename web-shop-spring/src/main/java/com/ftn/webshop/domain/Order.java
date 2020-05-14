@@ -12,7 +12,7 @@ import java.util.List;
 @Table(name = "orders")
 public class Order extends BaseEntity {
 
-    private String orderId;
+    private String code;
 
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     private LocalDateTime localDateTime;
@@ -89,11 +89,11 @@ public class Order extends BaseEntity {
     }
 
     public String getOrderId() {
-        return orderId;
+        return code;
     }
 
     public void setOrderId(String orderId) {
-        this.orderId = orderId;
+        this.code = orderId;
     }
 
     public User getUser() {
@@ -123,9 +123,9 @@ public class Order extends BaseEntity {
     @Override
     public String toString() {
         return "Order{" +
-                "orderId=" + orderId +
+                "code=" + code +
                 ", localDateTime=" + localDateTime +
-                ", user=" + user +
+                ", user=" + user.getUsername() +
                 ", orderLines=" + orderLines +
                 ", orderState=" + orderState +
                 ", discounts=" + discounts +

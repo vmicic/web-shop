@@ -1,21 +1,19 @@
 package com.ftn.webshop.domain.dto;
 
-import javax.persistence.criteria.CriteriaBuilder;
-
 public class OrderLineDTO {
 
-    private String code;
+    private String itemCode;
     private Integer quantity;
 
     public OrderLineDTO() {
     }
 
-    public String getCode() {
-        return code;
+    public String getItemCode() {
+        return itemCode;
     }
 
-    public void setCode(String code) {
-        this.code = code;
+    public void setItemCode(String itemCode) {
+        this.itemCode = itemCode;
     }
 
     public Integer getQuantity() {
@@ -29,7 +27,7 @@ public class OrderLineDTO {
     @Override
     public String toString() {
         return "OrderLineDTO{" +
-                "code='" + code + '\'' +
+                "code='" + itemCode + '\'' +
                 ", quantity=" + quantity +
                 '}';
     }
