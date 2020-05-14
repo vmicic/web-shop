@@ -5,6 +5,7 @@ import com.ftn.webshop.domain.User;
 import com.ftn.webshop.domain.UserTokenState;
 import com.ftn.webshop.security.TokenUtils;
 import com.ftn.webshop.security.auth.JwtAuthenticationRequest;
+import com.ftn.webshop.services.DiscountForItemService;
 import com.ftn.webshop.services.UserService;
 import org.kie.api.runtime.KieSession;
 import org.slf4j.Logger;
@@ -29,10 +30,13 @@ public class AuthenticationController {
     private final UserService userService;
     private final TokenUtils tokenUtils;
 
-    public AuthenticationController(AuthenticationManager authenticationManager, UserService userService, TokenUtils tokenUtils) {
+    private final DiscountForItemService discountForItemService;
+
+    public AuthenticationController(AuthenticationManager authenticationManager, UserService userService, TokenUtils tokenUtils, DiscountForItemService discountForItemService) {
         this.authenticationManager = authenticationManager;
         this.userService = userService;
         this.tokenUtils = tokenUtils;
+        this.discountForItemService = discountForItemService;
     }
 
 
@@ -52,6 +56,8 @@ public class AuthenticationController {
             Long expiresIn = tokenUtils.getExpiredIn();
 
             kieSession = WebShopApplication.kieContainer().newKieSession();
+            kieSession.setGlobal("discountForItemService", discountForItemService);
+
             return ResponseEntity.ok(new UserTokenState(jwt, expiresIn));
         }catch (BadCredentialsException e) {
             return new ResponseEntity(HttpStatus.BAD_REQUEST);

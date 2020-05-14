@@ -21,6 +21,13 @@ public class DiscountForItem extends BaseEntity{
     public DiscountForItem() {
     }
 
+    public DiscountForItem(OrderLine orderLine, Double discountPercentage, Order order, TypeOfDiscountForItem typeOfDiscountForItem) {
+        this.orderLine = orderLine;
+        this.discountPercentage = discountPercentage;
+        this.order = order;
+        this.typeOfDiscountForItem = typeOfDiscountForItem;
+    }
+
     public TypeOfDiscountForItem getTypeOfDiscountForItem() {
         return typeOfDiscountForItem;
     }
@@ -63,4 +70,14 @@ public class DiscountForItem extends BaseEntity{
         this.discountPercentage = discountPercentage;
     }
 
+    @Override
+    public String toString() {
+        return "DiscountForItem{" +
+                "code='" + code + '\'' +
+                ", orderLine=" + orderLine +
+                ", discountPercentage=" + discountPercentage +
+                ", order=" + order +
+                ", typeOfDiscountForItem=" + typeOfDiscountForItem +
+                '}';
+    }
 }

@@ -22,7 +22,6 @@ import java.util.List;
 @Service
 public class OrderServiceImpl implements OrderService {
 
-
     private static Logger logger = LoggerFactory.getLogger(OrderServiceImpl.class);
 
     private final OrderRepository orderRepository;
