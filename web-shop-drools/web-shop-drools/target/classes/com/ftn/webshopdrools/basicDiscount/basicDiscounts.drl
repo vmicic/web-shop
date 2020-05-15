@@ -19,24 +19,46 @@ global com.ftn.webshop.services.impl.DiscountForItemServiceImpl discountForItemS
 
 
 rule "Basic discount more then 20 items, no mass consumption"
-
+	salience 1000
+	activation-group "basic-discounts"
     when
     	$o: Order()
     	$ol: OrderLine(item.itemCategory.name  != "Mass consumption", quantity > 20) from $o.getOrderLines()
     then
-        System.out.println("First Basic Discount");
-        discountForItemService.createDiscountForItem(new DiscountForItem($ol, 20.0, $o, TypeOfDiscountForItem.BASIC));
+        System.out.println("Basic discount more then 20 items, no mass consumption");
+        discountForItemService.createDiscountForItem(new DiscountForItem($ol, 10.0, $o, TypeOfDiscountForItem.BASIC));
         modify($ol) {
-        	addDiscountForItem(new DiscountForItem($ol, 20.0, $o, TypeOfDiscountForItem.BASIC));
+        	addDiscountForItem(new DiscountForItem($ol, 10.0, $o, TypeOfDiscountForItem.BASIC));
         }
         
 
 end
 
-rule "Your Second Rule"
-    when
-        //conditions
-    then
-        //actions
 
+rule "Basic discount more then 5 items, TVs, computers, laptops"
+	salience 800
+	activation-group "basic-discounts"
+    when
+    	$o: Order()
+    	$ol: OrderLine(item.itemCategory.name  == "TV" || item.itemCategory.name  == "Desktop computer" || item.itemCategory.name  == "Laptop", quantity > 5) from $o.getOrderLines()
+    then
+        System.out.println("Basic discount more then 5 items, TVs, computers, laptops");
+        discountForItemService.createDiscountForItem(new DiscountForItem($ol, 5.0, $o, TypeOfDiscountForItem.BASIC));
+        modify($ol) {
+        	addDiscountForItem(new DiscountForItem($ol, 5.0, $o, TypeOfDiscountForItem.BASIC));
+        }
+end
+
+rule "Basic discount more then 7 items, Mass consumption"
+	salience 900
+	activation-group "basic-discounts"
+    when
+    	$o: Order()
+    	$ol: OrderLine(item.itemCategory.name == "Mass consumption", item.price * quantity > 5000) from $o.getOrderLines()
+    then
+        System.out.println("Basic discount more then 7 items, Mass consumption");
+        discountForItemService.createDiscountForItem(new DiscountForItem($ol, 7.0, $o, TypeOfDiscountForItem.BASIC));
+        modify($ol) {
+        	addDiscountForItem(new DiscountForItem($ol, 7.0, $o, TypeOfDiscountForItem.BASIC));
+        }
 end

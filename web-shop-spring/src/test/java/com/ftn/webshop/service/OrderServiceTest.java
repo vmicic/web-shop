@@ -50,11 +50,11 @@ public class OrderServiceTest {
         List<OrderLineDTO> orderLines = new ArrayList<>();
 
         OrderLineDTO orderLineDTO1 = new OrderLineDTO();
-        orderLineDTO1.setItemId(2L);
+        orderLineDTO1.setItemId(1L);
         orderLineDTO1.setQuantity(30);
 
         OrderLineDTO orderLineDTO2 = new OrderLineDTO();
-        orderLineDTO2.setItemId(3L);
+        orderLineDTO2.setItemId(2L);
         orderLineDTO2.setQuantity(25);
 
         orderLines.add(orderLineDTO1);
@@ -68,9 +68,102 @@ public class OrderServiceTest {
         orderService.processOrder(order, AuthenticationController.getKieSession());
 
         Order order1 = orderService.findById(order.getId());
-        assertEquals(1, order1.getOrderLines().get(0).getDiscountsForItem().size());
-        assertEquals(0, order1.getOrderLines().get(1).getDiscountsForItem().size());
+        //no discount for milk, but there is for speakers
+        assertEquals(0, order1.getOrderLines().get(0).getDiscountsForItem().size());
+        assertEquals(1, order1.getOrderLines().get(1).getDiscountsForItem().size());
     }
+
+    @Test
+    public void checkDiscountsForMore5ItemsAndIT() {
+        List<OrderLineDTO> orderLines = new ArrayList<>();
+
+        //milk
+        OrderLineDTO orderLineDTO1 = new OrderLineDTO();
+        orderLineDTO1.setItemId(1L);
+        orderLineDTO1.setQuantity(30);
+
+        //bluetooth speakers
+        OrderLineDTO orderLineDTO2 = new OrderLineDTO();
+        orderLineDTO2.setItemId(2L);
+        orderLineDTO2.setQuantity(17);
+
+        //intel desktop pc
+        OrderLineDTO orderLineDTO3 = new OrderLineDTO();
+        orderLineDTO3.setItemId(3L);
+        orderLineDTO3.setQuantity(5);
+
+
+        //laptop rog strix
+        OrderLineDTO orderLineDTO4 = new OrderLineDTO();
+        orderLineDTO4.setItemId(4L);
+        orderLineDTO4.setQuantity(7);
+
+        orderLines.add(orderLineDTO1);
+        orderLines.add(orderLineDTO2);
+        orderLines.add(orderLineDTO3);
+        orderLines.add(orderLineDTO4);
+
+        OrderDTO orderDTO = new OrderDTO();
+
+        orderDTO.setOrderLines(orderLines);
+
+        Order order = orderService.createOrder(orderDTO);
+        orderService.processOrder(order, AuthenticationController.getKieSession());
+
+        Order order1 = orderService.findById(order.getId());
+
+        assertEquals(0, order1.getOrderLines().get(0).getDiscountsForItem().size());
+        assertEquals(0, order1.getOrderLines().get(1).getDiscountsForItem().size());
+        assertEquals(0, order1.getOrderLines().get(2).getDiscountsForItem().size());
+        assertEquals(1, order1.getOrderLines().get(3).getDiscountsForItem().size());
+    }
+
+    @Test
+    public void checkDiscountMassConsumptionMoreThan5000() {
+        List<OrderLineDTO> orderLines = new ArrayList<>();
+
+        //milk
+        OrderLineDTO orderLineDTO1 = new OrderLineDTO();
+        orderLineDTO1.setItemId(1L);
+        orderLineDTO1.setQuantity(50);
+
+        orderLines.add(orderLineDTO1);
+
+        OrderDTO orderDTO = new OrderDTO();
+
+        orderDTO.setOrderLines(orderLines);
+
+        Order order = orderService.createOrder(orderDTO);
+        orderService.processOrder(order, AuthenticationController.getKieSession());
+
+        Order order1 = orderService.findById(order.getId());
+
+        assertEquals(1, order1.getOrderLines().get(0).getDiscountsForItem().size());
+    }
+
+    @Test
+    public void testActivationGroup() {
+        List<OrderLineDTO> orderLines = new ArrayList<>();
+
+        //milk
+        OrderLineDTO orderLineDTO1 = new OrderLineDTO();
+        orderLineDTO1.setItemId(4L);
+        orderLineDTO1.setQuantity(50);
+
+        orderLines.add(orderLineDTO1);
+
+        OrderDTO orderDTO = new OrderDTO();
+
+        orderDTO.setOrderLines(orderLines);
+
+        Order order = orderService.createOrder(orderDTO);
+        orderService.processOrder(order, AuthenticationController.getKieSession());
+
+        Order order1 = orderService.findById(order.getId());
+
+        assertEquals(1, order1.getOrderLines().get(0).getDiscountsForItem().size());
+    }
+
 
 
 }
