@@ -2,18 +2,18 @@ package com.ftn.webshop.domain.dto;
 
 public class OrderLineDTO {
 
-    private String itemCode;
+    private Long itemId;
     private Integer quantity;
 
     public OrderLineDTO() {
     }
 
-    public String getItemCode() {
-        return itemCode;
+    public Long getItemId() {
+        return itemId;
     }
 
-    public void setItemCode(String itemCode) {
-        this.itemCode = itemCode;
+    public void setItemId(Long itemId) {
+        this.itemId = itemId;
     }
 
     public Integer getQuantity() {
@@ -24,10 +24,11 @@ public class OrderLineDTO {
         this.quantity = quantity;
     }
 
+
     @Override
     public String toString() {
         return "OrderLineDTO{" +
-                "code='" + itemCode + '\'' +
+                "itemCode='" + itemId + '\'' +
                 ", quantity=" + quantity +
                 '}';
     }

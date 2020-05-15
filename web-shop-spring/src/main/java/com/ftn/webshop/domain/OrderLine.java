@@ -1,9 +1,8 @@
 package com.ftn.webshop.domain;
 
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class OrderLine extends BaseEntity{
@@ -17,6 +16,9 @@ public class OrderLine extends BaseEntity{
     @ManyToOne
     @JoinColumn(name = "order_id", referencedColumnName = "id")
     private Order order;
+
+    @OneToMany(mappedBy = "orderLine", fetch = FetchType.EAGER)
+    private List<DiscountForItem> discountsForItem = new ArrayList<>();
 
     private Integer serialNumber;
 
@@ -32,6 +34,18 @@ public class OrderLine extends BaseEntity{
     //lista primenjenih popusta na stavku
 
     public OrderLine() {
+    }
+
+    public List<DiscountForItem> getDiscountsForItem() {
+        return discountsForItem;
+    }
+
+    public void setDiscountsForItem(List<DiscountForItem> discountsForItem) {
+        this.discountsForItem = discountsForItem;
+    }
+
+    public void addDiscountForItem(DiscountForItem discountForItem) {
+        this.discountsForItem.add(discountForItem);
     }
 
     public Item getItem() {
@@ -98,11 +112,19 @@ public class OrderLine extends BaseEntity{
         this.priceTotalFinal = priceTotalFinal;
     }
 
+
     @Override
     public String toString() {
         return "OrderLine{" +
-                "item=" + item.getName() +
+                "id=" + this.getId() +
+                ", item=" + item.getName() +
                 ", quantity=" + quantity +
+                ", discountsForItem=" + discountsForItem +
+                ", serialNumber=" + serialNumber +
+                ", pricePerUnit=" + pricePerUnit +
+                ", priceTotal=" + priceTotal +
+                ", percentageDiscount=" + percentageDiscount +
+                ", priceTotalFinal=" + priceTotalFinal +
                 '}';
     }
 }

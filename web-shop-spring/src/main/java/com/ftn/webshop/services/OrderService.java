@@ -9,4 +9,6 @@ public interface OrderService {
     Order createOrder(OrderDTO orderDTO);
 
     Order processOrder(Order order, KieSession kieSession);
+
+    Order findById(Long id);
 }

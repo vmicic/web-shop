@@ -7,6 +7,8 @@ public class DiscountForItem extends BaseEntity{
 
     private String code;
 
+    @ManyToOne
+    @JoinColumn(name = "order_line_id", referencedColumnName = "id")
     private OrderLine orderLine;
 
     private Double discountPercentage;
@@ -20,6 +22,7 @@ public class DiscountForItem extends BaseEntity{
 
     public DiscountForItem() {
     }
+
 
     public DiscountForItem(OrderLine orderLine, Double discountPercentage, Order order, TypeOfDiscountForItem typeOfDiscountForItem) {
         this.orderLine = orderLine;
@@ -73,10 +76,10 @@ public class DiscountForItem extends BaseEntity{
     @Override
     public String toString() {
         return "DiscountForItem{" +
-                "code='" + code + '\'' +
-                ", orderLine=" + orderLine +
+                "code='" + this.getId() + '\'' +
+                ", orderLine=" + orderLine.getId() +
                 ", discountPercentage=" + discountPercentage +
-                ", order=" + order +
+                ", order=" + order.getId() +
                 ", typeOfDiscountForItem=" + typeOfDiscountForItem +
                 '}';
     }

@@ -2,6 +2,8 @@ package com.ftn.webshop.domain;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -21,6 +23,7 @@ public class Order extends BaseEntity {
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
 
+    @LazyCollection(LazyCollectionOption.FALSE)
     @OneToMany(mappedBy = "order")
     private List<OrderLine> orderLines;
 

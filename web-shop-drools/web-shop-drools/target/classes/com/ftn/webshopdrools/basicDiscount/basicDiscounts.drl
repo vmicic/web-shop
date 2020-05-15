@@ -7,6 +7,7 @@ import com.ftn.webshop.domain.OrderLine;
 import com.ftn.webshop.domain.Item;
 import com.ftn.webshop.domain.ItemCategory;
 import com.ftn.webshop.domain.DiscountForItem;
+import com.ftn.webshop.domain.TypeOfDiscountForItem;
 
 
 global com.ftn.webshop.services.impl.DiscountForItemServiceImpl discountForItemService;
@@ -24,7 +25,10 @@ rule "Basic discount more then 20 items, no mass consumption"
     	$ol: OrderLine(item.itemCategory.name  != "Mass consumption", quantity > 20) from $o.getOrderLines()
     then
         System.out.println("First Basic Discount");
-        discountForItemService.createDiscountForItem(new DiscountForItem());
+        discountForItemService.createDiscountForItem(new DiscountForItem($ol, 20.0, $o, TypeOfDiscountForItem.BASIC));
+        modify($ol) {
+        	addDiscountForItem(new DiscountForItem($ol, 20.0, $o, TypeOfDiscountForItem.BASIC));
+        }
         
 
 end
