@@ -9,6 +9,7 @@ import com.ftn.webshop.domain.ItemCategory;
 import com.ftn.webshop.domain.DiscountForItem;
 import com.ftn.webshop.domain.TypeOfDiscountForItem;
 import com.ftn.webshop.domain.User;
+import com.ftn.webshop.domain.Promotion;
 
 
 global com.ftn.webshop.services.impl.DiscountForItemServiceImpl discountForItemService;
@@ -54,4 +55,21 @@ rule "If item from same category bought in last 30 days create 1% discount"
         modify($orderLine) {
         	addDiscountForItem(new DiscountForItem($orderLine, 1.0, $o, TypeOfDiscountForItem.ADDITIONAL));
         }           
+end
+
+rule "Promotion discount"
+	when
+		$promotion: Promotion($percentageDiscount: percentageDiscount)
+		$o: Order(this during $promotion)
+		$orderLine: OrderLine($category: item.category) from $o.getOrderLines()
+		exists(
+			ItemCategory(this == $category) from $promotion.getItemCategories()
+		)
+	then
+		System.out.println("Order during promotion, order date: " + $o.getDate() + ", promotion starting date: " + $promotion.getStartTime() + ", order ending date: " + $promotion.getEndTime()
+			+ ", orderLine item category: " + $category.getName());
+		discountForItemService.createDiscountForItem(new DiscountForItem($orderLine, $percentageDiscount, $o, TypeOfDiscountForItem.ADDITIONAL));
+        modify($orderLine) {
+        	addDiscountForItem(new DiscountForItem($orderLine, $percentageDiscount, $o, TypeOfDiscountForItem.ADDITIONAL));
+        }    
 end

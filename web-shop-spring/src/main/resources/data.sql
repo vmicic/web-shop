@@ -20,6 +20,20 @@ INSERT INTO item_category("name") VALUES
     ('Laptop'),
     ('TV');
 
+
+INSERT INTO promotion("name", "start_time", "end_time", "duration","percentage_discount") VALUES
+    ('Pre new year sale','2020-12-20', '2020-12-24', '345600000', '20.0'),
+    ('Fall promotion','2020-10-14', '2020-10-24','864000000', '10.0');
+
+INSERT INTO promotion_item_category("promotion_id", "item_category_id") VALUES
+    ('1', '1'),
+    ('1', '2'),
+    ('1', '3'),
+    ('1', '4'),
+    ('2', '3'),
+    ('2', '4'),
+    ('2', '5');
+
 INSERT INTO item("name", "item_category_id", "price", "number_on_stock", "refill", "status") VALUES
     ('Milk', '1', '120.99', '100', 'false', 'true'),
     ('Logitech Bluetooth Speakers', '2', '9999.99', '12', 'false', 'true'),

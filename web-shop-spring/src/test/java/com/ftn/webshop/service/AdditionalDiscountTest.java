@@ -3,10 +3,12 @@ package com.ftn.webshop.service;
 import com.ftn.webshop.WebShopApplication;
 import com.ftn.webshop.controllers.AuthenticationController;
 import com.ftn.webshop.domain.Order;
+import com.ftn.webshop.domain.Promotion;
 import com.ftn.webshop.domain.dto.OrderDTO;
 import com.ftn.webshop.domain.dto.OrderLineDTO;
 import com.ftn.webshop.security.auth.JwtAuthenticationRequest;
 import com.ftn.webshop.services.OrderService;
+import com.ftn.webshop.services.PromotionService;
 import org.drools.core.ClockType;
 import org.junit.Before;
 import org.junit.Test;
@@ -31,6 +33,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -51,6 +56,9 @@ public class AdditionalDiscountTest {
     OrderService orderService;
 
     @Autowired
+    PromotionService promotionService;
+
+    @Autowired
     AuthenticationController authenticationController;
 
     @Before
@@ -60,6 +68,12 @@ public class AdditionalDiscountTest {
         jwtAuthenticationRequest.setPassword("pera");
 
         authenticationController.login(jwtAuthenticationRequest);
+
+        Promotion promotion1 = promotionService.findById(1L);
+        Promotion promotion2 = promotionService.findById(2L);
+
+        AuthenticationController.getKieSession().insert(promotion1);
+        AuthenticationController.getKieSession().insert(promotion2);
     }
 
     @Test
@@ -112,14 +126,16 @@ public class AdditionalDiscountTest {
 
         //same item ordered > then 15 days
         Order order4 = orderService.createOrder(orderDTO2);
-        order4.setDate(new Date( new Date().getTime() + 40L*24*60*60*1000 ));
+        order4.setDate(new Date( new Date().getTime() + 50L*24*60*60*1000 ));
         orderService.saveOrder(order4);
         orderService.processOrder(order4, AuthenticationController.getKieSession());
 
 
         assertEquals(0, order1.getOrderLines().get(0).getDiscountsForItem().size());
         assertEquals(0, order2.getOrderLines().get(0).getDiscountsForItem().size());
-        assertEquals(1, order3.getOrderLines().get(0).getDiscountsForItem().size());
+
+        //applied to first additional discounts
+        assertEquals(2, order3.getOrderLines().get(0).getDiscountsForItem().size());
         assertEquals(0, order4.getOrderLines().get(0).getDiscountsForItem().size());
     }
 
@@ -175,5 +191,74 @@ public class AdditionalDiscountTest {
     @Test
     public void createFirstTwoAdditionalDiscountTests() {
 
+    }
+
+    @Test
+    public void testPromotion() throws ParseException {
+        List<OrderLineDTO> orderLines = new ArrayList<>();
+
+        //milk mass consumption
+        OrderLineDTO orderLineDTO1 = new OrderLineDTO();
+        orderLineDTO1.setItemId(1L);
+        orderLineDTO1.setQuantity(3);
+
+
+        //tv not included in first promotion
+        OrderLineDTO orderLineDTO2 = new OrderLineDTO();
+        orderLineDTO2.setItemId(5L);
+        orderLineDTO2.setQuantity(1);
+
+        orderLines.add(orderLineDTO1);
+        orderLines.add(orderLineDTO2);
+
+        OrderDTO orderDTO = new OrderDTO();
+
+        orderDTO.setOrderLines(orderLines);
+
+        Order order1 = orderService.createOrder(orderDTO);
+
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm");
+        String dateString = "2020-12-21 10:00";
+        Date date = dateFormat.parse(dateString);
+        order1.setDate(date);
+        orderService.saveOrder(order1);
+
+        orderService.processOrder(order1, AuthenticationController.getKieSession());
+
+
+        assertEquals(1, order1.getOrderLines().get(0).getDiscountsForItem().size());
+        assertEquals(0, order1.getOrderLines().get(1).getDiscountsForItem().size());
+
+        List<OrderLineDTO> orderLines2 = new ArrayList<>();
+
+        //milk mass consumption
+        OrderLineDTO orderLineDTO3 = new OrderLineDTO();
+        orderLineDTO3.setItemId(1L);
+        orderLineDTO3.setQuantity(3);
+
+
+        //tv not included in first promotion
+        OrderLineDTO orderLineDTO4 = new OrderLineDTO();
+        orderLineDTO4.setItemId(3L);
+        orderLineDTO4.setQuantity(1);
+
+        orderLines2.add(orderLineDTO3);
+        orderLines2.add(orderLineDTO4);
+
+        OrderDTO orderDT2 = new OrderDTO();
+
+        orderDT2.setOrderLines(orderLines2);
+
+        Order order2 = orderService.createOrder(orderDT2);
+
+        String dateString2 = "2020-10-20 10:00";
+        Date date2 = dateFormat.parse(dateString2);
+        order2.setDate(date2);
+        orderService.saveOrder(order2);
+
+        orderService.processOrder(order2, AuthenticationController.getKieSession());
+
+        assertEquals(0, order2.getOrderLines().get(0).getDiscountsForItem().size());
+        assertEquals(1, order2.getOrderLines().get(1).getDiscountsForItem().size());
     }
 }
