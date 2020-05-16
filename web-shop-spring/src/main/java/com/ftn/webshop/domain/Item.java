@@ -5,6 +5,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 @Entity
 public class Item extends BaseEntity {
@@ -94,5 +95,18 @@ public class Item extends BaseEntity {
 
     public void setStatus(boolean status) {
         this.status = status;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Item item = (Item) o;
+        return this.getId().equals(item.getId());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(code, name, itemCategory, price, numberOnStock, localDateTimeCreated, refill, status);
     }
 }

@@ -1,6 +1,8 @@
 package com.ftn.webshop.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -38,9 +40,9 @@ public class User extends BaseEntity  implements UserDetails {
     @JoinColumn(name = "customer_category_id", referencedColumnName = "id")
     private CustomerCategory customerCategory;
 
-    @JsonIgnore
     @OneToMany(mappedBy = "user")
-    private List<Order> orders;
+    @LazyCollection(LazyCollectionOption.FALSE)
+    private List<Order> orders = new ArrayList<>();
 
     @JsonIgnore
     @ManyToMany(fetch = FetchType.EAGER)
@@ -95,6 +97,14 @@ public class User extends BaseEntity  implements UserDetails {
 
     public void setCustomerCategory(CustomerCategory customerCategory) {
         this.customerCategory = customerCategory;
+    }
+
+    public List<Order> getOrders() {
+        return orders;
+    }
+
+    public void setOrders(List<Order> orders) {
+        this.orders = orders;
     }
 
     @Override

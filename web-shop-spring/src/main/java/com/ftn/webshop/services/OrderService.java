@@ -8,6 +8,8 @@ public interface OrderService {
 
     Order createOrder(OrderDTO orderDTO);
 
+    Order saveOrder(Order order);
+
     Order processOrder(Order order, KieSession kieSession);
 
     Order findById(Long id);

@@ -25,10 +25,10 @@ import static org.junit.Assert.*;
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = WebShopApplication.class)
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
-public class OrderServiceTest {
+public class BasicDiscountsTest {
 
 
-    private static Logger logger = LoggerFactory.getLogger(OrderServiceTest.class);
+    private static Logger logger = LoggerFactory.getLogger(BasicDiscountsTest.class);
 
     @Autowired
     OrderService orderService;
@@ -145,7 +145,7 @@ public class OrderServiceTest {
     public void testActivationGroup() {
         List<OrderLineDTO> orderLines = new ArrayList<>();
 
-        //milk
+        //computer
         OrderLineDTO orderLineDTO1 = new OrderLineDTO();
         orderLineDTO1.setItemId(4L);
         orderLineDTO1.setQuantity(50);

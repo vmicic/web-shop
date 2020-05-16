@@ -1,0 +1,54 @@
+//created on: May 15, 2020
+package com.ftn.webshopdrools.additionalDiscountsOrderLine
+
+//list any import classes here.
+import com.ftn.webshop.domain.Order;
+import com.ftn.webshop.domain.OrderLine;
+import com.ftn.webshop.domain.Item;
+import com.ftn.webshop.domain.ItemCategory;
+import com.ftn.webshop.domain.DiscountForItem;
+import com.ftn.webshop.domain.TypeOfDiscountForItem;
+import com.ftn.webshop.domain.User;
+
+
+global com.ftn.webshop.services.impl.DiscountForItemServiceImpl discountForItemService;
+
+
+//declare any global variables here
+
+
+
+
+rule "If item bought in last 15 days create 2 percentage discount"
+
+    when
+    	$o: Order()
+    	$u: User() from $o.getUser()
+    	$oldOrder: Order(this meets[15d] $o) from $u.getOrders()
+    	$orderLineOld: OrderLine($itemOld: item) from $oldOrder.getOrderLines()
+    	exists (
+    		OrderLine(item.equals($itemOld)) from $o.getOrderLines()
+    	)
+    	
+    then
+        System.out.println("Processing order id: " + $o.getId() + ", User is: " + $u.getUsername());
+        System.out.println("Old order id is: " + $oldOrder.getId());
+        System.out.println("Old item id is: " + $itemOld.getId());
+        System.out.println("Old order date is: " + $oldOrder.getDate() + ", checking order date is: " + $o.getDate());
+
+end
+
+rule "Your Second Rule"
+    when    	
+    	$o: Order()
+    	$u: User() from $o.getUser()
+    	$oldOrder: Order(this meets[15d] $o) from $u.getOrders()
+    then        
+        System.out.println("--------------------------------------------");
+        System.out.println("Drugo pravilo se trigerovalo");
+    	System.out.println("Processing order id: " + $o.getId() + ", User is: " + $u.getUsername());
+        System.out.println("Old order id is: " + $oldOrder.getId());
+        System.out.println("Old order date is: " + $oldOrder.getDate() + ", checking order date is: " + $o.getDate());
+        System.out.println("--------------------------------------------");
+
+end

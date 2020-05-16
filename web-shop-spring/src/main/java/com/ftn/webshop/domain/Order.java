@@ -4,20 +4,27 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
+import org.kie.api.definition.type.Role;
+import org.kie.api.definition.type.Timestamp;
 
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
 @Entity
 @Table(name = "orders")
+@Role(Role.Type.EVENT)
+@Timestamp("date")
 public class Order extends BaseEntity {
 
     private String code;
 
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     private LocalDateTime localDateTime;
+
+    private Date date;
 
     @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id")
@@ -36,6 +43,7 @@ public class Order extends BaseEntity {
     private Double priceAfterDiscount;
     private Double bonusPointsSpent;
     private Double bonusPointsAwarded;
+
 
     public Order() {
     }
@@ -123,11 +131,19 @@ public class Order extends BaseEntity {
         this.discounts = discounts;
     }
 
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
     @Override
     public String toString() {
         return "Order{" +
-                "code=" + code +
-                ", localDateTime=" + localDateTime +
+                "id=" + this.getId() +
+                ", date=" + date +
                 ", user=" + user.getUsername() +
                 ", orderLines=" + orderLines +
                 ", orderState=" + orderState +

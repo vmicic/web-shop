@@ -1,5 +1,5 @@
 //created on: May 14, 2020
-package basicDiscount
+package com.ftn.webshopdrools.basicDiscount;
 
 //list any import classes here.
 import com.ftn.webshop.domain.Order;

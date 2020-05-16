@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -46,6 +47,7 @@ public class OrderServiceImpl implements OrderService {
 
         //TODO fix this later
         order.setLocalDateTime(LocalDateTime.now());
+        order.setDate(new Date());
         order.setUser(userService.findOneByUsername(SecurityContextHolder.getContext().getAuthentication().getName()));
 
         List<OrderLine> orderLines = new ArrayList<>();
@@ -76,13 +78,13 @@ public class OrderServiceImpl implements OrderService {
         order.setOrderLines(orderLines);
         order.setPriceBeforeDiscount(priceBeforeDiscount);
 
-        logger.info(order.toString());
         this.orderRepository.save(order);
 
         for(OrderLine orderLine: order.getOrderLines()) {
             this.orderLineService.save(orderLine);
         }
 
+        logger.info(order.toString());
         return order;
     }
 
@@ -102,5 +104,10 @@ public class OrderServiceImpl implements OrderService {
         Optional<Order> order = this.orderRepository.findById(id);
 
         return order.orElse(null);
+    }
+
+    @Override
+    public Order saveOrder(Order order) {
+        return this.orderRepository.save(order);
     }
 }
