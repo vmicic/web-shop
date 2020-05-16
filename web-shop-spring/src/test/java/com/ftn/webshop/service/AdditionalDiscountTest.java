@@ -122,4 +122,58 @@ public class AdditionalDiscountTest {
         assertEquals(1, order3.getOrderLines().get(0).getDiscountsForItem().size());
         assertEquals(0, order4.getOrderLines().get(0).getDiscountsForItem().size());
     }
+
+    @Test
+    public void additionalDiscountForItemsFromSameCategoryBoughtInLast30Days() {
+        List<OrderLineDTO> orderLines = new ArrayList<>();
+
+        OrderLineDTO orderLineDTO1 = new OrderLineDTO();
+        orderLineDTO1.setItemId(1L);
+        orderLineDTO1.setQuantity(3);
+
+        OrderLineDTO orderLineDTO2 = new OrderLineDTO();
+        orderLineDTO2.setItemId(2L);
+        orderLineDTO2.setQuantity(1);
+
+        orderLines.add(orderLineDTO1);
+        orderLines.add(orderLineDTO2);
+
+        OrderDTO orderDTO = new OrderDTO();
+
+        orderDTO.setOrderLines(orderLines);
+
+        Order order1 = orderService.createOrder(orderDTO);
+        orderService.processOrder(order1, AuthenticationController.getKieSession());
+
+        List<OrderLineDTO> orderLines2 = new ArrayList<>();
+
+        OrderLineDTO orderLineDTO3 = new OrderLineDTO();
+        orderLineDTO3.setItemId(2L);
+        orderLineDTO3.setQuantity(3);
+
+        OrderLineDTO orderLineDTO4 = new OrderLineDTO();
+        orderLineDTO4.setItemId(3L);
+        orderLineDTO4.setQuantity(1);
+
+        orderLines2.add(orderLineDTO3);
+        orderLines2.add(orderLineDTO4);
+
+        OrderDTO orderDTO2 = new OrderDTO();
+
+        orderDTO2.setOrderLines(orderLines2);
+
+        Order order2 = orderService.createOrder(orderDTO2);
+        order2.setDate(new Date( new Date().getTime() + 20L*24*60*60*1000 ));
+        orderService.saveOrder(order2);
+        orderService.processOrder(order2, AuthenticationController.getKieSession());
+
+
+        assertEquals(1, order2.getOrderLines().get(0).getDiscountsForItem().size());
+        assertEquals(0, order2.getOrderLines().get(1).getDiscountsForItem().size());
+    }
+
+    @Test
+    public void createFirstTwoAdditionalDiscountTests() {
+
+    }
 }

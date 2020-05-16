@@ -1,6 +1,7 @@
 package com.ftn.webshop.domain;
 
 import javax.persistence.Entity;
+import java.util.Objects;
 
 @Entity
 public class ItemCategory extends BaseEntity {
@@ -26,5 +27,18 @@ public class ItemCategory extends BaseEntity {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ItemCategory that = (ItemCategory) o;
+        return this.getId().equals(that.getId());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(code, name);
     }
 }

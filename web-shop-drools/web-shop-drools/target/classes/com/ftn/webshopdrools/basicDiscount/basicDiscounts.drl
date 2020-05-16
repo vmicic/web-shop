@@ -23,7 +23,7 @@ rule "Basic discount more then 20 items, no mass consumption"
 	activation-group "basic-discounts"
     when
     	$o: Order()
-    	$ol: OrderLine(item.itemCategory.name  != "Mass consumption", quantity > 20) from $o.getOrderLines()
+    	$ol: OrderLine(item.category.name  != "Mass consumption", quantity > 20) from $o.getOrderLines()
     then
         System.out.println("Basic discount more then 20 items, no mass consumption");
         discountForItemService.createDiscountForItem(new DiscountForItem($ol, 10.0, $o, TypeOfDiscountForItem.BASIC));
@@ -40,7 +40,7 @@ rule "Basic discount more then 5 items, TVs, computers, laptops"
 	activation-group "basic-discounts"
     when
     	$o: Order()
-    	$ol: OrderLine(item.itemCategory.name  == "TV" || item.itemCategory.name  == "Desktop computer" || item.itemCategory.name  == "Laptop", quantity > 5) from $o.getOrderLines()
+    	$ol: OrderLine(item.category.name  == "TV" || item.category.name  == "Desktop computer" || item.category.name  == "Laptop", quantity > 5) from $o.getOrderLines()
     then
         System.out.println("Basic discount more then 5 items, TVs, computers, laptops");
         discountForItemService.createDiscountForItem(new DiscountForItem($ol, 5.0, $o, TypeOfDiscountForItem.BASIC));
@@ -54,7 +54,7 @@ rule "Basic discount more then 7 items, Mass consumption"
 	activation-group "basic-discounts"
     when
     	$o: Order()
-    	$ol: OrderLine(item.itemCategory.name == "Mass consumption", item.price * quantity > 5000) from $o.getOrderLines()
+    	$ol: OrderLine(item.category.name == "Mass consumption", item.price * quantity > 5000) from $o.getOrderLines()
     then
         System.out.println("Basic discount more then 7 items, Mass consumption");
         discountForItemService.createDiscountForItem(new DiscountForItem($ol, 7.0, $o, TypeOfDiscountForItem.BASIC));

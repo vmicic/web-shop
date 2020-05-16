@@ -3,7 +3,6 @@ package com.ftn.webshop.domain;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.Table;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
@@ -18,7 +17,7 @@ public class Item extends BaseEntity {
 
     @ManyToOne
     @JoinColumn(name = "item_category_id", referencedColumnName = "id")
-    private ItemCategory itemCategory;
+    private ItemCategory category;
 
     private Double price;
 
@@ -49,12 +48,12 @@ public class Item extends BaseEntity {
         this.name = name;
     }
 
-    public ItemCategory getItemCategory() {
-        return itemCategory;
+    public ItemCategory getCategory() {
+        return category;
     }
 
-    public void setItemCategory(ItemCategory itemCategory) {
-        this.itemCategory = itemCategory;
+    public void setCategory(ItemCategory category) {
+        this.category = category;
     }
 
     public Double getPrice() {
@@ -107,6 +106,6 @@ public class Item extends BaseEntity {
 
     @Override
     public int hashCode() {
-        return Objects.hash(code, name, itemCategory, price, numberOnStock, localDateTimeCreated, refill, status);
+        return Objects.hash(code, name, category, price, numberOnStock, localDateTimeCreated, refill, status);
     }
 }

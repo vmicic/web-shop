@@ -20,7 +20,7 @@ global com.ftn.webshop.services.impl.DiscountForItemServiceImpl discountForItemS
 
 
 
-rule "If item bought in last 15 days create 2 percentage discount"
+rule "If item bought in last 15 days create 2% discount"
     when    	
     	$o: Order()
     	$user: User() from $o.getUser()
@@ -30,12 +30,28 @@ rule "If item bought in last 15 days create 2 percentage discount"
     		OrderLine(item.equals($item)) from $orderOld.getOrderLines()
     	)
     then       
-		System.out.println("If item bought in last 15 days create 2 percentage discount");   
-        System.out.println("For order: " + $o.getId() + ", item: " + $item.getId() + ", bought within 15 days in order: " + $orderOld.getId() + ", orderLine to update: " + $orderLine.getId());        
+		System.out.println("If item bought in last 15 days create 2% discount");   
+        System.out.println("For order: " + $o.getId() + ", item: " + $item.getName() + ", bought within 15 days in order: " + $orderOld.getId() + ", orderLine to update: " + $orderLine.getId());        
         discountForItemService.createDiscountForItem(new DiscountForItem($orderLine, 2.0, $o, TypeOfDiscountForItem.ADDITIONAL));
         modify($orderLine) {
         	addDiscountForItem(new DiscountForItem($orderLine, 2.0, $o, TypeOfDiscountForItem.ADDITIONAL));
         }        
-  	
+end
 
+rule "If item from same category bought in last 30 days create 1% discount"
+    when    	
+    	$o: Order()
+    	$user: User() from $o.getUser()
+    	$orderOld: Order(this meets[30d] $o) from $user.getOrders()
+    	$orderLine: OrderLine($category: item.category) from $o.getOrderLines()
+    	exists(
+    		OrderLine(item.category == $category) from $orderOld.getOrderLines()
+    	)
+    then       
+		System.out.println("If item bought in last 30 days create 1% discount");   
+		System.out.println("For order: " + $o.getId() + ", item category: " + $category.getName() + ", bought within 30 days in order: " + $orderOld.getId() + ", orderLine to update: " + $orderLine.getId());   
+	    discountForItemService.createDiscountForItem(new DiscountForItem($orderLine, 1.0, $o, TypeOfDiscountForItem.ADDITIONAL));
+        modify($orderLine) {
+        	addDiscountForItem(new DiscountForItem($orderLine, 1.0, $o, TypeOfDiscountForItem.ADDITIONAL));
+        }           
 end
