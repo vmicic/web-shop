@@ -64,17 +64,6 @@ public class AdditionalDiscountTest {
 
     @Test
     public void checkDiscountsForMore5ItemsAndIT() {
-/*        KieServices ks = KieServices.Factory.get();
-        KieContainer kContainer = ks
-                .newKieContainer(ks.newReleaseId("com.ftn", "web-shop-drools", "0.0.1-SNAPSHOT"));
-        KieBaseConfiguration kbconf = ks.newKieBaseConfiguration();
-        kbconf.setOption(EventProcessingOption.STREAM);
-        KieBase kbase = kContainer.newKieBase(kbconf);
-
-        KieSessionConfiguration ksconf1 = ks.newKieSessionConfiguration();
-        ksconf1.setOption(ClockTypeOption.get(ClockType.PSEUDO_CLOCK.getId()));
-        KieSession ksession1 = kbase.newKieSession(ksconf1, null);*/
-
 
         List<OrderLineDTO> orderLines = new ArrayList<>();
 
@@ -89,11 +78,9 @@ public class AdditionalDiscountTest {
 
         orderDTO.setOrderLines(orderLines);
 
-        Order orderOld = orderService.createOrder(orderDTO);
-        orderService.processOrder(orderOld, AuthenticationController.getKieSession());
+        Order order1 = orderService.createOrder(orderDTO);
+        orderService.processOrder(order1, AuthenticationController.getKieSession());
 
-        //ksession1.insert(orderOld);
-        //ksession1.fireAllRules();
 
         List<OrderLineDTO> orderLines2 = new ArrayList<>();
 
@@ -101,36 +88,38 @@ public class AdditionalDiscountTest {
         orderLineDTO2.setItemId(2L);
         orderLineDTO2.setQuantity(10);
 
+        OrderLineDTO orderLineDTO3 = new OrderLineDTO();
+        orderLineDTO3.setItemId(3L);
+        orderLineDTO3.setQuantity(2);
+
         orderLines2.add(orderLineDTO2);
+        orderLines2.add(orderLineDTO3);
 
         OrderDTO orderDTO2 = new OrderDTO();
 
         orderDTO2.setOrderLines(orderLines2);
 
-        Order orderNew = orderService.createOrder(orderDTO2);
-        orderNew.setDate(new Date( new Date().getTime() + 2L*24*60*60*1000 ));
-        orderService.saveOrder(orderNew);
-        orderService.processOrder(orderNew, AuthenticationController.getKieSession());
+        Order order2 = orderService.createOrder(orderDTO2);
+        order2.setDate(new Date( new Date().getTime() + 2L*24*60*60*1000 ));
+        orderService.saveOrder(order2);
+        orderService.processOrder(order2, AuthenticationController.getKieSession());
+
+        //same order < then 15 days
+        Order order3 = orderService.createOrder(orderDTO2);
+        order3.setDate(new Date( new Date().getTime() + 16L*24*60*60*1000 ));
+        orderService.saveOrder(order3);
+        orderService.processOrder(order3, AuthenticationController.getKieSession());
+
+        //same item ordered > then 15 days
+        Order order4 = orderService.createOrder(orderDTO2);
+        order4.setDate(new Date( new Date().getTime() + 40L*24*60*60*1000 ));
+        orderService.saveOrder(order4);
+        orderService.processOrder(order4, AuthenticationController.getKieSession());
 
 
-       // ksession1.insert(orderNew);
-       // ksession1.fireAllRules();
-
-        //SessionPseudoClock clock = ksession1.getSessionClock();
-        //System.out.println(clock.getCurrentTime());
-        //clock.advanceTime(50, TimeUnit.DAYS);
-        //System.out.println(clock.getCurrentTime());
-
-
-
-        orderNew = orderService.createOrder(orderDTO2);
-        orderNew.setDate(new Date( new Date().getTime() + 16L*24*60*60*1000 ));
-        orderService.saveOrder(orderNew);
-        orderService.processOrder(orderNew, AuthenticationController.getKieSession());
-
-
-        //ksession1.insert(orderNew);
-        //ksession1.fireAllRules();
-
+        assertEquals(0, order1.getOrderLines().get(0).getDiscountsForItem().size());
+        assertEquals(0, order2.getOrderLines().get(0).getDiscountsForItem().size());
+        assertEquals(1, order3.getOrderLines().get(0).getDiscountsForItem().size());
+        assertEquals(0, order4.getOrderLines().get(0).getDiscountsForItem().size());
     }
 }

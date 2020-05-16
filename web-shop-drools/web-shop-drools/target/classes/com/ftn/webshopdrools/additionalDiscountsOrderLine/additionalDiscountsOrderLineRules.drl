@@ -15,40 +15,27 @@ global com.ftn.webshop.services.impl.DiscountForItemServiceImpl discountForItemS
 
 
 //declare any global variables here
+global com.ftn.webshop.services.impl.DiscountForItemServiceImpl discountForItemService;
 
 
 
 
 rule "If item bought in last 15 days create 2 percentage discount"
-
-    when
-    	$o: Order()
-    	$u: User() from $o.getUser()
-    	$oldOrder: Order(this meets[15d] $o) from $u.getOrders()
-    	$orderLineOld: OrderLine($itemOld: item) from $oldOrder.getOrderLines()
-    	exists (
-    		OrderLine(item.equals($itemOld)) from $o.getOrderLines()
-    	)
-    	
-    then
-        System.out.println("Processing order id: " + $o.getId() + ", User is: " + $u.getUsername());
-        System.out.println("Old order id is: " + $oldOrder.getId());
-        System.out.println("Old item id is: " + $itemOld.getId());
-        System.out.println("Old order date is: " + $oldOrder.getDate() + ", checking order date is: " + $o.getDate());
-
-end
-
-rule "Your Second Rule"
     when    	
     	$o: Order()
-    	$u: User() from $o.getUser()
-    	$oldOrder: Order(this meets[15d] $o) from $u.getOrders()
-    then        
-        System.out.println("--------------------------------------------");
-        System.out.println("Drugo pravilo se trigerovalo");
-    	System.out.println("Processing order id: " + $o.getId() + ", User is: " + $u.getUsername());
-        System.out.println("Old order id is: " + $oldOrder.getId());
-        System.out.println("Old order date is: " + $oldOrder.getDate() + ", checking order date is: " + $o.getDate());
-        System.out.println("--------------------------------------------");
+    	$user: User() from $o.getUser()
+    	$orderOld: Order(this meets[15d] $o) from $user.getOrders()
+    	$orderLine: OrderLine($item: item) from $o.getOrderLines()
+    	exists(
+    		OrderLine(item.equals($item)) from $orderOld.getOrderLines()
+    	)
+    then       
+		System.out.println("If item bought in last 15 days create 2 percentage discount");   
+        System.out.println("For order: " + $o.getId() + ", item: " + $item.getId() + ", bought within 15 days in order: " + $orderOld.getId() + ", orderLine to update: " + $orderLine.getId());        
+        discountForItemService.createDiscountForItem(new DiscountForItem($orderLine, 2.0, $o, TypeOfDiscountForItem.ADDITIONAL));
+        modify($orderLine) {
+        	addDiscountForItem(new DiscountForItem($orderLine, 2.0, $o, TypeOfDiscountForItem.ADDITIONAL));
+        }        
+  	
 
 end
