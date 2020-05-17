@@ -13,12 +13,12 @@ INSERT INTO user_authority("user_id", "authority_id") VALUES
     ('2', '1');
 
 
-INSERT INTO item_category("name") VALUES
-    ('Mass consumption'),
-    ('Audio and video'),
-    ('Desktop computer'),
-    ('Laptop'),
-    ('TV');
+INSERT INTO item_category("name", "max_percentage_discount") VALUES
+    ('Mass consumption', '10.0'),
+    ('Audio and video', '10.0'),
+    ('Desktop computer', '10.0'),
+    ('Laptop', '10.0'),
+    ('TV', '10.0');
 
 
 INSERT INTO promotion("name", "start_time", "end_time", "duration","percentage_discount") VALUES

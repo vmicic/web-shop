@@ -12,8 +12,6 @@ import com.ftn.webshop.domain.User;
 import com.ftn.webshop.domain.Promotion;
 
 
-global com.ftn.webshop.services.impl.DiscountForItemServiceImpl discountForItemService;
-
 
 //declare any global variables here
 global com.ftn.webshop.services.impl.DiscountForItemServiceImpl discountForItemService;

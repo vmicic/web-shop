@@ -1,0 +1,39 @@
+//created on: May 16, 2020
+package com.ftn.webshopdrools.finalDiscountOrderLine;
+
+//list any import classes here.
+import com.ftn.webshop.domain.Order;
+import com.ftn.webshop.domain.OrderLine;
+import com.ftn.webshop.domain.Item;
+import com.ftn.webshop.domain.ItemCategory;
+import com.ftn.webshop.domain.DiscountForItem;
+import com.ftn.webshop.domain.TypeOfDiscountForItem;
+import com.ftn.webshop.domain.User;
+import com.ftn.webshop.domain.Promotion;
+
+
+
+//declare any global variables here
+global com.ftn.webshop.services.impl.DiscountForItemServiceImpl discountForItemService;
+
+
+
+
+rule "Total discount"
+	salience -100
+    when
+    	$o : Order($lines: orderLines)
+    	$orderLine: OrderLine($discounts: discountsForItem) from $o.getOrderLines()
+    	DiscountForItem() from $orderLine.getDiscountsForItem()
+    then
+		System.out.println("order id: " + $o.getId() + ", total discount: " + $orderLine.getDiscountsForItem() + ", discount percentage: ");   
+end
+
+rule "Your Second Rule"
+    //include attributes such as "salience" here...
+    when
+        //conditions
+    then
+        //actions
+
+end

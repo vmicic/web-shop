@@ -5,20 +5,19 @@ import java.util.Objects;
 
 @Entity
 public class ItemCategory extends BaseEntity {
-
-    private String code;
-
     private String name;
+
+    private Double maxPercentageDiscount;
 
     public ItemCategory() {
     }
 
-    public String getCode() {
-        return code;
+    public Double getMaxPercentageDiscount() {
+        return maxPercentageDiscount;
     }
 
-    public void setCode(String code) {
-        this.code = code;
+    public void setMaxPercentageDiscount(Double maxPercentageDiscount) {
+        this.maxPercentageDiscount = maxPercentageDiscount;
     }
 
     public String getName() {
@@ -37,8 +36,4 @@ public class ItemCategory extends BaseEntity {
         return this.getId().equals(that.getId());
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(code, name);
-    }
 }

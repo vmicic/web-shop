@@ -73,10 +73,12 @@ public class DiscountForItem extends BaseEntity{
         this.discountPercentage = discountPercentage;
     }
 
+
+
     @Override
     public String toString() {
         return "DiscountForItem{" +
-                "code='" + this.getId() + '\'' +
+                "id='" + this.getId() + '\'' +
                 ", orderLine=" + orderLine.getId() +
                 ", discountPercentage=" + discountPercentage +
                 ", order=" + order.getId() +
