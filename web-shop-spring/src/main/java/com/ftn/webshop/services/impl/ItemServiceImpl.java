@@ -5,7 +5,6 @@ import com.ftn.webshop.repositories.ItemRepository;
 import com.ftn.webshop.services.ItemService;
 import org.springframework.stereotype.Service;
 
-import javax.swing.text.html.Option;
 import java.util.Optional;
 
 @Service
@@ -24,10 +23,4 @@ public class ItemServiceImpl implements ItemService {
         return item.orElse(null);
     }
 
-    @Override
-    public Item findByCode(String code) {
-        Optional<Item> item = itemRepository.findByCodeIgnoreCase(code);
-
-        return item.orElse(null);
-    }
 }

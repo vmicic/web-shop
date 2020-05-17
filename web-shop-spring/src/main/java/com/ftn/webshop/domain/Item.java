@@ -9,10 +9,6 @@ import java.util.Objects;
 @Entity
 public class Item extends BaseEntity {
 
-    //TODO napraviti sifru
-
-    private String code;
-
     private String name;
 
     @ManyToOne
@@ -23,6 +19,8 @@ public class Item extends BaseEntity {
 
     private Integer numberOnStock;
 
+    private Integer minimalNumberOnStock;
+
     private LocalDateTime localDateTimeCreated;
 
     private boolean refill;
@@ -32,12 +30,12 @@ public class Item extends BaseEntity {
     public Item() {
     }
 
-    public String getCode() {
-        return code;
+    public Integer getMinimalNumberOnStock() {
+        return minimalNumberOnStock;
     }
 
-    public void setCode(String code) {
-        this.code = code;
+    public void setMinimalNumberOnStock(Integer minimalNumberOnStock) {
+        this.minimalNumberOnStock = minimalNumberOnStock;
     }
 
     public String getName() {
@@ -106,6 +104,6 @@ public class Item extends BaseEntity {
 
     @Override
     public int hashCode() {
-        return Objects.hash(code, name, category, price, numberOnStock, localDateTimeCreated, refill, status);
+        return Objects.hash(name, category, price, numberOnStock, localDateTimeCreated, refill, status);
     }
 }
