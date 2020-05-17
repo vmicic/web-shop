@@ -63,6 +63,14 @@ public class FinalDiscountTest {
         Order order1 = orderService.createOrder(orderDTO);
         orderService.processOrder(order1, AuthenticationController.getKieSession());
 
+
+        OrderLineDTO orderLineDTO2 = new OrderLineDTO();
+        orderLineDTO2.setItemId(2L);
+        orderLineDTO2.setQuantity(1);
+
+        //orderLines.add(orderLineDTO2);
+        orderDTO.setOrderLines(orderLines);
+
         Order order2 = orderService.createOrder(orderDTO);
         orderService.processOrder(order2, AuthenticationController.getKieSession());
     }

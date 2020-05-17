@@ -3,6 +3,7 @@ package com.ftn.webshop.controllers;
 import com.ftn.webshop.WebShopApplication;
 import com.ftn.webshop.domain.User;
 import com.ftn.webshop.domain.UserTokenState;
+import com.ftn.webshop.domain.dto.UserDTO;
 import com.ftn.webshop.security.TokenUtils;
 import com.ftn.webshop.security.auth.JwtAuthenticationRequest;
 import com.ftn.webshop.services.DiscountForItemService;
@@ -65,7 +66,13 @@ public class AuthenticationController {
     }
 
     @PostMapping(value = "/register")
-    public ResponseEntity register(@RequestBody User user) {
+    public ResponseEntity register(@RequestBody UserDTO userDTO) {
+        if(userService.userExists(userDTO.getUsername())) {
+            return new ResponseEntity<>("username already exists", HttpStatus.BAD_REQUEST);
+        }
+
+        User user = userService.createUser(userDTO);
+
         return new ResponseEntity(HttpStatus.OK);
     }
 

@@ -10,6 +10,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.sql.Timestamp;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -31,7 +32,7 @@ public class User extends BaseEntity  implements UserDetails {
     @NotNull
     private String lastName;
 
-    private LocalDate dateOfRegistration;
+    private LocalDateTime dateOfRegistration;
 
     @JsonIgnore
     private Timestamp lastPasswordResetDate;
@@ -75,11 +76,11 @@ public class User extends BaseEntity  implements UserDetails {
         this.lastName = lastName;
     }
 
-    public LocalDate getDateOfRegistration() {
+    public LocalDateTime getDateOfRegistration() {
         return dateOfRegistration;
     }
 
-    public void setDateOfRegistration(LocalDate dateOfRegistration) {
+    public void setDateOfRegistration(LocalDateTime dateOfRegistration) {
         this.dateOfRegistration = dateOfRegistration;
     }
 
@@ -105,6 +106,10 @@ public class User extends BaseEntity  implements UserDetails {
 
     public void setOrders(List<Order> orders) {
         this.orders = orders;
+    }
+
+    public void setAuthorities(List<Authority> authorities) {
+        this.authorities = authorities;
     }
 
     @Override

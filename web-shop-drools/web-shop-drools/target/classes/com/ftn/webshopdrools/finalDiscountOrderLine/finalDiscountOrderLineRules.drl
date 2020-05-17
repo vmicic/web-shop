@@ -23,10 +23,14 @@ rule "Total discount"
 	salience -100
     when
     	$o : Order($lines: orderLines)
-    	$orderLine: OrderLine($discounts: discountsForItem) from $o.getOrderLines()
-    	DiscountForItem() from $orderLine.getDiscountsForItem()
+    	$orderLine: OrderLine($discounts: discountsForItem) from $lines
+    	//DiscountForItem() from $discounts
     then
-		System.out.println("order id: " + $o.getId() + ", total discount: " + $orderLine.getDiscountsForItem() + ", discount percentage: ");   
+    System.out.println("----------------------------------------------------------------");
+		
+		System.out.println("order id: " + $o.getId() + ", orderLine id: " + $orderLine.getId() + ", all discounts: " + $discounts);   
+		System.out.println("discount first: " + $discounts.get(0));
+    System.out.println("----------------------------------------------------------------");
 end
 
 rule "Your Second Rule"
