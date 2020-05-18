@@ -36,4 +36,11 @@ public class ItemCategory extends BaseEntity {
         return this.getId().equals(that.getId());
     }
 
+    @Override
+    public String toString() {
+        return "ItemCategory{" +
+                "name='" + name + '\'' +
+                ", maxPercentageDiscount=" + maxPercentageDiscount +
+                '}';
+    }
 }

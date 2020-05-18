@@ -57,19 +57,12 @@ public class OrderServiceImpl implements OrderService {
         double orderLinePrice;
 
         for(OrderLineDTO orderLineDTO : orderDTO.getOrderLines()) {
-            OrderLine orderLine = new OrderLine();
-            Item item = itemService.findItemById(orderLineDTO.getItemId());
+            OrderLine orderLine = orderLineService.createOrderLine(orderLineDTO);
 
-            orderLinePrice = item.getPrice() * orderLineDTO.getQuantity();
-            priceBeforeDiscount += orderLinePrice;
+            priceBeforeDiscount += orderLine.getPriceTotal();
 
-            orderLine.setPriceTotal(orderLinePrice);
-            orderLine.setItem(item);
-            orderLine.setQuantity(orderLineDTO.getQuantity());
             orderLine.setSerialNumber(counter);
-            orderLine.setPricePerUnit(item.getPrice());
             orderLine.setOrder(order);
-
             orderLines.add(orderLine);
 
             counter++;

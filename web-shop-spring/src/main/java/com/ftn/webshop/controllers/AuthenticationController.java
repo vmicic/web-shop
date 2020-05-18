@@ -7,6 +7,7 @@ import com.ftn.webshop.domain.dto.UserDTO;
 import com.ftn.webshop.security.TokenUtils;
 import com.ftn.webshop.security.auth.JwtAuthenticationRequest;
 import com.ftn.webshop.services.DiscountForItemService;
+import com.ftn.webshop.services.OrderLineService;
 import com.ftn.webshop.services.UserService;
 import org.kie.api.runtime.KieSession;
 import org.slf4j.Logger;
@@ -32,12 +33,14 @@ public class AuthenticationController {
     private final TokenUtils tokenUtils;
 
     private final DiscountForItemService discountForItemService;
+    private final OrderLineService orderLineService;
 
-    public AuthenticationController(AuthenticationManager authenticationManager, UserService userService, TokenUtils tokenUtils, DiscountForItemService discountForItemService) {
+    public AuthenticationController(AuthenticationManager authenticationManager, UserService userService, TokenUtils tokenUtils, DiscountForItemService discountForItemService, OrderLineService orderLineService) {
         this.authenticationManager = authenticationManager;
         this.userService = userService;
         this.tokenUtils = tokenUtils;
         this.discountForItemService = discountForItemService;
+        this.orderLineService = orderLineService;
     }
 
 
@@ -57,6 +60,7 @@ public class AuthenticationController {
             Long expiresIn = tokenUtils.getExpiredIn();
 
             kieSession = WebShopApplication.kieContainer().newKieSession();
+            kieSession.setGlobal("orderLineService", orderLineService);
             kieSession.setGlobal("discountForItemService", discountForItemService);
 
             return ResponseEntity.ok(new UserTokenState(jwt, expiresIn));

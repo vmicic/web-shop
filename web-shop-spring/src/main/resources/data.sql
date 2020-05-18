@@ -14,7 +14,7 @@ INSERT INTO user_authority("user_id", "authority_id") VALUES
 
 
 INSERT INTO item_category("name", "max_percentage_discount") VALUES
-    ('Mass consumption', '10.0'),
+    ('Mass consumption', '9.0'),
     ('Audio and video', '10.0'),
     ('Desktop computer', '10.0'),
     ('Laptop', '10.0'),

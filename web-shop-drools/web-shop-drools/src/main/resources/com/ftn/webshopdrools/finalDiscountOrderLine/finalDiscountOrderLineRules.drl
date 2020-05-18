@@ -12,32 +12,47 @@ import com.ftn.webshop.domain.TypeOfDiscountForItem;
 import com.ftn.webshop.domain.User;
 import com.ftn.webshop.domain.Promotion;
 
-global com.ftn.webshop.services.impl.DiscountForItemServiceImpl discountForItemService;
+global com.ftn.webshop.services.impl.OrderLineServiceImpl orderLineService;
 
-
-
-
-rule "Add discount for any order line"
-    when
-    	$o: Order()
-    	$orderLine: OrderLine() from $o.getOrderLines()
-    then
-		//System.out.println("Add discount for any order line");
-        //modify($orderLine) {
-        //	addDiscountForItem(new DiscountForItem($orderLine, 5.0, $o, TypeOfDiscountForItem.BASIC));
-        //}
-end
 
 
 rule "Check discount for every order line"
+	salience -10
+    when
+    	$o: Order($lines: orderLines)
+    	$orderLine: OrderLine($discounts: discountsForItem, $category: item.category, $priceTotal: priceTotal) from $lines
+    	Number($sumOfDiscounts: doubleValue) from accumulate(
+    		DiscountForItem(
+    			$dp: discountPercentage
+    		) from $discounts,
+    		sum($dp)
+    	)
+    then
+    	 System.out.println("Sum of discounts: " + $sumOfDiscounts + ", item category: " + $category + ", price total is: " + $priceTotal);               
+    	 modify($orderLine) {
+        	setPercentageDiscount($sumOfDiscounts);
+        }     
+    	orderLineService.save($orderLine);
+
+end
+
+rule "Check disc"
 	salience -100
     when
-    	$o: Order()
-    	$orderLine: OrderLine($discounts: discountsForItem) from $o.getOrderLines()
-    	$discount: DiscountForItem() from $discounts
+    	$o: Order($lines: orderLines)
+    	$orderLine: OrderLine($percentageDiscount: percentageDiscount > $maxDiscount: item.category.maxPercentageDiscount) from $lines
     then
-    	System.out.println("Check discounts for every order line: " + $discount);
+    	System.out.println("Veci od dozvoljenog: " + $percentageDiscount + ", dozvoljeni: " + $maxDiscount);    	 
+    	modify($orderLine) {
+        	setPercentageDiscount($maxDiscount);
+        }     
+    	orderLineService.save($orderLine);
 end
+
+
+
+
+
 
 
 

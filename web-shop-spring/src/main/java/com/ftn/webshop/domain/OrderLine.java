@@ -107,6 +107,7 @@ public class OrderLine extends BaseEntity{
 
     public void setPercentageDiscount(Double percentageDiscount) {
         this.percentageDiscount = percentageDiscount;
+        this.priceTotalFinal = (1 - this.percentageDiscount/100) * this.priceTotal;
     }
 
     public Double getPriceTotalFinal() {
