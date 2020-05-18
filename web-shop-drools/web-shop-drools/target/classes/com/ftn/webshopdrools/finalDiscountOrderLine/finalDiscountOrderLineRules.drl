@@ -2,42 +2,45 @@
 package com.ftn.webshopdrools.finalDiscountOrderLine;
 
 //list any import classes here.
+
+import com.ftn.webshop.domain.DiscountForItem;
 import com.ftn.webshop.domain.Order;
 import com.ftn.webshop.domain.OrderLine;
 import com.ftn.webshop.domain.Item;
 import com.ftn.webshop.domain.ItemCategory;
-import com.ftn.webshop.domain.DiscountForItem;
 import com.ftn.webshop.domain.TypeOfDiscountForItem;
 import com.ftn.webshop.domain.User;
 import com.ftn.webshop.domain.Promotion;
 
-
-
-//declare any global variables here
 global com.ftn.webshop.services.impl.DiscountForItemServiceImpl discountForItemService;
 
 
 
 
-rule "Total discount"
+rule "Add discount for any order line"
+    when
+    	$o: Order()
+    	$orderLine: OrderLine() from $o.getOrderLines()
+    then
+		//System.out.println("Add discount for any order line");
+        //modify($orderLine) {
+        //	addDiscountForItem(new DiscountForItem($orderLine, 5.0, $o, TypeOfDiscountForItem.BASIC));
+        //}
+end
+
+
+rule "Check discount for every order line"
 	salience -100
     when
-    	$o : Order($lines: orderLines)
-    	$orderLine: OrderLine($discounts: discountsForItem) from $lines
-    	//DiscountForItem() from $discounts
+    	$o: Order()
+    	$orderLine: OrderLine($discounts: discountsForItem) from $o.getOrderLines()
+    	$discount: DiscountForItem() from $discounts
     then
-    System.out.println("----------------------------------------------------------------");
-		
-		System.out.println("order id: " + $o.getId() + ", orderLine id: " + $orderLine.getId() + ", all discounts: " + $discounts);   
-		System.out.println("discount first: " + $discounts.get(0));
-    System.out.println("----------------------------------------------------------------");
+    	System.out.println("Check discounts for every order line: " + $discount);
 end
 
-rule "Your Second Rule"
-    //include attributes such as "salience" here...
-    when
-        //conditions
-    then
-        //actions
 
-end
+
+
+
+

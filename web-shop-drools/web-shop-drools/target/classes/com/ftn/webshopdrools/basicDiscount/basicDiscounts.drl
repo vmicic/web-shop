@@ -17,7 +17,6 @@ global com.ftn.webshop.services.impl.DiscountForItemServiceImpl discountForItemS
 
 
 
-
 rule "Basic discount more then 20 items, no mass consumption"
 	salience 1000
 	activation-group "basic-discounts"
@@ -62,3 +61,7 @@ rule "Basic discount more then 7 items, Mass consumption"
         	addDiscountForItem(new DiscountForItem($ol, 7.0, $o, TypeOfDiscountForItem.BASIC));
         }
 end
+
+
+
+

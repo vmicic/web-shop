@@ -1,5 +1,8 @@
 package com.ftn.webshop.domain;
 
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +20,9 @@ public class OrderLine extends BaseEntity{
     @JoinColumn(name = "order_id", referencedColumnName = "id")
     private Order order;
 
-    @OneToMany(mappedBy = "orderLine", fetch = FetchType.EAGER)
+
+    @LazyCollection(LazyCollectionOption.FALSE)
+    @OneToMany(mappedBy = "orderLine")
     private List<DiscountForItem> discountsForItem = new ArrayList<>();
 
     private Integer serialNumber;

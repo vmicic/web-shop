@@ -10,6 +10,7 @@ import org.kie.api.definition.type.Timestamp;
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -32,7 +33,7 @@ public class Order extends BaseEntity {
 
     @LazyCollection(LazyCollectionOption.FALSE)
     @OneToMany(mappedBy = "order")
-    private List<OrderLine> orderLines;
+    private List<OrderLine> orderLines = new ArrayList<>();
 
     @Enumerated(EnumType.STRING)
     private OrderState orderState;

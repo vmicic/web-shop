@@ -71,3 +71,5 @@ rule "Promotion discount"
         	addDiscountForItem(new DiscountForItem($orderLine, $percentageDiscount, $o, TypeOfDiscountForItem.ADDITIONAL));
         }    
 end
+
+

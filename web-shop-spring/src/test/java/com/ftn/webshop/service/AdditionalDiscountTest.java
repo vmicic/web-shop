@@ -189,11 +189,6 @@ public class AdditionalDiscountTest {
     }
 
     @Test
-    public void createFirstTwoAdditionalDiscountTests() {
-
-    }
-
-    @Test
     public void testPromotion() throws ParseException {
         List<OrderLineDTO> orderLines = new ArrayList<>();
 

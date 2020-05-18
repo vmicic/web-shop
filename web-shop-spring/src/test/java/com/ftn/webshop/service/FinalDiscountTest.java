@@ -11,12 +11,20 @@ import com.ftn.webshop.services.PromotionService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.kie.api.KieServices;
+import org.kie.api.event.rule.AfterMatchFiredEvent;
+import org.kie.api.event.rule.DefaultAgendaEventListener;
+import org.kie.api.runtime.KieContainer;
+import org.kie.api.runtime.KieSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringRunner;
+
+import org.kie.api.event.rule.DebugAgendaEventListener;
+import org.kie.api.event.rule.DebugRuleRuntimeEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,6 +51,10 @@ public class FinalDiscountTest {
         jwtAuthenticationRequest.setPassword("pera");
 
         authenticationController.login(jwtAuthenticationRequest);
+
+
+        //AuthenticationController.getKieSession().addEventListener(new DebugAgendaEventListener());
+        //AuthenticationController.getKieSession().addEventListener(new DebugRuleRuntimeEventListener());
     }
 
     @Test
@@ -64,15 +76,15 @@ public class FinalDiscountTest {
         orderService.processOrder(order1, AuthenticationController.getKieSession());
 
 
-        OrderLineDTO orderLineDTO2 = new OrderLineDTO();
-        orderLineDTO2.setItemId(2L);
-        orderLineDTO2.setQuantity(1);
+        //OrderLineDTO orderLineDTO2 = new OrderLineDTO();
+        //orderLineDTO2.setItemId(2L);
+        //orderLineDTO2.setQuantity(1);
 
         //orderLines.add(orderLineDTO2);
-        orderDTO.setOrderLines(orderLines);
+        //orderDTO.setOrderLines(orderLines);
 
-        Order order2 = orderService.createOrder(orderDTO);
-        orderService.processOrder(order2, AuthenticationController.getKieSession());
+        //Order order2 = orderService.createOrder(orderDTO);
+        //orderService.processOrder(order2, AuthenticationController.getKieSession());
     }
 
 }
