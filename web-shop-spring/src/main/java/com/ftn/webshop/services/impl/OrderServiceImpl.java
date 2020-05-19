@@ -69,7 +69,7 @@ public class OrderServiceImpl implements OrderService {
         }
 
         order.setOrderLines(orderLines);
-        order.setPriceBeforeDiscount(priceBeforeDiscount);
+        //order.setPriceBeforeDiscount(priceBeforeDiscount);
 
         this.orderRepository.save(order);
 
@@ -100,7 +100,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public Order saveOrder(Order order) {
+    public Order save(Order order) {
         return this.orderRepository.save(order);
     }
 }

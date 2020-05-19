@@ -1,0 +1,33 @@
+//created on: May 19, 2020
+package com.ftn.webshopdrools.orderDiscount
+
+//list any import classes here.
+import com.ftn.webshop.domain.Order;
+import com.ftn.webshop.domain.OrderLine;
+
+
+//declare any global variables here
+
+global com.ftn.webshop.services.impl.OrderServiceImpl orderService;
+
+
+rule "Calculate order price before discounts"
+	salience 200
+    when
+    	$order: Order($lines: orderLines, priceBeforeDiscount == null)
+    	Number($totalPrice: doubleValue) from accumulate(
+    		OrderLine($priceTotalFinal: priceTotalFinal)
+    		from $lines,
+    		sum($priceTotalFinal)
+    	) 
+    then
+        System.out.println("Order: " + $order.getId() + ", price total is: " + $totalPrice);
+        modify($order) {
+        	setPriceBeforeDiscount($totalPrice);
+        }
+        orderService.save($order);
+        //kcontext.getKnowledgeRuntime().getAgenda().getAgendaGroup("test").setFocus();
+
+end
+
+

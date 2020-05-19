@@ -8,6 +8,7 @@ import com.ftn.webshop.security.TokenUtils;
 import com.ftn.webshop.security.auth.JwtAuthenticationRequest;
 import com.ftn.webshop.services.DiscountForItemService;
 import com.ftn.webshop.services.OrderLineService;
+import com.ftn.webshop.services.OrderService;
 import com.ftn.webshop.services.UserService;
 import org.kie.api.runtime.KieSession;
 import org.slf4j.Logger;
@@ -34,13 +35,15 @@ public class AuthenticationController {
 
     private final DiscountForItemService discountForItemService;
     private final OrderLineService orderLineService;
+    private final OrderService orderService;
 
-    public AuthenticationController(AuthenticationManager authenticationManager, UserService userService, TokenUtils tokenUtils, DiscountForItemService discountForItemService, OrderLineService orderLineService) {
+    public AuthenticationController(AuthenticationManager authenticationManager, UserService userService, TokenUtils tokenUtils, DiscountForItemService discountForItemService, OrderLineService orderLineService, OrderService orderService) {
         this.authenticationManager = authenticationManager;
         this.userService = userService;
         this.tokenUtils = tokenUtils;
         this.discountForItemService = discountForItemService;
         this.orderLineService = orderLineService;
+        this.orderService = orderService;
     }
 
 
@@ -62,6 +65,8 @@ public class AuthenticationController {
             kieSession = WebShopApplication.kieContainer().newKieSession();
             kieSession.setGlobal("orderLineService", orderLineService);
             kieSession.setGlobal("discountForItemService", discountForItemService);
+            kieSession.setGlobal("orderService", orderService);
+            //kieSession.getAgenda().getAgendaGroup("orderLine-discounts").setFocus();
 
             return ResponseEntity.ok(new UserTokenState(jwt, expiresIn));
         }catch (BadCredentialsException e) {

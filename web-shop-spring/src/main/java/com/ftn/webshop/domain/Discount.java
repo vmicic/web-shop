@@ -12,7 +12,7 @@ public class Discount extends BaseEntity {
     private Double discountPercentage;
 
     @Enumerated(EnumType.STRING)
-    private TypeOfDiscountForItem typeOfDiscountForItem;
+    private TypeOfDiscount typeOfDiscount;
 
     public Discount() {
     }
@@ -25,12 +25,12 @@ public class Discount extends BaseEntity {
         this.discountPercentage = discountPercentage;
     }
 
-    public TypeOfDiscountForItem getTypeOfDiscountForItem() {
-        return typeOfDiscountForItem;
+    public TypeOfDiscount getTypeOfDiscountForItem() {
+        return typeOfDiscount;
     }
 
-    public void setTypeOfDiscountForItem(TypeOfDiscountForItem typeOfDiscountForItem) {
-        this.typeOfDiscountForItem = typeOfDiscountForItem;
+    public void setTypeOfDiscountForItem(TypeOfDiscount typeOfDiscount) {
+        this.typeOfDiscount = typeOfDiscount;
     }
 
     public Order getOrder() {

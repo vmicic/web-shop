@@ -8,7 +8,7 @@ import com.ftn.webshop.domain.Order;
 import com.ftn.webshop.domain.OrderLine;
 import com.ftn.webshop.domain.Item;
 import com.ftn.webshop.domain.ItemCategory;
-import com.ftn.webshop.domain.TypeOfDiscountForItem;
+import com.ftn.webshop.domain.TypeOfDiscount;
 import com.ftn.webshop.domain.User;
 import com.ftn.webshop.domain.Promotion;
 
@@ -16,11 +16,11 @@ global com.ftn.webshop.services.impl.OrderLineServiceImpl orderLineService;
 
 
 
-rule "Check discount for every order line"
-	salience -10
+rule "Calculate total discount"
+	salience 400
     when
     	$o: Order($lines: orderLines)
-    	$orderLine: OrderLine($discounts: discountsForItem, $category: item.category, $priceTotal: priceTotal) from $lines
+    	$orderLine: OrderLine($discounts: discountsForItem, $category: item.category, $priceTotal: priceTotal, percentageDiscount == null) from $lines
     	Number($sumOfDiscounts: doubleValue) from accumulate(
     		DiscountForItem(
     			$dp: discountPercentage
@@ -28,21 +28,22 @@ rule "Check discount for every order line"
     		sum($dp)
     	)
     then
-    	 System.out.println("Sum of discounts: " + $sumOfDiscounts + ", item category: " + $category + ", price total is: " + $priceTotal);               
+    	 System.out.println("Sum of discounts: " + $sumOfDiscounts + ", item category: " + $category + ", price total is: " + $priceTotal	);               
     	 modify($orderLine) {
+    	 	//iz nekog razloga mi ne da dve set naredbe u modify pa sam namestanje prica sa discountom implementirao u klasi
         	setPercentageDiscount($sumOfDiscounts);
         }     
     	orderLineService.save($orderLine);
 
 end
 
-rule "Check disc"
-	salience -100
+rule "Check discount if too big"
+	salience 300
     when
     	$o: Order($lines: orderLines)
     	$orderLine: OrderLine($percentageDiscount: percentageDiscount > $maxDiscount: item.category.maxPercentageDiscount) from $lines
     then
-    	System.out.println("Veci od dozvoljenog: " + $percentageDiscount + ", dozvoljeni: " + $maxDiscount);    	 
+    	System.out.println("Discount: " + $percentageDiscount + ", bigger than allowed: " + $maxDiscount);    	 
     	modify($orderLine) {
         	setPercentageDiscount($maxDiscount);
         }     

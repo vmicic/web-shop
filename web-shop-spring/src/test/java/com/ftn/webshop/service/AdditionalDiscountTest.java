@@ -9,22 +9,9 @@ import com.ftn.webshop.domain.dto.OrderLineDTO;
 import com.ftn.webshop.security.auth.JwtAuthenticationRequest;
 import com.ftn.webshop.services.OrderService;
 import com.ftn.webshop.services.PromotionService;
-import org.drools.core.ClockType;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.kie.api.KieBase;
-import org.kie.api.KieBaseConfiguration;
-import org.kie.api.KieServices;
-import org.kie.api.builder.KieBuilder;
-import org.kie.api.builder.KieFileSystem;
-import org.kie.api.builder.Message;
-import org.kie.api.conf.EventProcessingOption;
-import org.kie.api.runtime.KieContainer;
-import org.kie.api.runtime.KieSession;
-import org.kie.api.runtime.KieSessionConfiguration;
-import org.kie.api.runtime.conf.ClockTypeOption;
-import org.kie.internal.io.ResourceFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,12 +22,9 @@ import org.springframework.test.context.junit4.SpringRunner;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import static org.junit.Assert.*;
 
@@ -114,19 +98,19 @@ public class AdditionalDiscountTest {
 
         Order order2 = orderService.createOrder(orderDTO2);
         order2.setDate(new Date( new Date().getTime() + 2L*24*60*60*1000 ));
-        orderService.saveOrder(order2);
+        orderService.save(order2);
         orderService.processOrder(order2, AuthenticationController.getKieSession());
 
         //same order < then 15 days
         Order order3 = orderService.createOrder(orderDTO2);
         order3.setDate(new Date( new Date().getTime() + 16L*24*60*60*1000 ));
-        orderService.saveOrder(order3);
+        orderService.save(order3);
         orderService.processOrder(order3, AuthenticationController.getKieSession());
 
         //same item ordered > then 15 days
         Order order4 = orderService.createOrder(orderDTO2);
         order4.setDate(new Date( new Date().getTime() + 50L*24*60*60*1000 ));
-        orderService.saveOrder(order4);
+        orderService.save(order4);
         orderService.processOrder(order4, AuthenticationController.getKieSession());
 
 
@@ -179,7 +163,7 @@ public class AdditionalDiscountTest {
 
         Order order2 = orderService.createOrder(orderDTO2);
         order2.setDate(new Date( new Date().getTime() + 20L*24*60*60*1000 ));
-        orderService.saveOrder(order2);
+        orderService.save(order2);
         orderService.processOrder(order2, AuthenticationController.getKieSession());
 
 
@@ -215,7 +199,7 @@ public class AdditionalDiscountTest {
         String dateString = "2020-12-21 10:00";
         Date date = dateFormat.parse(dateString);
         order1.setDate(date);
-        orderService.saveOrder(order1);
+        orderService.save(order1);
 
         orderService.processOrder(order1, AuthenticationController.getKieSession());
 
@@ -248,7 +232,7 @@ public class AdditionalDiscountTest {
         String dateString2 = "2020-10-20 10:00";
         Date date2 = dateFormat.parse(dateString2);
         order2.setDate(date2);
-        orderService.saveOrder(order2);
+        orderService.save(order2);
 
         orderService.processOrder(order2, AuthenticationController.getKieSession());
 

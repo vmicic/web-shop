@@ -7,7 +7,7 @@ import com.ftn.webshop.domain.OrderLine;
 import com.ftn.webshop.domain.Item;
 import com.ftn.webshop.domain.ItemCategory;
 import com.ftn.webshop.domain.DiscountForItem;
-import com.ftn.webshop.domain.TypeOfDiscountForItem;
+import com.ftn.webshop.domain.TypeOfDiscount;
 
 
 global com.ftn.webshop.services.impl.DiscountForItemServiceImpl discountForItemService;
@@ -17,17 +17,18 @@ global com.ftn.webshop.services.impl.DiscountForItemServiceImpl discountForItemS
 
 
 
+
 rule "Basic discount more then 20 items, no mass consumption"
 	salience 1000
 	activation-group "basic-discounts"
     when
     	$o: Order()
-    	$ol: OrderLine(item.category.name  != "Mass consumption", quantity > 20) from $o.getOrderLines()
+    	$ol: OrderLine(item.category.name  != "Mass consumption", quantity > 20, discountsForItem.empty == true) from $o.getOrderLines()
     then
         System.out.println("Basic discount more then 20 items, no mass consumption");
-        discountForItemService.createDiscountForItem(new DiscountForItem($ol, 10.0, $o, TypeOfDiscountForItem.BASIC));
+        discountForItemService.createDiscountForItem(new DiscountForItem($ol, 10.0, $o, TypeOfDiscount.BASIC));
         modify($ol) {
-        	addDiscountForItem(new DiscountForItem($ol, 10.0, $o, TypeOfDiscountForItem.BASIC));
+        	addDiscountForItem(new DiscountForItem($ol, 10.0, $o, TypeOfDiscount.BASIC));
         }
         
 
@@ -39,12 +40,12 @@ rule "Basic discount more then 5 items, TVs, computers, laptops"
 	activation-group "basic-discounts"
     when
     	$o: Order()
-    	$ol: OrderLine(item.category.name  == "TV" || item.category.name  == "Desktop computer" || item.category.name  == "Laptop", quantity > 5) from $o.getOrderLines()
+    	$ol: OrderLine(item.category.name  == "TV" || item.category.name  == "Desktop computer" || item.category.name  == "Laptop", quantity > 5, discountsForItem.empty == true) from $o.getOrderLines()
     then
         System.out.println("Basic discount more then 5 items, TVs, computers, laptops");
-        discountForItemService.createDiscountForItem(new DiscountForItem($ol, 5.0, $o, TypeOfDiscountForItem.BASIC));
+        discountForItemService.createDiscountForItem(new DiscountForItem($ol, 5.0, $o, TypeOfDiscount.BASIC));
         modify($ol) {
-        	addDiscountForItem(new DiscountForItem($ol, 5.0, $o, TypeOfDiscountForItem.BASIC));
+        	addDiscountForItem(new DiscountForItem($ol, 5.0, $o, TypeOfDiscount.BASIC));
         }
 end
 
@@ -53,12 +54,12 @@ rule "Basic discount more then 7 items, Mass consumption"
 	activation-group "basic-discounts"
     when
     	$o: Order()
-    	$ol: OrderLine(item.category.name == "Mass consumption", item.price * quantity > 5000) from $o.getOrderLines()
+    	$ol: OrderLine(item.category.name == "Mass consumption", item.price * quantity > 5000, discountsForItem.empty == true) from $o.getOrderLines()
     then
         System.out.println("Basic discount more then 7 items, Mass consumption");
-        discountForItemService.createDiscountForItem(new DiscountForItem($ol, 7.0, $o, TypeOfDiscountForItem.BASIC));
+        discountForItemService.createDiscountForItem(new DiscountForItem($ol, 7.0, $o, TypeOfDiscount.BASIC));
         modify($ol) {
-        	addDiscountForItem(new DiscountForItem($ol, 7.0, $o, TypeOfDiscountForItem.BASIC));
+        	addDiscountForItem(new DiscountForItem($ol, 7.0, $o, TypeOfDiscount.BASIC));
         }
 end
 

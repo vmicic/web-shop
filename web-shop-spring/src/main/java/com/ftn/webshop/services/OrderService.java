@@ -8,7 +8,7 @@ public interface OrderService {
 
     Order createOrder(OrderDTO orderDTO);
 
-    Order saveOrder(Order order);
+    Order save(Order order);
 
     Order processOrder(Order order, KieSession kieSession);
 

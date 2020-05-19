@@ -1,6 +1,6 @@
 package com.ftn.webshop.domain;
 
-public enum TypeOfDiscountForItem {
+public enum TypeOfDiscount {
     BASIC, ADDITIONAL
 }
 

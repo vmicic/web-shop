@@ -7,15 +7,11 @@ import com.ftn.webshop.domain.dto.OrderDTO;
 import com.ftn.webshop.domain.dto.OrderLineDTO;
 import com.ftn.webshop.security.auth.JwtAuthenticationRequest;
 import com.ftn.webshop.services.OrderService;
-import com.ftn.webshop.services.PromotionService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.kie.api.KieServices;
-import org.kie.api.event.rule.AfterMatchFiredEvent;
-import org.kie.api.event.rule.DefaultAgendaEventListener;
-import org.kie.api.runtime.KieContainer;
-import org.kie.api.runtime.KieSession;
+import org.kie.api.event.rule.DebugAgendaEventListener;
+import org.kie.api.event.rule.DebugRuleRuntimeEventListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,18 +19,13 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import org.kie.api.event.rule.DebugAgendaEventListener;
-import org.kie.api.event.rule.DebugRuleRuntimeEventListener;
-
 import java.util.ArrayList;
 import java.util.List;
-
-import static org.junit.Assert.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = WebShopApplication.class)
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
-public class FinalDiscountTest {
+public class OrderDiscountsTest {
 
     private static Logger logger = LoggerFactory.getLogger(FinalDiscountTest.class);
 
@@ -55,10 +46,11 @@ public class FinalDiscountTest {
 
         //AuthenticationController.getKieSession().addEventListener(new DebugAgendaEventListener());
         //AuthenticationController.getKieSession().addEventListener(new DebugRuleRuntimeEventListener());
+
     }
 
     @Test
-    public void totalDiscountTest() {
+    public void testBasicDiscount() {
         List<OrderLineDTO> orderLines = new ArrayList<>();
 
         //milk
@@ -75,7 +67,6 @@ public class FinalDiscountTest {
         Order order1 = orderService.createOrder(orderDTO);
         orderService.processOrder(order1, AuthenticationController.getKieSession());
 
-
         OrderLineDTO orderLineDTO2 = new OrderLineDTO();
         orderLineDTO2.setItemId(2L);
         orderLineDTO2.setQuantity(1);
@@ -85,13 +76,5 @@ public class FinalDiscountTest {
 
         Order order2 = orderService.createOrder(orderDTO);
         orderService.processOrder(order2, AuthenticationController.getKieSession());
-
-        assertNotNull(order2.getOrderLines().get(0).getPercentageDiscount());
-        assertNotNull(order2.getOrderLines().get(1).getPercentageDiscount());
-
-        //see that it was corrected from 10 to 9 because 10 is max allowed
-        assertEquals((Double) 9., order2.getOrderLines().get(0).getPercentageDiscount());
-        assertEquals((Double) 0., order2.getOrderLines().get(1).getPercentageDiscount());
     }
-
 }
