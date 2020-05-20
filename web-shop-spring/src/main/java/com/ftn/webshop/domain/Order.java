@@ -39,7 +39,7 @@ public class Order extends BaseEntity {
     private OrderState orderState;
 
     @OneToMany(mappedBy = "order")
-    private List<Discount> discounts;
+    private List<Discount> discounts = new ArrayList<>();
 
     private Double priceBeforeDiscount;
     private Double priceAfterDiscount;
@@ -50,6 +50,9 @@ public class Order extends BaseEntity {
     public Order() {
     }
 
+    public void addDiscount(Discount discount) {
+        this.discounts.add(discount);
+    }
 
     public LocalDateTime getLocalDateTime() {
         return localDateTime;

@@ -4,11 +4,14 @@ package com.ftn.webshopdrools.orderDiscount
 //list any import classes here.
 import com.ftn.webshop.domain.Order;
 import com.ftn.webshop.domain.OrderLine;
+import com.ftn.webshop.domain.Discount;
+import com.ftn.webshop.domain.TypeOfDiscount;
 
 
 //declare any global variables here
 
 global com.ftn.webshop.services.impl.OrderServiceImpl orderService;
+global com.ftn.webshop.services.impl.DiscountServiceImpl discountService;
 
 
 rule "Calculate order price before discounts"
@@ -26,8 +29,18 @@ rule "Calculate order price before discounts"
         	setPriceBeforeDiscount($totalPrice);
         }
         orderService.save($order);
-        //kcontext.getKnowledgeRuntime().getAgenda().getAgendaGroup("test").setFocus();
+end
 
+rule "Basic fiscounts over 200000"
+	when
+		$order: Order(priceBeforeDiscount > 200000, discounts.empty == true)
+	then
+        System.out.println("Price of order: " + $order.getId() + ", is bigger than 200000, adding basic discount");        
+        discountService.createDiscount(new Discount($order, 5., TypeOfDiscount.BASIC));
+        modify($order) {
+        	addDiscount(new Discount($order, 5., TypeOfDiscount.BASIC));
+        }
+		
 end
 
 

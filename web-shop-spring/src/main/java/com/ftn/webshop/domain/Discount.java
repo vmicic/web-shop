@@ -14,6 +14,12 @@ public class Discount extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private TypeOfDiscount typeOfDiscount;
 
+    public Discount(Order order, Double discountPercentage, TypeOfDiscount typeOfDiscount) {
+        this.order = order;
+        this.discountPercentage = discountPercentage;
+        this.typeOfDiscount = typeOfDiscount;
+    }
+
     public Discount() {
     }
 
@@ -39,5 +45,14 @@ public class Discount extends BaseEntity {
 
     public void setOrder(Order order) {
         this.order = order;
+    }
+
+    @Override
+    public String toString() {
+        return "Discount{" +
+                "order=" + order.getId() +
+                ", discountPercentage=" + discountPercentage +
+                ", typeOfDiscount=" + typeOfDiscount +
+                '}';
     }
 }

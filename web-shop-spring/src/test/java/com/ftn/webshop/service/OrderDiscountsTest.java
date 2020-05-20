@@ -19,6 +19,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import static org.junit.Assert.*;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -50,7 +52,7 @@ public class OrderDiscountsTest {
     }
 
     @Test
-    public void testBasicDiscount() {
+    public void orderCalculatePrice() {
         List<OrderLineDTO> orderLines = new ArrayList<>();
 
         //milk
@@ -67,6 +69,8 @@ public class OrderDiscountsTest {
         Order order1 = orderService.createOrder(orderDTO);
         orderService.processOrder(order1, AuthenticationController.getKieSession());
 
+        assertNotNull(order1.getPriceBeforeDiscount());
+
         OrderLineDTO orderLineDTO2 = new OrderLineDTO();
         orderLineDTO2.setItemId(2L);
         orderLineDTO2.setQuantity(1);
@@ -76,5 +80,26 @@ public class OrderDiscountsTest {
 
         Order order2 = orderService.createOrder(orderDTO);
         orderService.processOrder(order2, AuthenticationController.getKieSession());
+
+        assertNotNull(order1.getPriceBeforeDiscount());
+    }
+
+    @Test
+    public void testOrderBasicDiscount() {
+        List<OrderLineDTO> orderLines = new ArrayList<>();
+
+        //milk
+        OrderLineDTO orderLineDTO1 = new OrderLineDTO();
+        orderLineDTO1.setItemId(2L);
+        orderLineDTO1.setQuantity(100);
+
+        orderLines.add(orderLineDTO1);
+
+        OrderDTO orderDTO = new OrderDTO();
+
+        orderDTO.setOrderLines(orderLines);
+
+        Order order1 = orderService.createOrder(orderDTO);
+        orderService.processOrder(order1, AuthenticationController.getKieSession());
     }
 }
