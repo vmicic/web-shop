@@ -3,6 +3,8 @@ package com.ftn.webshop.domain;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
+import org.kie.api.definition.type.Role;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -13,10 +15,13 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 
 @Entity
 @Table(name = "users")
+@Role(Role.Type.EVENT)
+@org.kie.api.definition.type.Timestamp("dateOfRegistration")
 public class User extends BaseEntity  implements UserDetails {
 
     @NotNull
@@ -32,7 +37,8 @@ public class User extends BaseEntity  implements UserDetails {
     @NotNull
     private String lastName;
 
-    private LocalDateTime dateOfRegistration;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private Date dateOfRegistration;
 
     @JsonIgnore
     private Timestamp lastPasswordResetDate;
@@ -76,11 +82,11 @@ public class User extends BaseEntity  implements UserDetails {
         this.lastName = lastName;
     }
 
-    public LocalDateTime getDateOfRegistration() {
+    public Date getDateOfRegistration() {
         return dateOfRegistration;
     }
 
-    public void setDateOfRegistration(LocalDateTime dateOfRegistration) {
+    public void setDateOfRegistration(Date dateOfRegistration) {
         this.dateOfRegistration = dateOfRegistration;
     }
 
@@ -145,5 +151,20 @@ public class User extends BaseEntity  implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", dateOfRegistration=" + dateOfRegistration +
+                ", lastPasswordResetDate=" + lastPasswordResetDate +
+                ", customerCategory=" + customerCategory +
+                ", orders=" + orders +
+                ", authorities=" + authorities +
+                '}';
     }
 }

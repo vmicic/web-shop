@@ -38,10 +38,13 @@ public class Order extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private OrderState orderState;
 
+    @LazyCollection(LazyCollectionOption.FALSE)
     @OneToMany(mappedBy = "order")
     private List<Discount> discounts = new ArrayList<>();
 
+    private Double percentageDiscount;
     private Double priceBeforeDiscount;
+
     private Double priceAfterDiscount;
     private Double bonusPointsSpent;
     private Double bonusPointsAwarded;
@@ -142,6 +145,15 @@ public class Order extends BaseEntity {
 
     public void setDate(Date date) {
         this.date = date;
+    }
+
+    public Double getPercentageDiscount() {
+        return percentageDiscount;
+    }
+
+    public void setPercentageDiscount(Double percentageDiscount) {
+        this.percentageDiscount = percentageDiscount;
+        this.priceAfterDiscount = (1 - this.percentageDiscount/100) * this.priceBeforeDiscount;
     }
 
     @Override

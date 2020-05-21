@@ -3,6 +3,7 @@ package com.ftn.webshop.service;
 import com.ftn.webshop.WebShopApplication;
 import com.ftn.webshop.controllers.AuthenticationController;
 import com.ftn.webshop.domain.Order;
+import com.ftn.webshop.domain.TypeOfDiscount;
 import com.ftn.webshop.domain.dto.OrderDTO;
 import com.ftn.webshop.domain.dto.OrderLineDTO;
 import com.ftn.webshop.security.auth.JwtAuthenticationRequest;
@@ -101,5 +102,60 @@ public class OrderDiscountsTest {
 
         Order order1 = orderService.createOrder(orderDTO);
         orderService.processOrder(order1, AuthenticationController.getKieSession());
+
+        order1 = orderService.findById(order1.getId());
+        assertEquals(TypeOfDiscount.BASIC, order1.getDiscounts().get(0).getTypeOfDiscountForItem());
     }
+
+    @Test
+    public void testOrderLoyaltyDiscount() {
+        JwtAuthenticationRequest jwtAuthenticationRequest = new JwtAuthenticationRequest();
+        jwtAuthenticationRequest.setUsername("mika");
+        jwtAuthenticationRequest.setPassword("pera");
+
+        authenticationController.login(jwtAuthenticationRequest);
+
+        List<OrderLineDTO> orderLines = new ArrayList<>();
+
+        //milk
+        OrderLineDTO orderLineDTO1 = new OrderLineDTO();
+        orderLineDTO1.setItemId(1L);
+        orderLineDTO1.setQuantity(40);
+
+        orderLines.add(orderLineDTO1);
+
+        OrderDTO orderDTO = new OrderDTO();
+
+        orderDTO.setOrderLines(orderLines);
+
+        Order order1 = orderService.createOrder(orderDTO);
+        orderService.processOrder(order1, AuthenticationController.getKieSession());
+
+        //it will have two discounts
+        order1 = orderService.findById(order1.getId());
+        assertEquals((Double) 1., order1.getDiscounts().get(0).getDiscountPercentage());
+    }
+
+    @Test
+    public void testUserSilverOrGold() {
+        List<OrderLineDTO> orderLines = new ArrayList<>();
+
+        //milk
+        OrderLineDTO orderLineDTO1 = new OrderLineDTO();
+        orderLineDTO1.setItemId(1L);
+        orderLineDTO1.setQuantity(10);
+
+        orderLines.add(orderLineDTO1);
+
+        OrderDTO orderDTO = new OrderDTO();
+
+        orderDTO.setOrderLines(orderLines);
+
+        Order order1 = orderService.createOrder(orderDTO);
+        orderService.processOrder(order1, AuthenticationController.getKieSession());
+
+        order1 = orderService.findById(order1.getId());
+        assertEquals((Double) 1., order1.getDiscounts().get(0).getDiscountPercentage());
+    }
+
 }

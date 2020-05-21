@@ -1,6 +1,19 @@
-INSERT INTO users ("username", "password", "first_name", "last_name") VALUES
-    ('pera', '$2y$12$ZSaHrzb6qz.8nsdWgYUfaOugfoLPBIdOKiA9x4sjyVcf.06/F27Ca', 'petar', 'panin'),
-    ('mika', '$2y$12$ZSaHrzb6qz.8nsdWgYUfaOugfoLPBIdOKiA9x4sjyVcf.06/F27Ca', 'miki', 'mikic');
+INSERT INTO customer_category("name") VALUES
+    ('NONE'),
+    ('SILVER'),
+    ('GOLD');
+
+INSERT INTO consumption_threshold("percentage_discount", "price_from", "price_to", "customer_category_id") VALUES
+    ('1.0', '0.0', '5000.0', '1'),
+    ('2.0', '5000.0', '10000.0', '1'),
+    ('3.0', '10000.0', '15000.0', '1'),
+    ('2.0', '0.', '5000.', '2'),
+    ('4.0', '5000.0', '10000.0', '2'),
+    ('6.0', '10000.0', '15000.0', '2');
+
+INSERT INTO users ("username", "password", "first_name", "last_name", "date_of_registration", "customer_category_id") VALUES
+    ('pera', '$2y$12$ZSaHrzb6qz.8nsdWgYUfaOugfoLPBIdOKiA9x4sjyVcf.06/F27Ca', 'petar', 'panin' , '2020-01-15', '2'),
+    ('mika', '$2y$12$ZSaHrzb6qz.8nsdWgYUfaOugfoLPBIdOKiA9x4sjyVcf.06/F27Ca', 'miki', 'mikic', '2016-10-15', '3');
 
 
 INSERT INTO authorities ("name") VALUES

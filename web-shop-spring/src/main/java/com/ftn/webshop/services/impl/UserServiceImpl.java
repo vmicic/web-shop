@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -45,7 +46,7 @@ public class UserServiceImpl implements UserService {
         user.setFirstName(userDTO.getFirstName());
         user.setLastName(userDTO.getLastName());
         user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
-        user.setDateOfRegistration(LocalDateTime.now());
+        user.setDateOfRegistration(new Date());
 
         List<Authority> authorities = new ArrayList<>();
         authorities.add(authorityService.findByName(AuthoritiesConstants.USER));

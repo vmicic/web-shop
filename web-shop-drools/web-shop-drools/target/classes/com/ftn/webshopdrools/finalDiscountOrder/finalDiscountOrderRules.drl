@@ -1,0 +1,44 @@
+//created on: May 21, 2020
+package com.ftn.webshopdrools.FinalDiscountOrder
+
+//list any import classes here.
+
+import com.ftn.webshop.domain.Order;
+import com.ftn.webshop.domain.OrderLine;
+import com.ftn.webshop.domain.Discount;
+import com.ftn.webshop.domain.TypeOfDiscount;
+import com.ftn.webshop.domain.User;
+import com.ftn.webshop.domain.CustomerCategory;
+
+
+//declare any global variables here
+
+global com.ftn.webshop.services.impl.OrderServiceImpl orderService;
+global com.ftn.webshop.services.impl.DiscountServiceImpl discountService;
+
+
+
+rule "Calculate total discount for order"
+	salience 50
+    when
+    	$order: Order($discounts: discounts, percentageDiscount == null)
+    	Number($sumOfDiscounts: doubleValue) from accumulate(
+    		Discount($dp: discountPercentage) from $discounts,
+    		sum($dp)
+    	)
+    then
+	System.out.println("Calculating sum of discounts for order:" + $sumOfDiscounts);
+	modify($order) {
+		setPercentageDiscount($sumOfDiscounts);
+	}
+    orderService.save($order);
+end
+
+rule "Your Second Rule"
+    //include attributes such as "salience" here...
+    when
+        //conditions
+    then
+        //actions
+
+end
