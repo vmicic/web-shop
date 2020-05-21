@@ -8,7 +8,6 @@ import org.kie.api.definition.type.Role;
 import org.kie.api.definition.type.Timestamp;
 
 import javax.persistence.*;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
@@ -47,7 +46,7 @@ public class Order extends BaseEntity {
 
     private Double priceAfterDiscount;
     private Double bonusPointsSpent;
-    private Double bonusPointsAwarded;
+    private Double bonusPointsAward;
 
 
     public Order() {
@@ -99,12 +98,12 @@ public class Order extends BaseEntity {
         this.bonusPointsSpent = bonusPointsSpent;
     }
 
-    public Double getBonusPointsAwarded() {
-        return bonusPointsAwarded;
+    public Double getBonusPointsAward() {
+        return bonusPointsAward;
     }
 
-    public void setBonusPointsAwarded(Double bonusPointsAwarded) {
-        this.bonusPointsAwarded = bonusPointsAwarded;
+    public void setBonusPointsAward(Double bonusPointsAward) {
+        this.bonusPointsAward = bonusPointsAward;
     }
 
     public String getOrderId() {
@@ -168,7 +167,7 @@ public class Order extends BaseEntity {
                 ", priceBeforeDiscount=" + priceBeforeDiscount +
                 ", priceAfterDiscount=" + priceAfterDiscount +
                 ", bonusPointsSpent=" + bonusPointsSpent +
-                ", bonusPointsAwarded=" + bonusPointsAwarded +
+                ", bonusPointsAwarded=" + bonusPointsAward +
                 '}';
     }
 }

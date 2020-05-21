@@ -9,6 +9,7 @@ import com.ftn.webshop.domain.Discount;
 import com.ftn.webshop.domain.TypeOfDiscount;
 import com.ftn.webshop.domain.User;
 import com.ftn.webshop.domain.CustomerCategory;
+import com.ftn.webshop.domain.ConsumptionThreshold;
 
 
 //declare any global variables here
@@ -34,11 +35,16 @@ rule "Calculate total discount for order"
     orderService.save($order);
 end
 
-rule "Your Second Rule"
-    //include attributes such as "salience" here...
+
+rule "Get bonus points"
     when
-        //conditions
-    then
-        //actions
+    	$order: Order($priceFinal: priceAfterDiscount != null, bonusPointsAward == null, $thresholds: user.customerCategory.consumptionThresholds)
+    	$ct: ConsumptionThreshold(priceFrom < $priceFinal, priceTo > $priceFinal, $percentageAward: percentageAward) from $thresholds
+    then 
+		System.out.println("Thresholds: " + $ct + ", percentage Award: " + $percentageAward);
+		modify($order) {
+			setBonusPointsAward(($percentageAward/100) * $priceFinal);
+		}
+   		 orderService.save($order);
 
 end

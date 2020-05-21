@@ -70,4 +70,26 @@ public class FinalDiscountOrderTest {
         order1 = orderService.findById(order1.getId());
         assertEquals((Double) 6.0, order1.getPercentageDiscount());
     }
+
+    @Test
+    public void awardBonusPoints() {
+        List<OrderLineDTO> orderLines = new ArrayList<>();
+
+        //milk
+        OrderLineDTO orderLineDTO1 = new OrderLineDTO();
+        orderLineDTO1.setItemId(1L);
+        orderLineDTO1.setQuantity(50);
+
+        orderLines.add(orderLineDTO1);
+
+        OrderDTO orderDTO = new OrderDTO();
+
+        orderDTO.setOrderLines(orderLines);
+
+        Order order1 = orderService.createOrder(orderDTO);
+        orderService.processOrder(order1, AuthenticationController.getKieSession());
+
+        //order1 = orderService.findById(order1.getId());
+        //assertEquals((Double) 6.0, order1.getPercentageDiscount());
+    }
 }

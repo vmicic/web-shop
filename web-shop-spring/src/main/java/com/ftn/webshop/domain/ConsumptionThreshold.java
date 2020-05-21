@@ -11,7 +11,7 @@ public class ConsumptionThreshold extends BaseEntity{
 
     private Double priceTo;
 
-    private Double percentageDiscount;
+    private Double percentageAward;
 
     @ManyToOne
     @JoinColumn(name = "customer_category_id", referencedColumnName = "id")
@@ -36,12 +36,20 @@ public class ConsumptionThreshold extends BaseEntity{
         this.priceTo = priceTo;
     }
 
-    public Double getPercentageDiscount() {
-        return percentageDiscount;
+    public Double getPercentageAward() {
+        return percentageAward;
     }
 
-    public void setPercentageDiscount(Double percentageDiscount) {
-        this.percentageDiscount = percentageDiscount;
+    public void setPercentageAward(Double percentageAward) {
+        this.percentageAward = percentageAward;
+    }
+
+    public CustomerCategory getCustomerCategory() {
+        return customerCategory;
+    }
+
+    public void setCustomerCategory(CustomerCategory customerCategory) {
+        this.customerCategory = customerCategory;
     }
 
     @Override
@@ -49,7 +57,7 @@ public class ConsumptionThreshold extends BaseEntity{
         return "ConsumptionThreshold{" +
                 "priceFrom=" + priceFrom +
                 ", priceTo=" + priceTo +
-                ", percentageDiscount=" + percentageDiscount +
+                ", percentageAward=" + percentageAward +
                 ", customerCategory=" + customerCategory.getName() +
                 '}';
     }
