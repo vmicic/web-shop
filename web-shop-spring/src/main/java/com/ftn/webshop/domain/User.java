@@ -37,6 +37,8 @@ public class User extends BaseEntity  implements UserDetails {
     @NotNull
     private String lastName;
 
+    private String address;
+
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date dateOfRegistration;
 
@@ -112,6 +114,14 @@ public class User extends BaseEntity  implements UserDetails {
 
     public void setOrders(List<Order> orders) {
         this.orders = orders;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     public void setAuthorities(List<Authority> authorities) {

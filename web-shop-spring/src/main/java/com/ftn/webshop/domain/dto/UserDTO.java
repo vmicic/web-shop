@@ -14,7 +14,8 @@ public class UserDTO {
 
     private String lastName;
 
-    private List<Authority> authorities;
+    private String address;
+
 
     public UserDTO() {
     }
@@ -35,13 +36,6 @@ public class UserDTO {
         this.password = password;
     }
 
-    public List<Authority> getAuthorities() {
-        return authorities;
-    }
-
-    public void setAuthorities(List<Authority> authorities) {
-        this.authorities = authorities;
-    }
 
     public String getFirstName() {
         return firstName;
@@ -57,5 +51,13 @@ public class UserDTO {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 }

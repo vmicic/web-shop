@@ -9,6 +9,7 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { JwtHelperService, JWT_OPTIONS } from '@auth0/angular-jwt';
 import { TokenInterceptor } from './shared/interceptors/interceptor';
 import { AccountModule } from './account/account.module';
+import { HomeModule } from './home/home.module';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import { AccountModule } from './account/account.module';
     HttpClientModule,
     AppRoutingModule,
     SharedModule,
-    AccountModule
+    AccountModule,
+    HomeModule
   ],
   providers: [    
     {
