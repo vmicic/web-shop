@@ -1,6 +1,8 @@
 package com.ftn.webshop.domain;
 
 import javax.persistence.Entity;
+import javax.persistence.ManyToMany;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -8,6 +10,9 @@ public class ItemCategory extends BaseEntity {
     private String name;
 
     private Double maxPercentageDiscount;
+
+    @ManyToMany(mappedBy = "itemCategories")
+    private List<Promotion> promotions;
 
     public ItemCategory() {
     }
@@ -18,6 +23,14 @@ public class ItemCategory extends BaseEntity {
 
     public void setMaxPercentageDiscount(Double maxPercentageDiscount) {
         this.maxPercentageDiscount = maxPercentageDiscount;
+    }
+
+    public List<Promotion> getPromotions() {
+        return promotions;
+    }
+
+    public void setPromotions(List<Promotion> promotions) {
+        this.promotions = promotions;
     }
 
     public String getName() {

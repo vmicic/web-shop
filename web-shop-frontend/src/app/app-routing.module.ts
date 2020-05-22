@@ -9,6 +9,18 @@ const routes: Routes = [
     path: '',
     component: HomeComponent,
     canActivate: [AuthGuard]
+  },
+  {
+    path: 'home',
+    loadChildren: () => import('./user/user.module').then(mod => mod.UserModule)
+  },
+  {
+    path: 'seller',
+    loadChildren: () => import('./seller/seller.module').then(mod => mod.SellerModule)
+  },
+  {
+    path: 'manager',
+    loadChildren: () => import('./sales-manager/sales-manager.module').then(mod => mod.SalesManagerModule)
   }
 ];
 

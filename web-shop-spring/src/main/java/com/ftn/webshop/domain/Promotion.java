@@ -1,5 +1,6 @@
 package com.ftn.webshop.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 import org.kie.api.definition.type.Duration;
@@ -30,6 +31,7 @@ public class Promotion extends BaseEntity {
 
     private Double percentageDiscount;
 
+    @JsonIgnore
     @ManyToMany
     @LazyCollection(LazyCollectionOption.FALSE)
     @JoinTable(name = "promotion_item_category",
@@ -86,5 +88,16 @@ public class Promotion extends BaseEntity {
 
     public void setItemCategories(List<ItemCategory> itemCategories) {
         this.itemCategories = itemCategories;
+    }
+
+    @Override
+    public String toString() {
+        return "Promotion{" +
+                "name='" + name + '\'' +
+                ", startTime=" + startTime +
+                ", endTime=" + endTime +
+                ", duration=" + duration +
+                ", percentageDiscount=" + percentageDiscount +
+                '}';
     }
 }

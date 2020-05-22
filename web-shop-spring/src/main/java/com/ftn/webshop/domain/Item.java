@@ -1,5 +1,7 @@
 package com.ftn.webshop.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -17,14 +19,19 @@ public class Item extends BaseEntity {
 
     private Double price;
 
+    @JsonIgnore
     private Integer numberOnStock;
 
+    @JsonIgnore
     private Integer minimalNumberOnStock;
 
+    @JsonIgnore
     private LocalDateTime localDateTimeCreated;
 
+    @JsonIgnore
     private boolean refill;
 
+    @JsonIgnore
     private boolean status;
 
     public Item() {
@@ -92,6 +99,20 @@ public class Item extends BaseEntity {
 
     public void setStatus(boolean status) {
         this.status = status;
+    }
+
+    @Override
+    public String toString() {
+        return "Item{" +
+                "name='" + name + '\'' +
+                ", category=" + category.getId() +
+                ", price=" + price +
+                ", numberOnStock=" + numberOnStock +
+                ", minimalNumberOnStock=" + minimalNumberOnStock +
+                ", localDateTimeCreated=" + localDateTimeCreated +
+                ", refill=" + refill +
+                ", status=" + status +
+                '}';
     }
 
     @Override
