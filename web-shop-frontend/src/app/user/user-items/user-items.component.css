@@ -1,0 +1,28 @@
+.bottom-border {
+    outline: 0;
+    border-width: 0 0 2px;
+    border-color: white
+
+}
+
+
+.table {
+    background-color: white;
+}
+
+.table-bordered {
+    border: 1px solid #e6e6f2;
+}
+
+.table-bordered td,
+.table-bordered th {
+    border: 1px solid #e6e6f2;
+    text-align: center;
+    padding-left: 0px;
+    padding-right: 0px;
+}
+
+input {
+    width: 100%;
+    text-align: center;
+}

@@ -2,6 +2,7 @@ import { NgModule, Component } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { UserHomeComponent } from './user-home/user-home.component';
 import { RoleUserGuard } from '../shared/auth/guards/role-user.guard';
+import { UserItemsComponent } from './user-items/user-items.component';
 
 
 const routes: Routes = [
@@ -16,6 +17,7 @@ const routes: Routes = [
         path: '',
         canActivateChild: [RoleUserGuard],
         children: [
+          { path: 'items', component: UserItemsComponent}
         ]
       }
     ]

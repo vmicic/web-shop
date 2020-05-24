@@ -8,6 +8,8 @@ public class ItemDTOBuyer {
 
     private String name;
 
+    private Double price;
+
     private ItemCategoryDTO itemCategory;
 
     private PromotionDTO promotion;
@@ -45,5 +47,13 @@ public class ItemDTOBuyer {
 
     public void setPromotion(PromotionDTO promotion) {
         this.promotion = promotion;
+    }
+
+    public Double getPrice() {
+        return price;
+    }
+
+    public void setPrice(Double price) {
+        this.price = price;
     }
 }

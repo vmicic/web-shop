@@ -47,6 +47,7 @@ public class ItemServiceImpl implements ItemService {
 
             itemDTO.setName(item.getName());
             itemDTO.setId(item.getId());
+            itemDTO.setPrice(item.getPrice());
 
             ItemCategoryDTO itemCategoryDTO = new ItemCategoryDTO();
             itemCategoryDTO.setName(item.getCategory().getName());
