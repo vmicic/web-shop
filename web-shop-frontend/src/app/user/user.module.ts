@@ -6,10 +6,11 @@ import { UserHomeComponent } from './user-home/user-home.component';
 import { UserItemsComponent } from './user-items/user-items.component';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import {DataTablesModule} from 'angular-datatables';
+import { UserCartComponent } from './user-cart/user-cart.component';
 
 
 @NgModule({
-  declarations: [UserHomeComponent, UserItemsComponent],
+  declarations: [UserHomeComponent, UserItemsComponent, UserCartComponent],
   imports: [
     CommonModule,
     UserRoutingModule,

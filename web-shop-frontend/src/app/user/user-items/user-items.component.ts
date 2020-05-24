@@ -23,6 +23,9 @@ export class UserItemsComponent implements OnInit {
 
 
   items: Item[] = [];
+
+  min: number;
+  max: number;
   
   constructor(
     private itemsService: UserItemsService,
@@ -58,7 +61,7 @@ export class UserItemsComponent implements OnInit {
       {
         title: 'Buy',
         render: function (data: any, type: any, full: any) {
-          return '<button class="waves-effect btn btn-success btn-sm" title="Buy item" clicked-id="' + full.id + '"> Buy</button> ';
+          return '<button class="waves-effect btn btn-secondary btn-sm" title="Buy item" clicked-id="' + full.id + '"><img src="../../../../assets/img/car-plus.svg" clicked-id="' + full.id + '" title="Add administrator"></button> ';
         }
       }
     ]
@@ -83,8 +86,22 @@ export class UserItemsComponent implements OnInit {
 
     this.listenerFn = this.renderer.listen('document', 'click', (event) => {
       if (event.target.hasAttribute("clicked-id")) {
-        console.log(event.target.getAttribute("clicked-id"));
+        let id = event.target.getAttribute("clicked-id");
+
+        var quantity = (<HTMLInputElement>document.getElementById(id + "-input")).value;
+        console.log("id: " + id + ", quantity " + quantity);
       }
+    });
+
+    $.fn['dataTable'].ext.search.push((settings, data, dataIndex) => {
+      const id = parseFloat(data[2]) || 0; // use data for the id column
+      if ((isNaN(this.min) && isNaN(this.max)) ||
+        (isNaN(this.min) && id <= this.max) ||
+        (this.min <= id && isNaN(this.max)) ||
+        (this.min <= id && id <= this.max)) {
+        return true;
+      }
+      return false;
     });
 
 
@@ -109,6 +126,12 @@ export class UserItemsComponent implements OnInit {
     if(this.listenerFn) {
       this.listenerFn();
     }
+  }
+
+  filterById(): void {
+    this.datatableElement.dtInstance.then((dtInstance: DataTables.Api) => {
+      dtInstance.draw();
+    });
   }
 
 }
