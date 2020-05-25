@@ -4,6 +4,9 @@ import { DataTableDirective } from 'angular-datatables';
 import { Subject } from 'rxjs';
 import { Router } from '@angular/router';
 import { Item } from 'src/app/domain/item';
+import { itemDTO } from 'src/app/domain/itemDTO';
+import { CartService } from '../services/cart.service';
+import { Cart } from 'src/app/domain/cart';
 
 @Component({
   selector: 'app-user-items',
@@ -23,6 +26,7 @@ export class UserItemsComponent implements OnInit {
 
 
   items: Item[] = [];
+  cart: Cart = new Cart();
 
   min: number;
   max: number;
@@ -30,7 +34,8 @@ export class UserItemsComponent implements OnInit {
   constructor(
     private itemsService: UserItemsService,
     private router: Router,
-    private renderer: Renderer
+    private renderer: Renderer,
+    private cartService: CartService
   ) { }
 
   ngOnInit() {
@@ -65,9 +70,14 @@ export class UserItemsComponent implements OnInit {
         }
       }
     ]
+
     }
 
-    
+    console.log("local storage: " + localStorage.getItem('cart'));
+    if(localStorage.getItem('cart') != null) {
+      this.cart = JSON.parse(localStorage.getItem('cart'));
+    }
+
     this.itemsService.getAll().subscribe(
       resp => {
         console.log(resp);
@@ -88,8 +98,25 @@ export class UserItemsComponent implements OnInit {
       if (event.target.hasAttribute("clicked-id")) {
         let id = event.target.getAttribute("clicked-id");
 
-        var quantity = (<HTMLInputElement>document.getElementById(id + "-input")).value;
+
+        let quantity = (<HTMLInputElement>document.getElementById(id + "-input")).value;
         console.log("id: " + id + ", quantity " + quantity);
+        
+        const item: itemDTO = {
+          itemId: id,
+          quantity: quantity
+        }
+
+        let cart = new Cart();
+        cart.orderLines.push(item);
+
+        this.cart.orderLines.push(item);
+        localStorage.setItem('cart', JSON.stringify(this.cart));
+
+        this.cartService.sendCart(cart).subscribe(
+          response => {
+          console.log(response);
+        })
       }
     });
 
@@ -132,6 +159,10 @@ export class UserItemsComponent implements OnInit {
     this.datatableElement.dtInstance.then((dtInstance: DataTables.Api) => {
       dtInstance.draw();
     });
+  }
+
+  clearCart() : void {
+    localStorage.removeItem('cart');
   }
 
 }

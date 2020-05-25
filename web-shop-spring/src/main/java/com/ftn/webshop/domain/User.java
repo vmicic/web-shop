@@ -167,14 +167,11 @@ public class User extends BaseEntity  implements UserDetails {
     public String toString() {
         return "User{" +
                 "username='" + username + '\'' +
-                ", password='" + password + '\'' +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", dateOfRegistration=" + dateOfRegistration +
                 ", lastPasswordResetDate=" + lastPasswordResetDate +
                 ", customerCategory=" + customerCategory +
-                ", orders=" + orders +
-                ", authorities=" + authorities +
                 '}';
     }
 }

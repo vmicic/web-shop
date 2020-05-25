@@ -1,6 +1,9 @@
+import { itemDTO } from './itemDTO';
 
+export class Cart {
+    orderLines: itemDTO[];
 
-export interface Cart {
-    itemId: number;
-    quantity: number;
+    constructor() {
+        this.orderLines = [];
+    }
 }

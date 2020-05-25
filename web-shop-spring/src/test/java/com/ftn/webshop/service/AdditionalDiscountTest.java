@@ -239,4 +239,46 @@ public class AdditionalDiscountTest {
         assertEquals(0, order2.getOrderLines().get(0).getDiscountsForItem().size());
         assertEquals(1, order2.getOrderLines().get(1).getDiscountsForItem().size());
     }
+
+    @Test
+    public void additionalDiscountSameItemLast15Days() {
+        List<OrderLineDTO> orderLines = new ArrayList<>();
+
+        //milk
+        OrderLineDTO orderLineDTO1 = new OrderLineDTO();
+        orderLineDTO1.setItemId(1L);
+        orderLineDTO1.setQuantity(3);
+
+        orderLines.add(orderLineDTO1);
+
+        OrderDTO orderDTO = new OrderDTO();
+
+        orderDTO.setOrderLines(orderLines);
+
+        Order order1 = orderService.createOrder(orderDTO);
+
+        orderService.processOrder(order1, AuthenticationController.getKieSession());
+        order1 = orderService.findById(order1.getId());
+
+        //no discount should be added for order line
+        assertEquals(0, order1.getOrderLines().get(0).getDiscountsForItem().size());
+
+        System.out.println("------------------------------------------------------");
+        logger.info("Checking next order");
+
+        Order order2 = orderService.createOrder(orderDTO);
+        orderService.processOrder(order2, AuthenticationController.getKieSession());
+
+        order2 = orderService.findById(order2.getId());
+        assertEquals(2, order2.getOrderLines().get(0).getDiscountsForItem().size());
+
+        System.out.println("------------------------------------------------------");
+        logger.info("Checking next order");
+
+        Order order3 = orderService.createOrder(orderDTO);
+        orderService.processOrder(order3, AuthenticationController.getKieSession());
+
+        order3 = orderService.findById(order3.getId());
+        assertEquals(2, order3.getOrderLines().get(0).getDiscountsForItem().size());
+    }
 }
