@@ -1,14 +1,19 @@
 package com.ftn.webshop.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 @Entity
 public class Discount extends BaseEntity {
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "order_id", referencedColumnName = "id")
     private Order order;
 
+    @NotNull
     private Double discountPercentage;
 
     @Enumerated(EnumType.STRING)
@@ -50,7 +55,6 @@ public class Discount extends BaseEntity {
     @Override
     public String toString() {
         return "Discount{" +
-                "order=" + order.getId() +
                 ", discountPercentage=" + discountPercentage +
                 ", typeOfDiscount=" + typeOfDiscount +
                 '}';

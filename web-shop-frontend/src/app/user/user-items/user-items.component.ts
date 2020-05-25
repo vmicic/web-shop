@@ -34,8 +34,7 @@ export class UserItemsComponent implements OnInit {
   constructor(
     private itemsService: UserItemsService,
     private router: Router,
-    private renderer: Renderer,
-    private cartService: CartService
+    private renderer: Renderer
   ) { }
 
   ngOnInit() {
@@ -107,16 +106,8 @@ export class UserItemsComponent implements OnInit {
           quantity: quantity
         }
 
-        let cart = new Cart();
-        cart.orderLines.push(item);
-
         this.cart.orderLines.push(item);
         localStorage.setItem('cart', JSON.stringify(this.cart));
-
-        this.cartService.sendCart(cart).subscribe(
-          response => {
-          console.log(response);
-        })
       }
     });
 

@@ -35,7 +35,7 @@ INSERT INTO item_category("name", "max_percentage_discount") VALUES
 
 
 INSERT INTO promotion("name", "start_time", "end_time", "duration","percentage_discount") VALUES
-    ('Pre new year sale','2020-05-20', '2020-05-28', '345600000', '20.0'),
+    ('Pre new year sale','2020-05-28', '2020-05-28', '864000000', '5.0'),
     ('Fall promotion','2020-10-14', '2020-10-24','864000000', '10.0');
 
 INSERT INTO promotion_item_category("promotion_id", "item_category_id") VALUES

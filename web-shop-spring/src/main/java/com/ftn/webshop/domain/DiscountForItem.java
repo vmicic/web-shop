@@ -1,18 +1,20 @@
 package com.ftn.webshop.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 
 @Entity
 public class DiscountForItem extends BaseEntity{
 
-    private String code;
-
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "order_line_id", referencedColumnName = "id")
     private OrderLine orderLine;
 
     private Double discountPercentage;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "order_id", referencedColumnName = "id")
     private Order order;
@@ -46,15 +48,6 @@ public class DiscountForItem extends BaseEntity{
     public void setOrder(Order order) {
         this.order = order;
     }
-
-    public String getCode() {
-        return code;
-    }
-
-    public void setCode(String code) {
-        this.code = code;
-    }
-
 
 
     public OrderLine getOrderLine() {

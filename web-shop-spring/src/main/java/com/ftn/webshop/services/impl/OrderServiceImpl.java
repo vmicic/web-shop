@@ -89,7 +89,7 @@ public class OrderServiceImpl implements OrderService {
 
         kieSession.insert(order);
         kieSession.fireAllRules();
-        return null;
+        return order;
     }
 
     @Override

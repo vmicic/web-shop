@@ -9,6 +9,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class DiscountForItemServiceImpl implements DiscountForItemService {
 
@@ -24,9 +26,13 @@ public class DiscountForItemServiceImpl implements DiscountForItemService {
 
     @Override
     public void createDiscountForItem(DiscountForItem discountForItem) {
-        //TODO
-        //discountForItem generate Code
-        logger.info(discountForItem.toString());
         this.discountForItemRepository.save(discountForItem);
+
+        //orderLineService.save(orderLine);
+    }
+
+    @Override
+    public List<DiscountForItem> findAllByOrderLineId(Long id) {
+        return this.discountForItemRepository.findAllByOrderLine_Id(id);
     }
 }

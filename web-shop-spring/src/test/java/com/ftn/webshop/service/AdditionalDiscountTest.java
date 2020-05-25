@@ -54,9 +54,6 @@ public class AdditionalDiscountTest {
 
         Promotion promotion1 = promotionService.findById(1L);
         Promotion promotion2 = promotionService.findById(2L);
-
-        AuthenticationController.getKieSession().insert(promotion1);
-        AuthenticationController.getKieSession().insert(promotion2);
     }
 
     @Test
@@ -280,5 +277,30 @@ public class AdditionalDiscountTest {
 
         order3 = orderService.findById(order3.getId());
         assertEquals(2, order3.getOrderLines().get(0).getDiscountsForItem().size());
+    }
+
+    @Test
+    public void promotionTest() {
+        List<OrderLineDTO> orderLines = new ArrayList<>();
+
+        //milk
+        OrderLineDTO orderLineDTO1 = new OrderLineDTO();
+        orderLineDTO1.setItemId(1L);
+        orderLineDTO1.setQuantity(4);
+
+        orderLines.add(orderLineDTO1);
+
+        OrderDTO orderDTO = new OrderDTO();
+
+        orderDTO.setOrderLines(orderLines);
+
+        Order order1 = orderService.createOrder(orderDTO);
+
+        orderService.processOrder(order1, AuthenticationController.getKieSession());
+
+        logger.info("find by id");
+        order1 = orderService.findById(order1.getId());
+
+        logger.info(order1.toString());
     }
 }

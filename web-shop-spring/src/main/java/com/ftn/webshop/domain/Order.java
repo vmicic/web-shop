@@ -1,5 +1,6 @@
 package com.ftn.webshop.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import org.hibernate.annotations.LazyCollection;
@@ -19,13 +20,15 @@ import java.util.List;
 @Timestamp("date")
 public class Order extends BaseEntity {
 
-    private String code;
 
+    @JsonIgnore
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     private LocalDateTime localDateTime;
 
+    @JsonIgnore
     private Date date;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
@@ -34,11 +37,12 @@ public class Order extends BaseEntity {
     @OneToMany(mappedBy = "order")
     private List<OrderLine> orderLines = new ArrayList<>();
 
+
     @Enumerated(EnumType.STRING)
     private OrderState orderState;
 
-    @LazyCollection(LazyCollectionOption.FALSE)
-    @OneToMany(mappedBy = "order")
+
+    @OneToMany(mappedBy = "order", fetch = FetchType.EAGER)
     private List<Discount> discounts = new ArrayList<>();
 
     private Double percentageDiscount;
@@ -54,6 +58,10 @@ public class Order extends BaseEntity {
 
     public void addDiscount(Discount discount) {
         this.discounts.add(discount);
+    }
+
+    public void removeDiscount(Discount discount) {
+        this.discounts.remove(discount);
     }
 
     public LocalDateTime getLocalDateTime() {
@@ -106,14 +114,6 @@ public class Order extends BaseEntity {
         this.bonusPointsAward = bonusPointsAward;
     }
 
-    public String getOrderId() {
-        return code;
-    }
-
-    public void setOrderId(String orderId) {
-        this.code = orderId;
-    }
-
     public User getUser() {
         return user;
     }
@@ -159,11 +159,11 @@ public class Order extends BaseEntity {
     public String toString() {
         return "Order{" +
                 "id=" + this.getId() +
+                ", discounts=" + discounts +
                 ", date=" + date +
                 ", user=" + user.getUsername() +
                 ", orderLines=" + orderLines +
                 ", orderState=" + orderState +
-                ", discounts=" + discounts +
                 ", priceBeforeDiscount=" + priceBeforeDiscount +
                 ", priceAfterDiscount=" + priceAfterDiscount +
                 ", bonusPointsSpent=" + bonusPointsSpent +

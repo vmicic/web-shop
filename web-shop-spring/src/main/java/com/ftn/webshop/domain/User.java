@@ -54,7 +54,8 @@ public class User extends BaseEntity  implements UserDetails {
     private List<Order> orders = new ArrayList<>();
 
     @JsonIgnore
-    @ManyToMany(fetch = FetchType.EAGER)
+    @LazyCollection(LazyCollectionOption.FALSE)
+    @ManyToMany
     @JoinTable(name = "user_authority",
             joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "authority_id", referencedColumnName = "id"))

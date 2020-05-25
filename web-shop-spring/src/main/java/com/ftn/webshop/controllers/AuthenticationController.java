@@ -1,6 +1,7 @@
 package com.ftn.webshop.controllers;
 
 import com.ftn.webshop.WebShopApplication;
+import com.ftn.webshop.domain.Promotion;
 import com.ftn.webshop.domain.User;
 import com.ftn.webshop.domain.UserTokenState;
 import com.ftn.webshop.domain.dto.UserDTO;
@@ -19,6 +20,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping(value = "auth")
 public class AuthenticationController {
@@ -34,8 +37,9 @@ public class AuthenticationController {
     private final OrderLineService orderLineService;
     private final OrderService orderService;
     private final DiscountService discountService;
+    private final PromotionService promotionService;
 
-    public AuthenticationController(AuthenticationManager authenticationManager, UserService userService, TokenUtils tokenUtils, DiscountForItemService discountForItemService, OrderLineService orderLineService, OrderService orderService, DiscountService discountService) {
+    public AuthenticationController(AuthenticationManager authenticationManager, UserService userService, TokenUtils tokenUtils, DiscountForItemService discountForItemService, OrderLineService orderLineService, OrderService orderService, DiscountService discountService, PromotionService promotionService) {
         this.authenticationManager = authenticationManager;
         this.userService = userService;
         this.tokenUtils = tokenUtils;
@@ -43,6 +47,7 @@ public class AuthenticationController {
         this.orderLineService = orderLineService;
         this.orderService = orderService;
         this.discountService = discountService;
+        this.promotionService = promotionService;
     }
 
 
@@ -66,7 +71,11 @@ public class AuthenticationController {
             kieSession.setGlobal("discountForItemService", discountForItemService);
             kieSession.setGlobal("orderService", orderService);
             kieSession.setGlobal("discountService", discountService);
-            //kieSession.getAgenda().getAgendaGroup("orderLine-discounts").setFocus();
+
+            List<Promotion> promotions = promotionService.findAll();
+            for(Promotion promotion : promotions) {
+                kieSession.insert(promotion);
+            }
 
             return ResponseEntity.ok(new UserTokenState(jwt, expiresIn));
         }catch (BadCredentialsException e) {

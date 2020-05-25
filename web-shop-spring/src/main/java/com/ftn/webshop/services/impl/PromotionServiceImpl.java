@@ -45,4 +45,9 @@ public class PromotionServiceImpl implements PromotionService {
 
         return null;
     }
+
+    @Override
+    public List<Promotion> findAll() {
+        return this.promotionRepository.findAll();
+    }
 }

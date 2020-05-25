@@ -60,13 +60,13 @@ rule "Promotion discount"
 	salience 500
 	when
 		$promotion: Promotion($percentageDiscount: percentageDiscount)
-		$o: Order(this during $promotion)
-		$orderLine: OrderLine($category: item.category, percentageDiscount == null) from $o.getOrderLines()
+		$o: Order(this during $promotion, $lines: orderLines)
+		$orderLine: OrderLine($category: item.category, percentageDiscount == null) from $lines
 		exists(
 			ItemCategory(this == $category) from $promotion.getItemCategories()
 		)
 	then
-		System.out.println("Order during promotion, order date: " + $o.getDate() + ", promotion starting date: " + $promotion.getStartTime() + ", order ending date: " + $promotion.getEndTime()
+		System.out.println("OrderLine id: " + $orderLine.getId() + ", Order during promotion, order date: " + $o.getDate() + ", promotion starting date: " + $promotion.getStartTime() + ", order ending date: " + $promotion.getEndTime()
 			+ ", orderLine item category: " + $category.getName());
 		discountForItemService.createDiscountForItem(new DiscountForItem($orderLine, $percentageDiscount, $o, TypeOfDiscount.ADDITIONAL));
         modify($orderLine) {
