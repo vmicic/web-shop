@@ -113,6 +113,10 @@ public class OrderServiceImpl implements OrderService {
         orderDTO.setAwardPoints(order.getUser().getAwardPoints());
         orderDTO.setAwardPointsEarned(order.getBonusPointsAward());
 
+        if(order.getBonusPointsSpent() != null) {
+            orderDTO.setAwardPointsSpent(order.getBonusPointsSpent());
+        }
+
         List<OrderLineDTO> orderLineDTOs = new ArrayList<>();
 
         //order line setup
@@ -125,6 +129,7 @@ public class OrderServiceImpl implements OrderService {
             orderLineDTO.setQuantity(orderLine.getQuantity());
             orderLineDTO.setItemName(orderLine.getItem().getName());
             orderLineDTO.setSerialNumber(orderLine.getSerialNumber());
+            orderLineDTO.setPercentageDiscount(orderLine.getPercentageDiscount());
 
             List<DiscountForItemDTO> discountForItemDTOs = new ArrayList<>();
 

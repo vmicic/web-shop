@@ -14,6 +14,9 @@ export class UserCartComponent implements OnInit {
 
   order: any;
 
+  orderFinal: any;
+  orderConfirmed: boolean = false;
+
   bonusPointsForm: FormGroup;
 
   constructor(
@@ -42,7 +45,18 @@ export class UserCartComponent implements OnInit {
 
   onSubmit() {
     console.log("submiting form");
-    console.log(this.bonusPointsForm.controls['bonusPoints'].value);
+    let awardPoints;
+    if(this.bonusPointsForm.controls['bonusPoints'].value == null) {
+      awardPoints = 0;
+    } else {
+      awardPoints = this.bonusPointsForm.controls['bonusPoints'].value;
+    }
+    this.orderConfirmed = true;
+    this.cartService.sendAwardPoints(this.order.orderId, awardPoints).subscribe(
+      response => {
+        this.orderFinal = response.body;
+      }
+    )
   }
 
 }

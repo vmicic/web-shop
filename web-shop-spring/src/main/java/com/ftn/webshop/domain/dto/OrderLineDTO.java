@@ -11,6 +11,7 @@ public class OrderLineDTO {
     private String itemCategoryName;
     private Double pricePerUnit;
     private Double priceAfterDiscount;
+    private Double percentageDiscount;
     private List<DiscountForItemDTO> discountForItemDTOs;
 
     private Long itemId;
@@ -81,6 +82,14 @@ public class OrderLineDTO {
 
     public void setPriceAfterDiscount(Double priceAfterDiscount) {
         this.priceAfterDiscount = priceAfterDiscount;
+    }
+
+    public Double getPercentageDiscount() {
+        return percentageDiscount;
+    }
+
+    public void setPercentageDiscount(Double percentageDiscount) {
+        this.percentageDiscount = percentageDiscount;
     }
 
     @Override

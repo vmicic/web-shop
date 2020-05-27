@@ -164,6 +164,26 @@ public class BasicDiscountsTest {
         assertEquals(1, order1.getOrderLines().get(0).getDiscountsForItem().size());
     }
 
+    @Test
+    public void testBasicDiscountForMassConsumption() {
+        List<OrderLineDTO> orderLines = new ArrayList<>();
+
+        //computer
+        OrderLineDTO orderLineDTO1 = new OrderLineDTO();
+        orderLineDTO1.setItemId(1L);
+        orderLineDTO1.setQuantity(50);
+
+        orderLines.add(orderLineDTO1);
+        orderLines.add(orderLineDTO1);
+
+        OrderDTO orderDTO = new OrderDTO();
+
+        orderDTO.setOrderLines(orderLines);
+
+        Order order = orderService.createOrder(orderDTO);
+        orderService.processOrder(order, AuthenticationController.getKieSession());
+    }
+
 
 
 }

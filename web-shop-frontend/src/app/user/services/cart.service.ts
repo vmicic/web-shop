@@ -14,4 +14,8 @@ export class CartService {
   sendCart(cart) : Observable<HttpResponse<any>> {
     return this.http.post<any>('server/order', cart, {observe: 'response'});
   }
+
+  sendAwardPoints(id, awardPoints): Observable<HttpResponse<any>> {
+    return this.http.put<any>('server/order/confirm/' + id, awardPoints, {observe: 'response'});
+  }
 }

@@ -113,7 +113,6 @@ public class Order extends BaseEntity {
     }
 
     public void setBonusPointsAward(Integer bonusPointsAward) {
-        System.out.println("setting award points: " + bonusPointsAward);
         this.bonusPointsAward = bonusPointsAward;
     }
 

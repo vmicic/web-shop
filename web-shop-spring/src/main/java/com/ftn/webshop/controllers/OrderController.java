@@ -85,14 +85,16 @@ public class OrderController {
     }
 
     @PutMapping("/confirm/{id}")
-    public ResponseEntity confirmOrder(@PathVariable Long id, @RequestBody Integer awardPoints) {
+    public ResponseEntity<?> confirmOrder(@PathVariable Long id, @RequestBody Integer awardPoints) {
 
         Order order = orderService.findById(id);
         order.setBonusPointsSpent(awardPoints);
+        order.setPriceAfterDiscount(order.getPriceAfterDiscount() - awardPoints);
         order.setOrderState(OrderState.ORDERED);
         orderService.save(order);
+        OrderDTOProcessed orderDTOProcessed = orderService.createDTO(order);
 
-        return null;
+        return new ResponseEntity<>(orderDTOProcessed, HttpStatus.OK);
     }
 
 

@@ -18,7 +18,7 @@ public class OrderDTOProcessed {
 
     private Double priceAfterAllDiscounts;
 
-    private Double awardPointsSpent;
+    private Integer awardPointsSpent;
 
     private Integer awardPoints;
 
@@ -75,11 +75,11 @@ public class OrderDTOProcessed {
         this.priceAfterAllDiscounts = priceAfterAllDiscounts;
     }
 
-    public Double getAwardPointsSpent() {
+    public Integer getAwardPointsSpent() {
         return awardPointsSpent;
     }
 
-    public void setAwardPointsSpent(Double awardPointsSpent) {
+    public void setAwardPointsSpent(Integer awardPointsSpent) {
         this.awardPointsSpent = awardPointsSpent;
     }
 
