@@ -1,10 +1,7 @@
 package com.ftn.webshop.services.impl;
 
-import com.ftn.webshop.domain.Item;
-import com.ftn.webshop.domain.Order;
-import com.ftn.webshop.domain.OrderLine;
-import com.ftn.webshop.domain.dto.OrderDTO;
-import com.ftn.webshop.domain.dto.OrderLineDTO;
+import com.ftn.webshop.domain.*;
+import com.ftn.webshop.domain.dto.*;
 import com.ftn.webshop.repositories.OrderRepository;
 import com.ftn.webshop.services.ItemService;
 import com.ftn.webshop.services.OrderLineService;
@@ -53,13 +50,13 @@ public class OrderServiceImpl implements OrderService {
         List<OrderLine> orderLines = new ArrayList<>();
         Integer counter = 1;
 
-        double priceBeforeDiscount = 0.;
+        double priceBeforeOrderLineDiscount = 0.;
         double orderLinePrice;
 
         for(OrderLineDTO orderLineDTO : orderDTO.getOrderLines()) {
             OrderLine orderLine = orderLineService.createOrderLine(orderLineDTO);
 
-            priceBeforeDiscount += orderLine.getPriceTotal();
+            priceBeforeOrderLineDiscount += orderLine.getPriceTotal();
 
             orderLine.setSerialNumber(counter);
             orderLine.setOrder(order);
@@ -69,7 +66,7 @@ public class OrderServiceImpl implements OrderService {
         }
 
         order.setOrderLines(orderLines);
-        //order.setPriceBeforeDiscount(priceBeforeDiscount);
+        order.setPriceBeforeOrderLineDiscount(priceBeforeOrderLineDiscount);
 
         this.orderRepository.save(order);
 
@@ -102,5 +99,65 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public Order save(Order order) {
         return this.orderRepository.save(order);
+    }
+
+    @Override
+    public OrderDTOProcessed createDTO(Order order) {
+        OrderDTOProcessed orderDTO = new OrderDTOProcessed();
+
+        orderDTO.setOrderId(order.getId());
+        orderDTO.setPercentageDiscount(order.getPercentageDiscount());
+        orderDTO.setPriceBeforeAnyDiscount(order.getPriceBeforeOrderLineDiscount());
+        orderDTO.setPriceAfterOrderLineDiscounts(order.getPriceBeforeDiscount());
+        orderDTO.setPriceAfterAllDiscounts(order.getPriceAfterDiscount());
+        orderDTO.setAwardPoints(order.getUser().getAwardPoints());
+        orderDTO.setAwardPointsEarned(order.getBonusPointsAward());
+
+        List<OrderLineDTO> orderLineDTOs = new ArrayList<>();
+
+        //order line setup
+        for(OrderLine orderLine : order.getOrderLines()) {
+            OrderLineDTO orderLineDTO = new OrderLineDTO();
+
+            orderLineDTO.setPricePerUnit(orderLine.getPricePerUnit());
+            orderLineDTO.setPriceAfterDiscount(orderLine.getPriceTotalFinal());
+            orderLineDTO.setItemCategoryName(orderLine.getItem().getCategory().getName());
+            orderLineDTO.setQuantity(orderLine.getQuantity());
+            orderLineDTO.setItemName(orderLine.getItem().getName());
+            orderLineDTO.setSerialNumber(orderLine.getSerialNumber());
+
+            List<DiscountForItemDTO> discountForItemDTOs = new ArrayList<>();
+
+            for(DiscountForItem discountForItem : orderLine.getDiscountsForItem()) {
+                DiscountForItemDTO discountForItemDTO = new DiscountForItemDTO();
+
+                discountForItemDTO.setId(discountForItem.getId());
+                discountForItemDTO.setDiscountPercentage(discountForItem.getDiscountPercentage());
+                discountForItemDTO.setTypeOfDiscount(discountForItem.getTypeOfDiscount());
+
+                discountForItemDTOs.add(discountForItemDTO);
+            }
+            orderLineDTO.setDiscountForItemDTOs(discountForItemDTOs);
+
+            orderLineDTOs.add(orderLineDTO);
+        }
+
+        orderDTO.setOrderLineDTOs(orderLineDTOs);
+
+        List<DiscountDTO> discountDTOs = new ArrayList<>();
+
+        for(Discount discount : order.getDiscounts()) {
+            DiscountDTO discountDTO = new DiscountDTO();
+
+            discountDTO.setId(discount.getId());
+            discountDTO.setDiscountPercentage(discount.getDiscountPercentage());
+            discountDTO.setTypeOfDiscount(discount.getTypeOfDiscountForItem());
+
+            discountDTOs.add(discountDTO);
+        }
+
+        orderDTO.setDiscountDTOs(discountDTOs);
+
+        return orderDTO;
     }
 }

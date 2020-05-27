@@ -2,6 +2,7 @@ package com.ftn.webshop.controllers;
 
 import com.ftn.webshop.domain.*;
 import com.ftn.webshop.domain.dto.OrderDTO;
+import com.ftn.webshop.domain.dto.OrderDTOProcessed;
 import com.ftn.webshop.services.DiscountForItemService;
 import com.ftn.webshop.services.DiscountService;
 import com.ftn.webshop.services.OrderLineService;
@@ -57,8 +58,9 @@ public class OrderController {
         List<Discount> discounts = discountService.findAllByOrderId(orderDb.getId());
         orderDb.setDiscounts(discounts);
 
+        OrderDTOProcessed orderDTOProcessed = orderService.createDTO(orderDb);
 
-        return new ResponseEntity<>(orderDb, HttpStatus.OK);
+        return new ResponseEntity<>(orderDTOProcessed, HttpStatus.OK);
     }
 
     @PostMapping("/test")
@@ -79,6 +81,17 @@ public class OrderController {
 
     @GetMapping
     public ResponseEntity getAllOrders() {
+        return null;
+    }
+
+    @PutMapping("/confirm/{id}")
+    public ResponseEntity confirmOrder(@PathVariable Long id, @RequestBody Integer awardPoints) {
+
+        Order order = orderService.findById(id);
+        order.setBonusPointsSpent(awardPoints);
+        order.setOrderState(OrderState.ORDERED);
+        orderService.save(order);
+
         return null;
     }
 

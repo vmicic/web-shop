@@ -1,1 +1,81 @@
-<p>user-cart works!</p>
+<div class="offset-xl-2 col-xl-8 col-lg-12 col-md-12 col-sm-12 col-12 padding">
+    <div class="card">
+        <div class="card-header p-4">
+                <h3 class="mb-0">Invoice</h3>
+        </div>
+        <div class="card-body">
+           
+            <div class="table-responsive-sm">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th class="center">#</th>
+                            <th>Item</th>
+                            <th>Item Category</th>
+                            <th class="right">Price(RSD)</th>
+                            <th class="center">Qty</th>
+                            <th class="right">Total</th>
+                        </tr>
+                    </thead>
+                    <tbody *ngIf="order != null">
+                        <tr *ngFor="let orderLine of order.orderLineDTOs">
+                            <td class="center">{{orderLine.serialNumber}}</td>
+                            <td class="left">{{orderLine.itemName}}</td>
+                            <td class="left">{{orderLine.itemCategoryName}}</td>
+                            <td class="right">{{orderLine.pricePerUnit | number: '1.0-2'}}</td>
+                            <td class="center">{{orderLine.quantity}}</td>
+                            <td class="right">{{orderLine.priceAfterDiscount | number: '1.0-2'}}</td>
+                        </tr>
+                    
+                    </tbody>
+                </table>
+            </div>
+            <div class="row">
+                <div class="col-lg-4 col-sm-5">
+                </div>
+                <div class="col-lg-7 col-sm-5 ml-auto">
+                    <table class="table table-clear">
+                        <tbody *ngIf="order != null">
+                            <tr>
+                                <td class="left">
+                                    <strong class="text-dark">Original Price</strong>
+                                </td>
+                                <td class="right">{{order.priceBeforeAnyDiscount | number: '1.0-2'}}</td>
+                            </tr>
+                            <tr>
+                                <td class="left">
+                                    <strong class="text-dark">Price with OrderLine Discount</strong>
+                                </td>
+                                <td class="right">{{order.priceAfterOrderLineDiscounts | number: '1.0-2'}}</td>
+                            </tr>
+                            <tr>
+                                <td class="left">
+                                    <strong class="text-dark">Order Discount ({{order.percentageDiscount}}%)</strong>
+                                </td>
+                                <td class="right">{{order.priceAfterOrderLineDiscounts * (order.percentageDiscount / 100)  | number: '1.0-2'}}</td>
+                            </tr>
+                            <tr>
+                                <td class="left">
+                                    <strong class="text-dark">Total</strong> </td>
+                                <td class="right">
+                                    <strong class="text-dark">{{order.priceAfterAllDiscounts | number: '1.0-2' }}</strong>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="col-lg-12" *ngIf="order != null">
+                <label>Bonus points total: {{order.awardPoints}}</label>
+                <form class="form-inline" [formGroup]="bonusPointsForm" (ngSubmit)="onSubmit()">
+                    <label >Pay with bonus points: </label>
+                    <input type="number" class="form-control ml-2" formControlName="bonusPoints">
+                    <button class="btn btn-primary ml-auto" >Confirm order</button>
+                </form>
+            </div>
+        </div>
+        <div class="card-footer bg-white">
+            <p class="mb-0">Web shop SBNZ</p>
+        </div>
+    </div>
+</div>

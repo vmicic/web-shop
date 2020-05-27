@@ -153,7 +153,9 @@ export class UserItemsComponent implements OnInit {
   }
 
   clearCart() : void {
+    console.log('clearing cart');
     localStorage.removeItem('cart');
+    this.cart = new Cart()
   }
 
 }

@@ -11,9 +11,9 @@ INSERT INTO consumption_threshold("percentage_award", "price_from", "price_to", 
     ('4.0', '5000.0', '10000.0', '3'),
     ('6.0', '10000.0', '15000.0', '3');
 
-INSERT INTO users ("username", "password", "first_name", "last_name", "date_of_registration", "customer_category_id") VALUES
-    ('pera', '$2y$12$ZSaHrzb6qz.8nsdWgYUfaOugfoLPBIdOKiA9x4sjyVcf.06/F27Ca', 'petar', 'panin' , '2020-01-15', '2'),
-    ('mika', '$2y$12$ZSaHrzb6qz.8nsdWgYUfaOugfoLPBIdOKiA9x4sjyVcf.06/F27Ca', 'miki', 'mikic', '2016-10-15', '3');
+INSERT INTO users ("username", "password", "first_name", "last_name", "date_of_registration", "customer_category_id", "award_points") VALUES
+    ('pera', '$2y$12$ZSaHrzb6qz.8nsdWgYUfaOugfoLPBIdOKiA9x4sjyVcf.06/F27Ca', 'petar', 'panin' , '2020-01-15', '2', '100'),
+    ('mika', '$2y$12$ZSaHrzb6qz.8nsdWgYUfaOugfoLPBIdOKiA9x4sjyVcf.06/F27Ca', 'miki', 'mikic', '2016-10-15', '3', '20');
 
 
 INSERT INTO authorities ("name") VALUES
@@ -35,7 +35,7 @@ INSERT INTO item_category("name", "max_percentage_discount") VALUES
 
 
 INSERT INTO promotion("name", "start_time", "end_time", "duration","percentage_discount") VALUES
-    ('Pre new year sale','2020-05-28', '2020-05-28', '864000000', '5.0'),
+    ('Pre new year sale','2020-05-28', '2020-05-25', '864000000', '5.0'),
     ('Fall promotion','2020-10-14', '2020-10-24','864000000', '10.0');
 
 INSERT INTO promotion_item_category("promotion_id", "item_category_id") VALUES

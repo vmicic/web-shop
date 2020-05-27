@@ -41,9 +41,10 @@ rule "Get bonus points"
     	$order: Order($priceFinal: priceAfterDiscount != null, bonusPointsAward == null, $thresholds: user.customerCategory.consumptionThresholds)
     	$ct: ConsumptionThreshold(priceFrom < $priceFinal, priceTo > $priceFinal, $percentageAward: percentageAward) from $thresholds
     then 
-		System.out.println("Thresholds: " + $ct + ", percentage Award: " + $percentageAward + ", award points: " + ($percentageAward/100) * $priceFinal);
+		System.out.println("Thresholds: " + $ct + ", percentage Award: " + $percentageAward + ", award points: " + (int)(($percentageAward/100) * $priceFinal));
+		
 		modify($order) {
-			setBonusPointsAward(($percentageAward/100) * $priceFinal);
+			setBonusPointsAward((int) (($percentageAward/100) * $priceFinal));
 		}
    		 orderService.save($order);
 

@@ -53,6 +53,8 @@ public class User extends BaseEntity  implements UserDetails {
     @LazyCollection(LazyCollectionOption.FALSE)
     private List<Order> orders = new ArrayList<>();
 
+    private Integer awardPoints;
+
     @JsonIgnore
     @LazyCollection(LazyCollectionOption.FALSE)
     @ManyToMany
@@ -129,6 +131,14 @@ public class User extends BaseEntity  implements UserDetails {
         this.authorities = authorities;
     }
 
+    public Integer getAwardPoints() {
+        return awardPoints;
+    }
+
+    public void setAwardPoints(Integer awardPoints) {
+        this.awardPoints = awardPoints;
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return this.authorities;
@@ -163,6 +173,8 @@ public class User extends BaseEntity  implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
+
+
 
     @Override
     public String toString() {

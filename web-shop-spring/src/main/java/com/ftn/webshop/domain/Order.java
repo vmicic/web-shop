@@ -46,11 +46,13 @@ public class Order extends BaseEntity {
     private List<Discount> discounts = new ArrayList<>();
 
     private Double percentageDiscount;
-    private Double priceBeforeDiscount;
 
+    private Double priceBeforeOrderLineDiscount;
+    private Double priceBeforeDiscount;
     private Double priceAfterDiscount;
-    private Double bonusPointsSpent;
-    private Double bonusPointsAward;
+
+    private Integer bonusPointsSpent;
+    private Integer bonusPointsAward;
 
 
     public Order() {
@@ -98,19 +100,20 @@ public class Order extends BaseEntity {
     }
 
 
-    public Double getBonusPointsSpent() {
+    public Integer getBonusPointsSpent() {
         return bonusPointsSpent;
     }
 
-    public void setBonusPointsSpent(Double bonusPointsSpent) {
+    public void setBonusPointsSpent(Integer bonusPointsSpent) {
         this.bonusPointsSpent = bonusPointsSpent;
     }
 
-    public Double getBonusPointsAward() {
+    public Integer getBonusPointsAward() {
         return bonusPointsAward;
     }
 
-    public void setBonusPointsAward(Double bonusPointsAward) {
+    public void setBonusPointsAward(Integer bonusPointsAward) {
+        System.out.println("setting award points: " + bonusPointsAward);
         this.bonusPointsAward = bonusPointsAward;
     }
 
@@ -153,6 +156,14 @@ public class Order extends BaseEntity {
     public void setPercentageDiscount(Double percentageDiscount) {
         this.percentageDiscount = percentageDiscount;
         this.priceAfterDiscount = (1 - this.percentageDiscount/100) * this.priceBeforeDiscount;
+    }
+
+    public Double getPriceBeforeOrderLineDiscount() {
+        return priceBeforeOrderLineDiscount;
+    }
+
+    public void setPriceBeforeOrderLineDiscount(Double priceBeforeOrderLineDiscount) {
+        this.priceBeforeOrderLineDiscount = priceBeforeOrderLineDiscount;
     }
 
     @Override
