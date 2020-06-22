@@ -10,4 +10,8 @@ public interface ItemService {
     Item findItemById(Long id);
 
     List<ItemDTOBuyer> getAllItemsForSale();
+
+    List<Item> findAll();
+
+    void saveAll(List<Item> items);
 }

@@ -1,0 +1,40 @@
+//created on: Jun 22, 2020
+package itemRefill
+
+//list any import classes here.
+
+import com.ftn.webshop.domain.Item;
+
+
+//declare any global variables here
+
+
+
+
+rule "Refill items when there isn't enough"
+	no-loop true
+	
+	
+    when
+    	$i: Item(minimalNumberOnStock > numberOnStock)
+    then
+    	 System.out.println($i.getName() + " need to be refiled"); 
+    	modify($i) {
+        	setRefill(true);
+        	//setRefillReason("Number on stock is too low");
+        }    
+          modify($i) {
+        	setRefillReason("Number on stock is too low");
+        }      
+    
+
+end
+
+rule "Your Second Rule"
+    //include attributes such as "salience" here...
+    when
+        //conditions
+    then
+        //actions
+
+end

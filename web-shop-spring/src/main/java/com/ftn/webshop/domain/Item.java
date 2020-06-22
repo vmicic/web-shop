@@ -25,6 +25,8 @@ public class Item extends BaseEntity {
     @JsonIgnore
     private Integer minimalNumberOnStock;
 
+    private String refillReason;
+
     @JsonIgnore
     private LocalDateTime localDateTimeCreated;
 
@@ -99,6 +101,14 @@ public class Item extends BaseEntity {
 
     public void setStatus(boolean status) {
         this.status = status;
+    }
+
+    public String getRefillReason() {
+        return refillReason;
+    }
+
+    public void setRefillReason(String refillReason) {
+        this.refillReason = refillReason;
     }
 
     @Override

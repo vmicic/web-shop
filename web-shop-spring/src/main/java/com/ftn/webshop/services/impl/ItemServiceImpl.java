@@ -67,4 +67,14 @@ public class ItemServiceImpl implements ItemService {
 
         return itemsDTO;
     }
+
+    @Override
+    public List<Item> findAll() {
+        return this.itemRepository.findAll();
+    }
+
+    @Override
+    public void saveAll(List<Item> items) {
+        this.itemRepository.saveAll(items);
+    }
 }
