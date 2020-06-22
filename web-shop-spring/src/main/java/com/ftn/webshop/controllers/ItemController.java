@@ -51,7 +51,7 @@ public class ItemController {
         this.itemService.saveAll(allItems);
 
         List<Item> itemsForRefill = allItems.stream().filter(Item::isRefill).collect(Collectors.toList());
-        
+
         return new ResponseEntity<>(itemsForRefill, HttpStatus.OK);
     }
 }

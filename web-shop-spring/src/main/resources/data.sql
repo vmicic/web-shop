@@ -28,7 +28,7 @@ INSERT INTO authorities ("name") VALUES
 INSERT INTO user_authority("user_id", "authority_id") VALUES
     ('1', '1'),
     ('2', '1'),
-    ('3', '2');
+    ('3', '3');
 
 
 INSERT INTO item_category("name", "max_percentage_discount") VALUES
