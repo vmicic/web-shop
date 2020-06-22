@@ -14,4 +14,8 @@ export class ItemService {
   getItemsRefill() : Observable<HttpResponse<any>> {
     return this.http.get("server/items/refill", {observe: 'response'});
   }
+
+  refillItem(id, amount) : Observable<HttpResponse<any>> {
+    return this.http.put<any>("server/items/" + id, amount, {observe: 'response'});
+  }
 }

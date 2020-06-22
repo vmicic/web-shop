@@ -52,7 +52,7 @@ public class AuthenticationController {
 
 
     @PostMapping(value = "/login")
-    public ResponseEntity login(@RequestBody JwtAuthenticationRequest authenticationRequest) {
+    public ResponseEntity<?> login(@RequestBody JwtAuthenticationRequest authenticationRequest) {
 
         try{
             final Authentication authentication = authenticationManager.authenticate(new
@@ -79,19 +79,19 @@ public class AuthenticationController {
 
             return ResponseEntity.ok(new UserTokenState(jwt, expiresIn));
         }catch (BadCredentialsException e) {
-            return new ResponseEntity(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
 
     @PostMapping(value = "/register")
-    public ResponseEntity register(@RequestBody UserDTO userDTO) {
+    public ResponseEntity<?> register(@RequestBody UserDTO userDTO) {
         if(userService.userExists(userDTO.getUsername())) {
             return new ResponseEntity<>("username already exists", HttpStatus.BAD_REQUEST);
         }
 
         User user = userService.createUser(userDTO);
 
-        return new ResponseEntity(HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 

@@ -14,4 +14,6 @@ public interface ItemService {
     List<Item> findAll();
 
     void saveAll(List<Item> items);
+
+    void addAmount(Long id, Integer amount);
 }

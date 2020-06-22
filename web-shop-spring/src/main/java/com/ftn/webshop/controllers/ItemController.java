@@ -9,9 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -53,5 +51,12 @@ public class ItemController {
         List<Item> itemsForRefill = allItems.stream().filter(Item::isRefill).collect(Collectors.toList());
 
         return new ResponseEntity<>(itemsForRefill, HttpStatus.OK);
+    }
+
+    @PutMapping("{id}")
+    public ResponseEntity<?> refillItem(@PathVariable Long id, @RequestBody String addAmount) {
+        this.itemService.addAmount(id, Integer.parseInt(addAmount));
+
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

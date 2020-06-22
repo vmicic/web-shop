@@ -28,3 +28,25 @@
     </div>
   </div>
 
+  <ng-template #content let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title">Add new car class</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+  
+    </div>
+    <div class="modal-body">
+          <form [formGroup]="addAmountForm" (ngSubmit)="addAmount()">
+            <div class="form-group">
+              <label for="name">Add amount</label>
+              <input type="number" class="form-control" id="name" formControlName="amount" required>
+            </div>
+      
+      
+            <button type="submit" class="btn btn-primary">Submit</button>
+      
+          </form>
+    </div>
+  </ng-template>
+

@@ -6,6 +6,7 @@ import { SellerHomeComponent } from './seller-home/seller-home.component';
 import { ItemsRefillComponent } from './items-refill/items-refill.component';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { DataTablesModule } from 'angular-datatables';
+import { ReactiveFormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -14,7 +15,8 @@ import { DataTablesModule } from 'angular-datatables';
     CommonModule,
     SellerRoutingModule,
     NgbModule,
-    DataTablesModule
+    DataTablesModule,
+    ReactiveFormsModule
   ]
 })
 export class SellerModule { }

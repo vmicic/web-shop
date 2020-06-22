@@ -77,4 +77,14 @@ public class ItemServiceImpl implements ItemService {
     public void saveAll(List<Item> items) {
         this.itemRepository.saveAll(items);
     }
+
+    @Override
+    public void addAmount(Long id, Integer amount) {
+        Item item = this.findItemById(id);
+
+        item.setNumberOnStock(item.getNumberOnStock() + amount);
+        item.setRefill(false);
+
+        this.itemRepository.save(item);
+    }
 }

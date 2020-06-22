@@ -17,14 +17,10 @@
 .table-bordered td,
 .table-bordered th {
     border: 1px solid #e6e6f2;
-    text-align: center;
-    padding-left: 0px;
-    padding-right: 0px;
 }
 
 input {
     width: 100%;
-    text-align: center;
 }
 
 .priceForm {
