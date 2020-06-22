@@ -27,6 +27,7 @@ public class Promotion extends BaseEntity {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date endTime;
 
+    @JsonIgnore
     private Long duration;
 
     private Double percentageDiscount;

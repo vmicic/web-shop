@@ -1,5 +1,7 @@
 package com.ftn.webshop.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
 import java.util.List;
@@ -11,6 +13,7 @@ public class ItemCategory extends BaseEntity {
 
     private Double maxPercentageDiscount;
 
+    @JsonIgnore
     @ManyToMany(mappedBy = "itemCategories")
     private List<Promotion> promotions;
 

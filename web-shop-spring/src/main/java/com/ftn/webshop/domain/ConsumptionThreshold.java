@@ -1,5 +1,7 @@
 package com.ftn.webshop.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -13,6 +15,7 @@ public class ConsumptionThreshold extends BaseEntity{
 
     private Double percentageAward;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "customer_category_id", referencedColumnName = "id")
     private CustomerCategory customerCategory;

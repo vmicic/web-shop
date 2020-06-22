@@ -17,7 +17,8 @@ INSERT INTO consumption_threshold("percentage_award", "price_from", "price_to", 
 INSERT INTO users ("username", "password", "first_name", "last_name", "date_of_registration", "customer_category_id", "award_points") VALUES
     ('pera', '$2y$12$ZSaHrzb6qz.8nsdWgYUfaOugfoLPBIdOKiA9x4sjyVcf.06/F27Ca', 'petar', 'panin' , '2020-01-15', '2', '100'),
     ('mika', '$2y$12$ZSaHrzb6qz.8nsdWgYUfaOugfoLPBIdOKiA9x4sjyVcf.06/F27Ca', 'miki', 'mikic', '2016-10-15', '3', '20'),
-    ('sale', '$2y$12$ZSaHrzb6qz.8nsdWgYUfaOugfoLPBIdOKiA9x4sjyVcf.06/F27Ca', 'sale', 'manager', '2016-10-15', '3', '0');
+    ('sale', '$2y$12$ZSaHrzb6qz.8nsdWgYUfaOugfoLPBIdOKiA9x4sjyVcf.06/F27Ca', 'sale', 'saller', '2016-10-15', '3', '0'),
+    ('manager', '$2y$12$ZSaHrzb6qz.8nsdWgYUfaOugfoLPBIdOKiA9x4sjyVcf.06/F27Ca', 'sale', 'manager', '2016-10-15', '3', '0');
 
 
 INSERT INTO authorities ("name") VALUES
@@ -28,7 +29,8 @@ INSERT INTO authorities ("name") VALUES
 INSERT INTO user_authority("user_id", "authority_id") VALUES
     ('1', '1'),
     ('2', '1'),
-    ('3', '3');
+    ('3', '3'),
+    ('4', '2');
 
 
 INSERT INTO item_category("name", "max_percentage_discount") VALUES

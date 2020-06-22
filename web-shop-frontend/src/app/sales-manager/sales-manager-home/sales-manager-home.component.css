@@ -1,0 +1,164 @@
+/* -----------------------
+Left Navigation Sidebar
+------------------------- */
+
+.nav-left-sidebar {
+    position: fixed;
+    width: 264px;
+    height: 100%;
+    top: 50px;
+    overflow: auto;
+    background-color: #fff;
+  }
+  
+  
+  .nav-left-sidebar .navbar-nav {
+    width: 100%;
+  }
+  
+  .nav-left-sidebar .navbar-nav .nav-link {
+    font-size: 14px;
+    padding: 12px;
+    /* margin-bottom: 2px; */
+    color: #71789e;
+    transition: 0.3s;
+  }
+  
+  
+  .nav-left-sidebar .nav-link i {
+    font-size: 14px;
+    margin-right: 9px;
+    text-align: center;
+    vertical-align: middle;
+    line-height: 16px;
+  }
+  
+  .nav-divider {
+    padding: 10px 14px;
+    line-height: 30px;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 12px;
+  }
+  
+  .nav-left-sidebar .submenu {
+    padding-left: 12px;
+    padding-right: 12px;
+    /* margin-top: 5px; */
+    background: #24274a;
+  }
+  
+  .nav-left-sidebar .submenu .nav .nav-item .nav-link {
+    font-size: 14px;
+    padding: 6px 12px;
+    transition: 0.3s;
+  }
+  
+  .nav-left-sidebar .navbar-nav .nav-link:focus,
+  .nav-left-sidebar .navbar-nav .nav-link.active {
+    background-color: #e2e2eb;
+    color: #3d405c;
+    border-radius: 2px;
+  }
+  
+  .nav-left-sidebar .navbar-nav .nav-link:focus,
+  .nav-left-sidebar .navbar-nav .nav-link:hover {
+    background-color: #e2e2eb;
+    color: #3d405c;
+    border-radius: 2px;
+  }
+  
+  .nav-left-sidebar .submenu .nav .nav-item .nav-link:hover {
+    color: #3d405c;
+    border-radius: 2px;
+    background-color: transparent;
+  }
+  
+  .nav-left-sidebar .navbar-toggler {
+    background-color: #fff;
+  }
+  .navbar-toggler {
+    padding: .25rem 0.5rem;
+    font-size: 1.25rem;
+    line-height: 1;
+    background-color: transparent;
+    border: 1px solid transparent;
+    border-radius: .25rem;
+  }
+  /* -----------------------
+  Leftsidebar - Primary
+  ------------------------- */
+  
+  
+  
+  /* -----------------------
+  Leftsidebar - dark
+  ------------------------- */
+  
+  .sidebar-dark {
+    background-color: #0e0c28;
+    box-shadow: 0px 0px 28px 0px rgba(82, 63, 105, 0.13);
+  }
+  
+  .sidebar-dark .nav-divider {
+    color: #a4aadb;
+    font-size: 12px;
+    letter-spacing: 1px;
+  }
+  
+  .sidebar-dark.nav-left-sidebar .nav-link i {
+    color: #7a80b4;
+  }
+  
+  
+  .sidebar-dark.nav-left-sidebar .navbar-nav .nav-link {
+    color: #7a80b4;
+  }
+  
+  .sidebar-dark.nav-left-sidebar .navbar-nav .nav-link:focus,
+  .sidebar-dark.nav-left-sidebar .navbar-nav .nav-link:hover {
+    color: #fff;
+    background-color: #242849;
+    border-radius: 2px;
+  }
+  
+  .sidebar-dark.nav-left-sidebar .navbar-nav .nav-link:focus,
+  .sidebar-dark.nav-left-sidebar .navbar-nav .nav-link.active {
+    background-color: #242849;
+    color: #fff;
+    border-radius: 2px;
+  }
+  
+  .sidebar-dark.nav-left-sidebar .submenu .nav .nav-item .nav-link:hover {
+    color: #fff;
+    border-radius: 2px;
+    background-color: #242849;
+  }
+  
+  .sidebar-dark.nav-left-sidebar .navbar-nav .nav-item .badge{
+    position: absolute;
+    right: 40px;
+    display: none;
+  }
+  
+  
+  /*-----------------------
+  Container / Wrapper
+  -------------------------*/
+  
+  .dashboard-main-wrapper {
+    min-height: 100%;
+    padding-top: 0px;
+    position: relative;
+  }
+  
+  .dashboard-wrapper {
+    position: relative;
+    left: 0;
+    margin-left: 264px;
+    min-height: 870px !important;
+  }
+  
+  .dashboard-content {
+    padding: 30px 30px 60px 30px;
+  }
