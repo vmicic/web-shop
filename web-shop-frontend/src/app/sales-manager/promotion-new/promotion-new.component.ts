@@ -31,7 +31,6 @@ export class PromotionNewComponent implements OnInit {
       endTime: ['', Validators.required],
       percentageDiscount: ['', Validators.required],
       name: ['', Validators.required],
-      categoryIds: ['', Validators.required],
       categories: new FormArray([])
     })
 

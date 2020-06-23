@@ -15,4 +15,6 @@ public interface PromotionService {
     List<Promotion> findAll();
 
     Promotion createPromotion(PromotionCreateDTO promotionDTO);
+
+    Promotion update(Long id, PromotionCreateDTO promotionCreateDTO);
 }

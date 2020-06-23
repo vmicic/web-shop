@@ -77,4 +77,29 @@ public class PromotionServiceImpl implements PromotionService {
 
         return this.promotionRepository.save(promotion);
     }
+
+    @Override
+    public Promotion update(Long id, PromotionCreateDTO promotionCreateDTO) {
+        Promotion promotion = this.promotionRepository.findById(id).orElse(null);
+
+        if(promotion != null) {
+            promotion.setName(promotionCreateDTO.getName());
+            promotion.setStartTime(promotionCreateDTO.getStartTime());
+            promotion.setEndTime(promotionCreateDTO.getEndTime());
+            promotion.setPercentageDiscount(promotionCreateDTO.getPercentageDiscount());
+
+            promotion.setDuration(promotionCreateDTO.getEndTime().getTime() - promotionCreateDTO.getStartTime().getTime());
+            promotion.getItemCategories().clear();
+
+            for(Long categoryId : promotionCreateDTO.getCategoryIds()) {
+                ItemCategory itemCategory = this.itemCategoryService.findById(categoryId);
+
+                promotion.addItemCategory(itemCategory);
+            }
+
+            return this.promotionRepository.save(promotion);
+        }
+
+        return null;
+    }
 }

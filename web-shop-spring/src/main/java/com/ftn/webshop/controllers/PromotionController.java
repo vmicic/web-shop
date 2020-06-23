@@ -34,4 +34,11 @@ public class PromotionController {
 
         return new ResponseEntity<>(promotion, HttpStatus.CREATED);
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<?> update(@PathVariable Long id, @RequestBody PromotionCreateDTO promotionCreateDTO) {
+        Promotion promotion = this.promotionService.update(id,promotionCreateDTO);
+
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
 }
