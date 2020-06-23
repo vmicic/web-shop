@@ -6,6 +6,7 @@ import { UserCategoryComponent } from './user-category/user-category.component';
 import { ItemCategoryComponent } from './item-category/item-category.component';
 import { PromotionsComponent } from './promotions/promotions.component';
 import { PromotionNewComponent } from './promotion-new/promotion-new.component';
+import { ItemCategoryNewComponent } from './item-category-new/item-category-new.component';
 
 
 const routes: Routes = [
@@ -21,6 +22,7 @@ const routes: Routes = [
       canActivateChild: [RoleUserGuard],
       children: [
         { path: "user-category", component: UserCategoryComponent},
+        { path: "item-category/new", component: ItemCategoryNewComponent},
         { path: "item-category", component: ItemCategoryComponent},
         { path: "promotion/new", component: PromotionNewComponent},
         { path: "promotion", component: PromotionsComponent}

@@ -10,6 +10,7 @@ import { UserCategoryComponent } from './user-category/user-category.component';
 import { ItemCategoryComponent } from './item-category/item-category.component';
 import { PromotionsComponent } from './promotions/promotions.component';
 import { PromotionNewComponent } from './promotion-new/promotion-new.component';
+import { ItemCategoryNewComponent } from './item-category-new/item-category-new.component';
 
 
 @NgModule({
@@ -18,7 +19,8 @@ import { PromotionNewComponent } from './promotion-new/promotion-new.component';
     UserCategoryComponent,
     ItemCategoryComponent,
     PromotionsComponent,
-    PromotionNewComponent
+    PromotionNewComponent,
+    ItemCategoryNewComponent
   ],
   imports: [
     CommonModule,

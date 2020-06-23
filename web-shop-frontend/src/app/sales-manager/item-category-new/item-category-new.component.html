@@ -1,0 +1,14 @@
+<div class="new-approved-form">
+    <h1 class="text-center">New item category</h1>
+    <form [formGroup]="newCategoryForm" (ngSubmit)="onSubmit()">
+        <div class="form-group">
+            <label>Name:</label>
+            <input class="form-control" type="text" formControlName="name">
+        </div>
+        <div class="form-group">
+            <label>Max percentage discount:</label>
+            <input class="form-control" type="number" formControlName="maxPercentageDiscount">
+        </div>
+        <button class="btn btn-primary">Submit</button>
+    </form>
+</div>

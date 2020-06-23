@@ -4,6 +4,8 @@ public class ItemCategoryDTO {
 
     private String name;
 
+    private Double maxPercentageDiscount;
+
     public ItemCategoryDTO() {
     }
 
@@ -13,5 +15,13 @@ public class ItemCategoryDTO {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Double getMaxPercentageDiscount() {
+        return maxPercentageDiscount;
+    }
+
+    public void setMaxPercentageDiscount(Double maxPercentageDiscount) {
+        this.maxPercentageDiscount = maxPercentageDiscount;
     }
 }
