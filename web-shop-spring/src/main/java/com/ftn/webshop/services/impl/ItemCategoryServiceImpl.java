@@ -20,4 +20,9 @@ public class ItemCategoryServiceImpl implements ItemCategoryService {
     public List<ItemCategory> getAll() {
         return this.itemCategoryRepository.findAll();
     }
+
+    @Override
+    public ItemCategory findById(Long id) {
+        return this.itemCategoryRepository.findById(id).orElse(null);
+    }
 }

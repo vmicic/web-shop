@@ -91,6 +91,10 @@ public class Promotion extends BaseEntity {
         this.itemCategories = itemCategories;
     }
 
+    public void addItemCategory(ItemCategory itemCategory) {
+        this.itemCategories.add(itemCategory);
+    }
+
     @Override
     public String toString() {
         return "Promotion{" +
