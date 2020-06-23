@@ -9,6 +9,7 @@ import { SalesManagerHomeComponent } from './sales-manager-home/sales-manager-ho
 import { UserCategoryComponent } from './user-category/user-category.component';
 import { ItemCategoryComponent } from './item-category/item-category.component';
 import { PromotionsComponent } from './promotions/promotions.component';
+import { PromotionNewComponent } from './promotion-new/promotion-new.component';
 
 
 @NgModule({
@@ -16,7 +17,8 @@ import { PromotionsComponent } from './promotions/promotions.component';
     SalesManagerHomeComponent,
     UserCategoryComponent,
     ItemCategoryComponent,
-    PromotionsComponent
+    PromotionsComponent,
+    PromotionNewComponent
   ],
   imports: [
     CommonModule,

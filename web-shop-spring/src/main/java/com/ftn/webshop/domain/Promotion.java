@@ -32,7 +32,6 @@ public class Promotion extends BaseEntity {
 
     private Double percentageDiscount;
 
-    @JsonIgnore
     @ManyToMany
     @LazyCollection(LazyCollectionOption.FALSE)
     @JoinTable(name = "promotion_item_category",

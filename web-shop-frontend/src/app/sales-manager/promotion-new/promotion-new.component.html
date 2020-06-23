@@ -1,0 +1,65 @@
+<div class="new-approved-form">
+    <h1 class="text-center">New reservation</h1>
+    <form [formGroup]="newPromotionForm" (ngSubmit)="onSubmit()">
+        <div class="form-group">
+            <label>Name:</label>
+            <input class="form-control" type="text" formControlName="name">
+        </div>
+        <div class="form-group">
+            <label>Percentage discount:</label>
+            <input class="form-control" type="number" formControlName="percentageDiscount">
+        </div>
+        <div class="row">
+            <div class="form-group col">
+                <label>From</label>
+                <div class="input-group">
+                    <input class="form-control" placeholder="yyyy-mm-dd" name="dp" ngbDatepicker #da="ngbDatepicker"
+                        formControlName="startDate">
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary calendar" (click)="da.toggle()" type="button"><img
+                            src="../../../assets/img/calendar.svg"></button>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="row">
+                    <div class="col">
+                        <div class="form-group">
+                            <label for="time">Time</label>
+                            <ngb-timepicker [spinners]="false" formControlName="startTime" id="time" ></ngb-timepicker>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col">
+                <label>To</label>
+                <div class="input-group">
+                    <input class="form-control" placeholder="yyyy-mm-dd" name="dp" ngbDatepicker #d="ngbDatepicker"
+                        formControlName="endDate">
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary calendar" (click)="d.toggle()" type="button"><img
+                                src="../../../assets/img/calendar.svg"></button>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="row">
+                    <div class="col">
+                        <div class="form-group">
+                            <label for="time">Time</label>
+                            <ngb-timepicker [spinners]="false" formControlName="endTime" id="time" ></ngb-timepicker>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="ml-2" formArrayName="categories" *ngFor="let category of newPromotionForm.controls.categories.controls; let i = index">
+                <input type="checkbox" [formControlName]="i"/> {{itemCategories[i].name}}
+            </label>
+        </div>
+        <button class="btn btn-primary">Submit</button>
+    </form>
+</div>

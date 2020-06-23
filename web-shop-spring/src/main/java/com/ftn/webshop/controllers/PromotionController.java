@@ -30,11 +30,8 @@ public class PromotionController {
 
     @PostMapping
     public ResponseEntity<?> createPromotion(@RequestBody PromotionCreateDTO promotionCreateDTO) {
-        System.out.println(promotionCreateDTO.toString());
         Promotion promotion = this.promotionService.createPromotion(promotionCreateDTO);
 
-        System.out.println(promotion.toString());
-
-        return null;
+        return new ResponseEntity<>(promotion, HttpStatus.CREATED);
     }
 }

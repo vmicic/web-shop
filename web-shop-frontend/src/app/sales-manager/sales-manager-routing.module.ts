@@ -5,6 +5,7 @@ import { RoleUserGuard } from '../shared/auth/guards/role-user.guard';
 import { UserCategoryComponent } from './user-category/user-category.component';
 import { ItemCategoryComponent } from './item-category/item-category.component';
 import { PromotionsComponent } from './promotions/promotions.component';
+import { PromotionNewComponent } from './promotion-new/promotion-new.component';
 
 
 const routes: Routes = [
@@ -21,6 +22,7 @@ const routes: Routes = [
       children: [
         { path: "user-category", component: UserCategoryComponent},
         { path: "item-category", component: ItemCategoryComponent},
+        { path: "promotion/new", component: PromotionNewComponent},
         { path: "promotion", component: PromotionsComponent}
       ]
     }
