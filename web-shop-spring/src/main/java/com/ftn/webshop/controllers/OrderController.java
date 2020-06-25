@@ -116,5 +116,25 @@ public class OrderController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
+    @PutMapping("approve/{id}")
+    public ResponseEntity<?> approveOrder(@PathVariable Long id) {
+        if(!this.orderService.exists(id)) {
+            return new ResponseEntity<>("Order with requested id doesn't exist", HttpStatus.NOT_FOUND);
+        }
+
+        if(!this.orderService.orderForProcess(id)) {
+            return new ResponseEntity<>("Cannot process requested order", HttpStatus.BAD_REQUEST);
+        }
+
+        if(!this.orderService.orderCanBeProcessed(id)) {
+            return new ResponseEntity<>("Requested order cannot be confirmed", HttpStatus.BAD_REQUEST);
+        }
+
+        this.orderService.approveOrder(id);
+
+
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
 
 }

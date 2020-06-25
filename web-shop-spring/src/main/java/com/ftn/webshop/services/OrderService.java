@@ -26,6 +26,10 @@ public interface OrderService {
     boolean orderForProcess(Long id);
 
     void cancelOrder(Long id);
+
+    boolean orderCanBeProcessed(Long id);
+
+    void approveOrder(Long id);
 }
 
 

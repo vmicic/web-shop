@@ -87,4 +87,9 @@ public class ItemServiceImpl implements ItemService {
 
         this.itemRepository.save(item);
     }
+
+    @Override
+    public Item save(Item item) {
+        return this.itemRepository.save(item);
+    }
 }

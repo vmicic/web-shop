@@ -47,7 +47,7 @@ export class OrdersComponent implements OnInit {
       {
         title: 'Action',
         render: function (data: any, type: any, full: any) {
-          return '<button class="waves-effect btn btn-warning btn-sm" title="Refill stocks" clicked-id="' + full.id + '"><img src="../../../../assets/img/pencil.svg" clicked-id="' + full.id + '" title="Refill stocks"></button>';
+          return '<button class="waves-effect btn btn-success btn-sm" title="Approve order" approve-clicked-id="' + full.id + '"><img src="../../../../assets/img/check.svg" approve-clicked-id="' + full.id + '" title="Approve order"></button><button class="waves-effect btn btn-danger btn-sm ml-2" title="Cancel order" cancel-clicked-id="' + full.id + '"><img src="../../../../assets/img/x.svg" cancel-clicked-id="' + full.id + '" title="Cancel order"></button>';
         }
       }
       ]
@@ -64,9 +64,25 @@ export class OrdersComponent implements OnInit {
   ngAfterViewInit(): void {
 
     this.listenerFn = this.renderer.listenGlobal('document', 'click', (event) => {
-      if (event.target.hasAttribute("clicked-id")) {
-        let id: number = event.target.getAttribute("clicked-id");
+      if (event.target.hasAttribute("approve-clicked-id")) {
+        let id: number = event.target.getAttribute("approve-clicked-id");
+
+        this.orderService.approveOrder(id).subscribe(
+          response => {
+            console.log(response);
+            window.location.reload();
+          }
+        )
         
+      } else if(event.target.hasAttribute("cancel-clicked-id")) {
+        let id: number = event.target.getAttribute("cancel-clicked-id");
+
+        this.orderService.cancelOrder(id).subscribe(
+          response => {
+            console.log(response);
+            window.location.reload();
+          }
+        )
       }
 
     });

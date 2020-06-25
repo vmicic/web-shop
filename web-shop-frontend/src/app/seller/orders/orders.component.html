@@ -1,7 +1,6 @@
 <div class="card">
     <h5 class="card-header">Orders</h5>
     <div class="card-body">
-        <div class="float-right"><button class="btn btn-primary mb-2" routerLink="new">Add</button></div>
       <div class='table-responsive-sm'>
         <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="table row-border hover table-bordered"
           *ngIf="orders; else loading">

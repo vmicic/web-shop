@@ -10,4 +10,6 @@ public interface UserService {
     User createUser(UserDTO userDTO);
 
     boolean userExists(String username);
+
+    User save(User user);
 }

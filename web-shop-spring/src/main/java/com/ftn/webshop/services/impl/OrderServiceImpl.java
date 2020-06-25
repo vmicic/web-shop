@@ -194,4 +194,39 @@ public class OrderServiceImpl implements OrderService {
         order.setOrderState(OrderState.CANCELED);
         this.orderRepository.save(order);
     }
+
+    @Override
+    public boolean orderCanBeProcessed(Long id) {
+        Order order = this.findById(id);
+
+        for(OrderLine orderLine : order.getOrderLines()) {
+            Item item = orderLine.getItem();
+            if(item.getNumberOnStock() < orderLine.getQuantity()) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    @Override
+    public void approveOrder(Long id) {
+        Order order = this.findById(id);
+
+        for(OrderLine orderLine : order.getOrderLines()) {
+            Item item = orderLine.getItem();
+            item.setNumberOnStock(item.getNumberOnStock() - orderLine.getQuantity());
+            this.itemService.save(item);
+        }
+
+        order.setOrderState(OrderState.SUCCESSFUL);
+
+        User user = order.getUser();
+        Integer totalAwardPoints = user.getAwardPoints() - order.getBonusPointsSpent() + order.getBonusPointsAward();
+        user.setAwardPoints(totalAwardPoints);
+
+        this.userService.save(user);
+
+        this.orderRepository.save(order);
+    }
 }
