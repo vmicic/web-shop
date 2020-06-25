@@ -31,6 +31,9 @@
         <br>
         <form (submit)="filterById()" class="priceForm">
           <h4>Filter by price</h4>
+          <div *ngIf="notification" class="text-danger">
+            {{notification}}
+          </div>
           <div class="form-group">
           <label>
             From

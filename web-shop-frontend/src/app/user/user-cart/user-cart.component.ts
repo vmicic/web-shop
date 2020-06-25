@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CartService } from '../services/cart.service';
 import { Cart } from 'src/app/domain/cart';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-user-cart',
@@ -27,7 +27,7 @@ export class UserCartComponent implements OnInit {
   ngOnInit() {
 
     this.bonusPointsForm = this.formBuilder.group({
-      bonusPoints: ['']
+      bonusPoints: ['', Validators.required]
     });
 
     this.cart = JSON.parse(localStorage.getItem('cart'));
@@ -35,18 +35,15 @@ export class UserCartComponent implements OnInit {
     if (this.cart != null) {
       this.cartService.sendCart(this.cart).subscribe(
         response => {
-          console.log(response);
           this.order = response.body;
-          console.log(this.order);
         }
       )
     }
   }
 
   onSubmit() {
-    console.log("submiting form");
     let awardPoints;
-    if(this.bonusPointsForm.controls['bonusPoints'].value == null) {
+    if(!this.bonusPointsForm.controls['bonusPoints'].valid) {
       awardPoints = 0;
     } else {
       awardPoints = this.bonusPointsForm.controls['bonusPoints'].value;

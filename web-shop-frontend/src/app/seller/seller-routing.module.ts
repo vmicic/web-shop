@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { SellerHomeComponent } from './seller-home/seller-home.component';
 import { ItemsRefillComponent } from './items-refill/items-refill.component';
 import { RoleUserGuard } from '../shared/auth/guards/role-user.guard';
+import { OrdersComponent } from './orders/orders.component';
 
 
 const routes: Routes = [
@@ -18,6 +19,7 @@ const routes: Routes = [
       canActivateChild: [RoleUserGuard],
       children: [
         { path: 'items', component: ItemsRefillComponent},
+        { path: 'orders', component: OrdersComponent}
       ]
     }
   ]

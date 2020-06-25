@@ -25,11 +25,14 @@ export class UserItemsComponent implements OnInit {
   dtTrigger: Subject<any> = new Subject<any>();
 
 
+  itemsAll: Item[] = []
   items: Item[] = [];
   cart: Cart = new Cart();
 
   min: number;
   max: number;
+
+  notification: string;
   
   constructor(
     private itemsService: UserItemsService,
@@ -80,7 +83,8 @@ export class UserItemsComponent implements OnInit {
     this.itemsService.getAll().subscribe(
       resp => {
         console.log(resp);
-        this.items = resp.body;
+        this.itemsAll = resp.body;
+        this.items = this.itemsAll;
         this.dtTrigger.next();
       }
     )
@@ -111,17 +115,6 @@ export class UserItemsComponent implements OnInit {
       }
     });
 
-    $.fn['dataTable'].ext.search.push((settings, data, dataIndex) => {
-      const id = parseFloat(data[2]) || 0; // use data for the id column
-      if ((isNaN(this.min) && isNaN(this.max)) ||
-        (isNaN(this.min) && id <= this.max) ||
-        (this.min <= id && isNaN(this.max)) ||
-        (this.min <= id && id <= this.max)) {
-        return true;
-      }
-      return false;
-    });
-
 
     setTimeout(() => {
       this.datatableElement.dtInstance.then((dtInstance: DataTables.Api) => {
@@ -147,9 +140,12 @@ export class UserItemsComponent implements OnInit {
   }
 
   filterById(): void {
-    this.datatableElement.dtInstance.then((dtInstance: DataTables.Api) => {
-      dtInstance.draw();
-    });
+    if(this.min && this.max) {
+      this.notification = "";
+      this.items = this.itemsAll.filter(item => item.price >= this.min && item.price < this.max);
+    } else {
+      this.notification = "Please enter min and max price greater than 0";
+    }
   }
 
   clearCart() : void {

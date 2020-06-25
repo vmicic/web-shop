@@ -5,6 +5,8 @@ import com.ftn.webshop.domain.dto.OrderDTO;
 import com.ftn.webshop.domain.dto.OrderDTOProcessed;
 import org.kie.api.runtime.KieSession;
 
+import java.util.List;
+
 public interface OrderService {
 
     Order createOrder(OrderDTO orderDTO);
@@ -16,4 +18,14 @@ public interface OrderService {
     Order findById(Long id);
 
     OrderDTOProcessed createDTO(Order order);
+
+    List<Order> findAll();
+
+    boolean exists(Long id);
+
+    boolean orderForProcess(Long id);
+
+    void cancelOrder(Long id);
 }
+
+

@@ -165,4 +165,33 @@ public class OrderServiceImpl implements OrderService {
 
         return orderDTO;
     }
+
+    @Override
+    public List<Order> findAll() {
+        return this.orderRepository.findAllByOrderStateNotNull();
+    }
+
+    @Override
+    public boolean exists(Long id) {
+        return this.orderRepository.existsById(id);
+    }
+
+    @Override
+    public boolean orderForProcess(Long id) {
+        Order order = this.findById(id);
+
+        if(order.getOrderState() == null) {
+            return false;
+        }
+
+        return order.getOrderState().equals(OrderState.ORDERED);
+    }
+
+    @Override
+    public void cancelOrder(Long id) {
+        Order order = this.findById(id);
+
+        order.setOrderState(OrderState.CANCELED);
+        this.orderRepository.save(order);
+    }
 }

@@ -80,12 +80,16 @@ public class OrderController {
     }
 
     @GetMapping
-    public ResponseEntity getAllOrders() {
-        return null;
+    public ResponseEntity<?> getAllOrders() {
+        List<Order> orders = this.orderService.findAll();
+
+        return new ResponseEntity<>(orders, HttpStatus.OK);
     }
 
     @PutMapping("/confirm/{id}")
     public ResponseEntity<?> confirmOrder(@PathVariable Long id, @RequestBody Integer awardPoints) {
+
+        logger.info("Confirming order id: " + id);
 
         Order order = orderService.findById(id);
         order.setBonusPointsSpent(awardPoints);
@@ -95,6 +99,21 @@ public class OrderController {
         OrderDTOProcessed orderDTOProcessed = orderService.createDTO(order);
 
         return new ResponseEntity<>(orderDTOProcessed, HttpStatus.OK);
+    }
+
+    @PutMapping("cancel/{id}")
+    public ResponseEntity<?> cancelOrder(@PathVariable Long id) {
+        if(!this.orderService.exists(id)) {
+            return new ResponseEntity<>("Order with requested id doesn't exist", HttpStatus.NOT_FOUND);
+        }
+
+        if(!this.orderService.orderForProcess(id)) {
+            return new ResponseEntity<>("Cannot cancel requested order", HttpStatus.BAD_REQUEST);
+        }
+
+        this.orderService.cancelOrder(id);
+
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
 
