@@ -1,4 +1,4 @@
-import { Component, OnInit, Renderer, TemplateRef, ViewChild } from '@angular/core';
+import { Component, OnInit, Renderer, TemplateRef, ViewChild, OnDestroy } from '@angular/core';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { FormBuilder, FormGroup, Validators, FormControl, FormArray } from '@angular/forms';
 import { ItemCategoryService } from '../services/item-category.service';
@@ -10,7 +10,7 @@ import { DataTableDirective } from 'angular-datatables';
   templateUrl: './item-category.component.html',
   styleUrls: ['./item-category.component.css']
 })
-export class ItemCategoryComponent implements OnInit {
+export class ItemCategoryComponent implements OnInit, OnDestroy {
 
   categories: any[] = [];
 
@@ -25,7 +25,7 @@ export class ItemCategoryComponent implements OnInit {
 
   //modal setting
   
-  @ViewChild("content", { static: true }) modalContent: TemplateRef<any>;
+  @ViewChild("editCategory", { static: true }) modalContent: TemplateRef<any>;
   closeResult: string;
   errorMessage: string;
 
@@ -136,5 +136,8 @@ export class ItemCategoryComponent implements OnInit {
       }
     )
   }
-
+  
+  ngOnDestroy()  {
+    this.modalService.dismissAll();
+  }
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, TemplateRef, Renderer } from '@angular/core';
+import { Component, OnInit, ViewChild, TemplateRef, Renderer, OnDestroy } from '@angular/core';
 import { DataTableDirective } from 'angular-datatables';
 import { Subject } from 'rxjs';
 import { PromotionService } from '../services/promotion.service';
@@ -11,7 +11,7 @@ import { ItemCategoryService } from '../services/item-category.service';
   templateUrl: './promotions.component.html',
   styleUrls: ['./promotions.component.css']
 })
-export class PromotionsComponent implements OnInit {
+export class PromotionsComponent implements OnInit, OnDestroy {
   
   promotions: any[] = [];
 
@@ -214,6 +214,10 @@ export class PromotionsComponent implements OnInit {
         window.location.reload();
       }
     )
+  }
+
+  ngOnDestroy()  {
+    this.modalService.dismissAll();
   }
 
 
