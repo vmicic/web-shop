@@ -23,13 +23,14 @@ global com.ftn.webshop.services.impl.DiscountForItemServiceImpl discountForItemS
 rule "If item bought in last 15 days create 2% discount"
 	salience 500
     when    	
-    	$order: Order($lines: orderLines, $user: user)
+    	$order: Order($lines: orderLines, $user: user, orderState == "SUCCESSFUL")
     	$orderLine: OrderLine($item: item, percentageDiscount == null) from $lines
     	exists(
     		$orderOld: Order(this meets[15d] $order) from $user.getOrders() and
     		OrderLine(item.equals($item)) from $orderOld.getOrderLines()
     	)
     then       
+        System.out.println("If item bought in last 15 days create 2% discount");   
         System.out.println("For order: " + $order.getId() + ", item: " + $item.getName() + ", bought within 15 day, orderLine to update: " + $orderLine.getId());   
         discountForItemService.createDiscountForItem(new DiscountForItem($orderLine, 2.0, $order, TypeOfDiscount.ADDITIONAL));
         modify($orderLine) {
@@ -41,14 +42,14 @@ end
 rule "If item from same category bought in last 30 days create 1% discount"
 	salience 500
     when    	
-    	$order: Order($lines: orderLines, $user: user)
+    	$order: Order($lines: orderLines, $user: user, orderState == "SUCCESSFUL")
     	$orderLine: OrderLine($category: item.category, percentageDiscount == null) from $lines
     	exists(
     		$orderOld: Order(this meets[30d] $order) from $user.getOrders() and
     		OrderLine(item.category == $category) from $orderOld.getOrderLines()
     	)
     then       
-		//System.out.println("If item bought in last 30 days create 1% discount");   
+		System.out.println("If item bought in last 30 days create 1% discount");   
 		System.out.println("For order: " + $order.getId() + ", item category: " + $category.getName() + ", bought within 30 days, orderLine to update: " + $orderLine.getId());   
 	    discountForItemService.createDiscountForItem(new DiscountForItem($orderLine, 1.0, $order, TypeOfDiscount.ADDITIONAL));
         modify($orderLine) {
@@ -66,6 +67,7 @@ rule "Promotion discount"
 			ItemCategory(this == $category) from $promotion.getItemCategories()
 		)
 	then
+        System.out.println("Promotion discount");   
 		System.out.println("OrderLine id: " + $orderLine.getId() + ", Order during promotion, order date: " + $o.getDate() + ", promotion starting date: " + $promotion.getStartTime() + ", order ending date: " + $promotion.getEndTime()
 			+ ", orderLine item category: " + $category.getName());
 		discountForItemService.createDiscountForItem(new DiscountForItem($orderLine, $percentageDiscount, $o, TypeOfDiscount.ADDITIONAL));

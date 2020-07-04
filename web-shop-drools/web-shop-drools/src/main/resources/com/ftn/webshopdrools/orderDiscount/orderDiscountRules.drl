@@ -26,6 +26,7 @@ rule "Calculate order price before discounts"
     		sum($priceTotalFinal)
     	) 
     then
+        System.out.println("Calculate order price before order discounts");   
         System.out.println("Order: " + $order.getId() + ", price total before discounts(included order line discount) is: " + $totalPrice);
         modify($order) {
         	setPriceBeforeDiscount($totalPrice);
@@ -38,6 +39,7 @@ rule "Basic fiscounts over 200000"
 	when
 		$order: Order(priceBeforeDiscount > 200000, discounts.empty == true)
 	then
+        System.out.println("Basic discount for order, because order price is bigger than 20000");   
         System.out.println("Price of order: " + $order.getId() + ", is bigger than 200000, adding basic discount");        
         discountService.createDiscount(new Discount($order, 5., TypeOfDiscount.BASIC));
         modify($order) {

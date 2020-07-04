@@ -57,6 +57,6 @@ INSERT INTO promotion_item_category("promotion_id", "item_category_id") VALUES
 INSERT INTO item("name", "item_category_id", "price", "number_on_stock", "refill", "status", "minimal_number_on_stock") VALUES
     ('Milk', '1', '120.99', '100', 'false', 'true', '5'),
     ('Logitech Bluetooth Speakers', '2', '9999.99', '12', 'false', 'true', '15'),
-    ('Intel Desktop PC', '3', '100000.00', '8', 'false', 'false', '5')  ,
+    ('Intel Desktop PC', '3', '100000.99', '100', 'false', 'false', '5')  ,
     ('ASUS ROG Strix', '4', '30000.99', '7', 'false', 'true', '5'),
-    ('LG LED TV', '5', '47999.99', '40', 'false', 'false', '5');                                                                                                ;
+    ('LG LED TV', '5', '47999.99', '20', 'false', 'false', '30');                                                                                                ;
